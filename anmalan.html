@@ -28,7 +28,47 @@
 
       <section class="container">
         <h1>ANMÄLAN!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <form name="contactform" method="post" action="anmalan.html">
+          <table width="450px">
+          <tr>
+           <td valign="top">
+            <label for="first_name">First Name *</label>
+           </td>
+           <td valign="top">
+            <input  type="text" name="first_name" maxlength="50" size="30">
+           </td>
+          </tr>
+          <tr>
+           <td valign="top">
+            <label for="last_name">Last Name *</label>
+           </td>
+           <td valign="top">
+            <input  type="text" name="last_name" maxlength="50" size="30">
+           </td>
+          </tr>
+          <tr>
+           <td valign="top">
+            <label for="email">Email Address *</label>
+           </td>
+           <td valign="top">
+            <input  type="text" name="email" maxlength="80" size="30">
+           </td>
+          </tr>
+          <tr>
+           <td valign="top">
+            <label for="comments">Comments *</label>
+           </td>
+           <td valign="top">
+            <textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
+           </td>
+          </tr>
+          <tr>
+           <td colspan="2" style="text-align:center">
+            <input type="submit" value="Submit">
+           </td>
+          </tr>
+          </table>
+          </form>
       </section>
 
       <!-- footer -->
