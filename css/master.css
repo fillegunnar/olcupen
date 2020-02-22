@@ -1,4 +1,6 @@
 /* allmän */
+
+
 body{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 17px;
@@ -33,11 +35,11 @@ body{
 /* header */
 header{
   display: grid;
-  grid-template-columns: 12% 12% 12% 28% 12% 12% 12%;
+  grid-template-columns: 25% 25% 25% 25%;
   align-items: center;
   position: fixed;
   top: 0;
-  background: black;
+  background: rgba(0, 0, 0, 0.2);
   width: 100%;
   min-height: 50px;
 }
@@ -46,7 +48,7 @@ header button{
   font-weight: bold;
   text-transform: uppercase;
   color: white;
-  background: black;
+  background: rgba(0, 0, 0, 0.3);
   width: 100%;
   min-height: 50px;
   border: solid 1px rgb(26, 26, 26);
@@ -91,13 +93,17 @@ footer .container{
 
 /* Mobilanpassad */
 @media(max-width: 768px){
-  header{
-    grid-template-columns: 1fr 1fr;
-    position: absolute;
+  body{
+    background: url("../img/2016-small/17160521_10208123824365122_1263334862_n.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
   }
 
+
   .main{
-    margin-top: 200px;
+    margin-top: 50px;
   }
 }
 
