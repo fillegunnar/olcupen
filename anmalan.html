@@ -25,50 +25,27 @@
     <!-- main ser till att flytta ner allt till en början -->
     <div class="main">
 
-      <section class="container">
-        <h1>ANMÄLAN!</h1>
-        <form name="contactform" method="post" action="anmalan.html">
-          <table width="450px">
-          <tr>
-           <td valign="top">
-            <label for="first_name">First Name *</label>
-           </td>
-           <td valign="top">
-            <input  type="text" name="first_name" maxlength="50" size="30">
-           </td>
-          </tr>
-          <tr>
-           <td valign="top">
-            <label for="last_name">Last Name *</label>
-           </td>
-           <td valign="top">
-            <input  type="text" name="last_name" maxlength="50" size="30">
-           </td>
-          </tr>
-          <tr>
-           <td valign="top">
-            <label for="email">Email Address *</label>
-           </td>
-           <td valign="top">
-            <input  type="text" name="email" maxlength="80" size="30">
-           </td>
-          </tr>
-          <tr>
-           <td valign="top">
-            <label for="comments">Comments *</label>
-           </td>
-           <td valign="top">
-            <textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
-           </td>
-          </tr>
-          <tr>
-           <td colspan="2" style="text-align:center">
-            <input type="submit" value="Submit">
-           </td>
-          </tr>
-          </table>
+      <div class="formContainer">
+        <h3>Anmäl ert lag!</h3>
+          <form class="formular" action="/action_page.php">
+            <label for="lagnamn">Lagnamn</label>
+            <input type="text" id="lagnamn" name="lagnamn" placeholder="Ert Lagnamn...">
+
+            <label for="lagkapten">Lagkapten/Kontaktperson</label>
+            <input type="text" id="lagkapten" name="lagkapten" placeholder="Lagkapten/Kontaktperson...">
+
+            <label for="email">E-post</label>
+            <input type="text" id="email" name="email" placeholder="E-post adress...">
+
+
+            <label for="medlemar">Lagmedlemmar</label>
+            <textarea id="medlemar" name="medlemar" placeholder="Skriv varje medlem på separat rad. Markera aktiva spelare med *" style="height:200px"></textarea>
+
+            <input type="submit" value="Skicka">
           </form>
-      </section>
+
+      </div>
+    </div>
 
       <!-- footer -->
       <footer id="main-footer">

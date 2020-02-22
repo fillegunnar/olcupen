@@ -2,7 +2,7 @@
 if(isset($_POST['email'])) {
 
     // EDIT THE 2 LINES BELOW AS REQUIRED
-    $email_to = "splatzzy@gmail.com";
+    $email_to = "styrelsen@olcupen.com";
     $email_subject = "Lag anmälan";
 
     function died($error) {
@@ -16,19 +16,19 @@ if(isset($_POST['email'])) {
 
 
     // validation expected data exists
-    if(!isset($_POST['first_name']) ||
-        !isset($_POST['last_name']) ||
+    if(!isset($_POST['lagnamn']) ||
+        !isset($_POST['lagkapten']) ||
         !isset($_POST['email']) ||
-        !isset($_POST['comments'])) {
+        !isset($_POST['medlemmar'])) {
         died('We are sorry, but there appears to be a problem with the form you submitted.');
     }
 
 
 
-    $first_name = $_POST['first_name']; // required
-    $last_name = $_POST['last_name']; // required
+    $first_name = $_POST['lagnamn']; // required
+    $last_name = $_POST['lagkapten']; // required
     $email_from = $_POST['email']; // required
-    $comments = $_POST['comments']; // required
+    $comments = $_POST['medlemar']; // required
 
     $error_message = "";
     $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
@@ -65,10 +65,10 @@ if(isset($_POST['email'])) {
 
 
 
-    $email_message .= "First Name: ".clean_string($first_name)."\n";
-    $email_message .= "Last Name: ".clean_string($last_name)."\n";
+    $email_message .= "Lagnamn: ".clean_string($first_name)."\n";
+    $email_message .= "Lagkapten: ".clean_string($last_name)."\n";
     $email_message .= "Email: ".clean_string($email_from)."\n";
-    $email_message .= "Comments: ".clean_string($comments)."\n";
+    $email_message .= "Medlemmar: ".clean_string($comments)."\n";
 
 // create email headers
 $headers = 'From: '.$email_from."\r\n".
