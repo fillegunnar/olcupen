@@ -16,7 +16,7 @@ body{
 }
 
 .container{
-  width: 80%;
+  width: 640px;
   margin: auto;
   overflow: hidden;
 }
@@ -75,7 +75,6 @@ section h1, section h2{
 /* footer */
 footer{
   background: black;
-  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;

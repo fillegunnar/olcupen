@@ -13,36 +13,17 @@
   <body>
 
     <header>
-      <a href="index.html"><button class="current">Hem</button></a>
+      <a href="index.html"><button>Hem</button></a>
       <a href="bilder.html"><button>Bilder</button></a>
-      <a href="anmalan.html"><button>Anmälan</button></a>
-      <a href="spelschema.html"><button>Spelschema</button></a>
+      <a href="anmalan.html"><button class="current">Anmälan</button></a>
+      <a href="feedback.html"><button>Feedback</button></a>
     </header>
 
     <!-- main ser till att flytta ner allt till en början -->
     <div class="main">
-
-      <div class="formContainer">
-        <h3>Anmäl ert lag!</h3>
-          <form class="formular" action="contact-form-handler.php">
-            <label for="lagnamn">Lagnamn</label>
-            <input type="text" id="lagnamn" name="lagnamn" placeholder="Ert Lagnamn...">
-
-            <label for="lagkapten">Lagkapten/Kontaktperson</label>
-            <input type="text" id="lagkapten" name="lagkapten" placeholder="Lagkapten/Kontaktperson...">
-
-            <label for="email">E-post</label>
-            <input type="text" id="email" name="email" placeholder="E-post adress...">
-
-
-            <label for="medlemar">Lagmedlemmar</label>
-            <textarea id="medlemar" name="medlemar" placeholder="Skriv varje medlem på separat rad. Markera aktiva spelare med *" style="height:200px"></textarea>
-
-            <input type="submit" value="Skicka">
-          </form>
-
-      </div>
-    </div>
+      <article id="index" class="container">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfxAX32sSdXQirjw5f2czs5sX6PSiY4edWshEtX8uDBqhIuDg/viewform?embedded=true" width="640" height="984" frameborder="0" marginheight="0" marginwidth="0">Läser in …</iframe>
+      </article>
 
       <!-- footer -->
       <footer id="main-footer">
