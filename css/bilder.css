@@ -1,0 +1,14 @@
+div.album{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+  justify-items: center;
+  align-items: center;
+  margin: auto;
+  overflow: hidden;
+  width: 80%;
+}
+
+img:hover, img:active{
+
+}

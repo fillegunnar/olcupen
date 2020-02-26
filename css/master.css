@@ -2,21 +2,21 @@
 
 body{
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 17px;
+  font-size: 25px;
   line-height: 1.5em;
   padding: 0;
   margin: 0;
-  color: rgb(255, 255, 255);
-  background: url("../img/logga.png");
+  color: black;
+  background: url("../img/computer-back.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-color: rgb(39, 40, 13);
+  background-color: #b4b4b4;
 }
 
 .container{
-  width: 640px;
+  width: 800px;
   margin: auto;
   overflow: hidden;
 }
@@ -29,6 +29,12 @@ body{
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
+img{
+  max-width: 100%;
+  max-height: 100vh;
+  margin: auto;
+}
 /* allmän slut */
 
 /* header */
@@ -38,7 +44,7 @@ header{
   align-items: center;
   position: fixed;
   top: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.5);
   width: 100%;
   min-height: 50px;
 }
@@ -47,24 +53,21 @@ header button{
   font-weight: bold;
   text-transform: uppercase;
   color: white;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
   width: 100%;
   min-height: 50px;
-  border: solid 1px rgb(26, 26, 26);
-  border-radius: 5px;
+  border: solid 1px #ffffff;
 }
 
 header button:hover, header button:active, header button.current{
-  background: rgb(107, 101, 14);
+  background: #b4b4b4;
 }
 /* header slut */
 
 /* section */
 section{
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-  padding: 5px;
-  margin: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
 }
 
 section h1, section h2{
@@ -91,8 +94,8 @@ footer .container{
 
 /* Mobilanpassad */
 @media(max-width: 768px){
-  body{
-    background: url("../img/2016-small/17160521_10208123824365122_1263334862_n.jpg");
+body{
+    background: url("../img/mobil-back.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -100,10 +103,13 @@ footer .container{
   }
 }
 
+.container{
+  width: 95%;
+}
 
 /* Style inputs with type="text", select elements and textareas */
 input[type=text], select, textarea {
-  width: 100%; /* Full width */
+  width: 90%; /* Full width */
   padding: 12px; /* Some padding */
   border: 1px solid #ccc; /* Gray border */
   border-radius: 4px; /* Rounded borders */
