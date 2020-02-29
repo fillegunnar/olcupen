@@ -1,7 +1,7 @@
 /* allmän */
 
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 25px;
   line-height: 1.5em;
   padding: 0;
@@ -13,6 +13,10 @@ body{
   background-attachment: fixed;
   background-size: cover;
   background-color: #b4b4b4;
+}
+
+.länk-logga{
+  width: 50px;
 }
 
 .container{
@@ -42,22 +46,22 @@ img{
 }
 
 .pause{
-  margin-top: 1000px;
+  margin-top: 850px;
 }
 
 a{
-  color: black;
+  color: #b4b4b4;
 }
 
 a:hover, a:active{
-  color: #b4b4b4;
+  color: black;
 }
 /* allmän slut */
 
 /* header */
 header{
   display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
+  grid-template-columns: 25% 25% 25% 25%;
   align-items: center;
   position: fixed;
   top: 0;
@@ -90,7 +94,7 @@ section{
 
 /* footer */
 footer{
-  background: rgba(180, 180, 180, 0.7);
+  background: white;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -99,19 +103,24 @@ footer{
 footer .container{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  align-items: center;
-  justify-items: center;
 }
 /* footer slut */
 
 /* Mobilanpassad */
 @media(max-width: 768px){
-body{
+  body{
     background: url("../img/mobil-back.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-color: #b4b4b4;
+  }
+  .split{
+    grid-template-columns: 1fr;
+  }
+
+  footer .container{
+    grid-template-columns: 1fr;
   }
 }

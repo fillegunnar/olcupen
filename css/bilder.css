@@ -12,3 +12,10 @@ div.album{
 img:hover, img:active{
 
 }
+
+/* Mobilanpassad */
+@media(max-width: 768px){
+  div.album{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
