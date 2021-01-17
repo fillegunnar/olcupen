@@ -1,4 +1,7 @@
-<?php require "header.php"; ?>
+<?php 
+    require "inc/header.php";
+    include "inc/vars.php";
+?>
 
 <html>
     <body>
@@ -10,7 +13,14 @@
                     <?php echo $date ?> <br><br>
                     <?php echo $adress ?> <br>
                 </h2>
+                <!-- <a href="sign-up.php"> -->
+                    <button type="button">Anmäl lag</button>
+                <!-- </a> -->
+            </div>
+            <div id="app">
+                <script src="main.js"></script>
             </div>
         </div>
+
     </body>
 </html>

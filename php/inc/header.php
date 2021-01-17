@@ -1,9 +1,4 @@
-<?php 
-    $name = "ÖLDUNDERKUNGcupen"; 
-    $date = "29 maj 2021 09:00 – 15:00";
-    $adress = "Östra Löa 122, 714 94 Kopparberg, Sverige";
-?>
-
+<?php include "inc/vars.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,15 +8,17 @@
     <link rel="stylesheet" href="./css/header.css">
 </head>
 <header>
-    <div class="master"><a class="master" href="index.php"><?php echo $name ?></a></div>
+    <div class="master">
+        <a class="master" href="index.php"><?php echo $name ?></a>
+    </div>
     <div class="menu">
         <a href="index.php">Hem</a>
         <a href="sign-up.php">Anmälan</a>
         <a href="contact.php">Kontakt</a>
         <a href="informaton.php">Information</a>
         <a href="gallery.php">Galleri</a>
-        <a href="https://www.instagram.com/loaolcup/">|insta|</a>
-        <a href="https://www.facebook.com/loaolcup">|face|</a>
+        <!-- <a class="img-link" href="https://www.instagram.com/loaolcup/">Instagram</a>
+        <a class="img-link" href="https://www.facebook.com/loaolcup">Facebook</a> -->
     </div>
 </header>
 
