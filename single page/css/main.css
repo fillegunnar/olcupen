@@ -1,32 +1,110 @@
 body {
     background-color: black;
     color: white;
-    font-size: 12px;
+    font-size: 16px;
     font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
-    font-weight: lighter;
+    /* font-weight: lighter; */
     margin: 0px;
 }
 
-h1 {font-weight: lighter;}
-h2 {font-weight: lighter;}
+.img-background {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Height set in javascript */
+} .img-background img {
+    opacity: 0.5;
+    width: 100%;
+}.img-background .center-on-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} .img-background button, .img-background .center-on-image, #tab button {
+    text-align: center;
+    font-weight: 600;
+    color: #fefde1;
+    font-size: x-large;
+    -webkit-text-stroke: 0.8px #a17b57;
+    text-shadow: 0 0 16px #f48b3a;
+}.img-background button, #tab button {
+    width: auto;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid grey;
+    cursor: pointer;
+}.img-background button:active {
+    background-color: #f48b3a;
+}
+
+/* What is written here affects the tab */
+#tab {
+    /* position: fixed; */
+    border-bottom: 1px solid grey;
+    background-color: transparent;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr 1fr 1fr 1fr 1fr;
+/* }#tab button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: 0.3s;
+    font-size: 17px;
+    color: white;
+} */
+.left { text-align: left;}
+.right { text-align: right;}
+
+/* #tab {
+    background-color: black;
+    position: fixed;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#tab, button {
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 5px;
+    font-size: 20px;
+    margin: 0px;
+    text-align: left;
+    overflow: hidden;
+} */
+
+/* #tab button:hover {
+    background-color: black;
+    color: black;  
+} */
+
+/* .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
 
 .grid-split{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    text-align: center;
+    grid-gap: 10px;
 }
 
 .grid-3-split{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding-left: 10%;
+    grid-gap: 10px;
 }
 
 .dynamic-height {
     position: relative;
     top: 30%;
-}
-
-/* img{
-    width: 100%;
 } */

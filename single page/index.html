@@ -2,49 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $name ?></title>
+    <title>ÖLDUNDERKUNGCUPEN</title>
     <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="./css/header.css">
+    <script src="./js/index.js"></script>
 </head>
-<header>
-    <div class="master">
-        <a class="master" href="index.php">ÖLDUNDERKUNGCUPEN</a>
-    </div>
-    <div class="menu">
-        <button class="tablink" onclick="openPage('Home')">Hem</button>
-        <button class="tablink" onclick="openPage('About')">Om oss</button>
-        <button class="tablink" onclick="openPage('Contact')">Kontakt</button>
-        <button class="tablink" onclick="openPage('Sign-up')">Anmäl lag</button>
-        <button class="tablink" onclick="openPage('Gallery')">Galleri</button>
-        <!-- <a class="img-link" href="https://www.instagram.com/loaolcup/">Instagram</a>
-        <a class="img-link" href="https://www.facebook.com/loaolcup">Facebook</a> -->
-    </div>
-</header>
 
 <body>
-    <div id="Home" class="tabcontent">
-        <div class="grid-split">
-            <div><img src="img/ol.gif" alt="image" width="100%"></div>
-            <div class="dynamic-height">
-                <h1>ÖLDUNDERKUNGCUPEN</h1>
-                <h2>
+    <div id="tab">
+        <button class="left" onclick="openPage('home')">ÖLDUNDERKUNGCUPEN</button>
+        <button class="right" onclick="openPage('home')">Hem</button>
+        <button class="right" onclick="openPage('about')">Om oss</button>
+        <button class="right" onclick="openPage('contact')">Kontakt</button>
+        <button class="right" onclick="openPage('sign-up')">Anmäl lag</button>
+        <button class="right" onclick="openPage('gallery')">Galleri</button>
+        <button class="right" onclick="openPage('table')">Livetabell</button>
+    </div>
+    <div id="home" class="tabcontent">
+        <div class="img-background">
+            <img src="./img/dunderlogga2021-smal.jpg" alt="Image">
+            <div class="center-on-image">
+                <h2>ÖLDUNDERKUNGCUPEN</h2>
+                <p>
                     29 maj 2021 09:00 – 15:00 <br><br>
                     Östra Löa 122, 714 94 Kopparberg, Sverige <br>
-                </h2>
-                <!-- <a href="sign-up.php"> -->
-                    <button type="button">Anmäl lag</button>
-                <!-- </a> -->
+                </p>
+                <button type="button" onclick="openPage('sign-up')">Anmäl lag</button>
             </div>
         </div>
     </div>
 
-    <div id="About" class="tabcontent">
+    <div id="about" class="tabcontent">
         <h1>About</h1>
     </div>
 
-    <div id="Contact" class="tabcontent">
+    <div id="contact" class="tabcontent">
         <div class="grid-3-split">
             <div class="dynamic-height">
+                <p>
+                    Kontakta oss i första hand via Mail. Är det mer brådskande eller av annan anledning så kan ni kontakta oss via telefon eller personlig mail.
+                </p>
                 <h2>MAIL</h2>
                 <a href="mailto:styrelsen@olcupen.com">styrelsen@olcupen.com</a>
             </div>
@@ -69,31 +65,17 @@
         </div>
     </div>
 
-    <div id="Sign-up" class="tabcontent">
+    <div id="sign-up" class="tabcontent">
         <h1>Sign-up</h1>
     </div>
 
-    <div id="Gallery" class="tabcontent">
+    <div id="gallery" class="tabcontent">
         <h2>Galleri</h2>
-    </div>    
-</body>
-
-<script>
-    var tabcontent, currentPage = "Contact";
-    tabcontent = document.getElementsByClassName("tabcontent");
-    openPage(currentPage);  //Only time currentpage is sent to the function
+    </div>
     
-    function openPage(pageName){
-        for (var i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        // document.getElementById(currentPage).style.display = "none";
-        // currentpage = pageName;
-        document.getElementById(pageName).style.display = "block";
-        // console.log(currentPage);
-    }
-    // Get the element with id="defaultOpen" and click on it
-    // document.getElementById("defaultOpen").click();
-</script>
-
+    <div id="table" class="tabcontent">
+        <h1>Tabell</h1><br>
+        <p>Här kommer ni kunna följa tabellen live när ÖLDUNDERKUNGCUPEN är igång.</p>
+    </div>
+</body>
 </html>
