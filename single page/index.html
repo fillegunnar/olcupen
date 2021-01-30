@@ -2,23 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ÖLDUNDERKUNGCUPEN</title>
     <link rel="stylesheet" href="./css/main.css">
     <script src="./js/index.js"></script>
 </head>
 
 <body>
-    <div id="tab">
-        <button id="default-open" class="right" onclick="openPage('home')">Hem</button>
-        <button class="right" onclick="openPage('about')">Om oss</button>
-        <button class="right" onclick="openPage('contact')">Kontakt</button>
-        <button class="right" onclick="openPage('sign-up')">Anmäl lag</button>
-        <button class="right" onclick="openPage('gallery')">Galleri</button>
-        <button class="right" onclick="openPage('table')">Livetabell</button>
+    <div class="split-grid">
+        <div id="social-and-mobile-button">
+            <a href="instagram.com/loaolcup/"><img src="./img/instagram.png" alt="I"></a>
+            <a href="https://www.facebook.com/loaolcup"><img src="./img/facebook.png" alt="I"></a>
+            <div id="mobile-button" class="right"></div>
+        </div>
+        <div id="nav">
+            <button id="default-open" class="right" onclick="openPage('home')">Hem</button>
+            <button class="right" onclick="openPage('about')">Om oss</button>
+            <button class="right" onclick="openPage('contact')">Kontakt</button>
+            <button class="right" onclick="openPage('sign-up')">Anmäl lag</button>
+            <button class="right" onclick="openPage('gallery')">Galleri</button>
+            <button class="right" onclick="openPage('table')">Livetabell</button>
+        </div>
+        
     </div>
     <div id="home" class="tabcontent">
         <div class="split-grid">
-            <img id="home-height" class="cover" src="./img/dunderlogga_kvadrat.jpg" alt="Image">
+            <img class="cover" src="./img/dunderlogga_kvadrat.jpg" alt="Image">
             <div class="center">
                 <h1>ÖLCUPEN 2021</h1>
                 <h3>

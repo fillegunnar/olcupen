@@ -1,26 +1,49 @@
-.cover {width: 100%;}
-.left {text-align: left;}
-.right {text-align: right;}
+/* 
+ * Små hjälp funktioner
+ */
+.left{text-align: left;}
+.right{float: right;}
 
-#tab {
+
+/* 
+ * Tab eller övriga knappar
+ */
+#nav {
     display: grid;
-    grid-template-columns: 6fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
-}#tab button, button {
+}#nav button, button {
     background-color: inherit;
     color: #fffde2;
     text-align: center;
     cursor: pointer;
     border: none;
+    border-radius: 8%;
     padding-top: 10px;
     padding-bottom: 10px;
     transition: 1s;
-}#tab button:hover, button:hover {
+}#nav button:hover, button:hover {
     background-color: #fffde2;
     color: black;
+}#social-and-mobile-button img{
+    height: 25px;
+    padding: 10px;
+    transition: 1s;
+    border-radius: 8%;
+}#social-and-mobile-button img:hover{
+    background-color: #fffde2;
 }
+#mobile-button {
+    padding-right: 15px;
+    padding-top: 5px;
+    line-height: 50%;
+}
+
+/* 
+ * För hela bodyn eller klasser
+ */
 body {
-    background-color: black;
+    background-color: #1d0e06;
     color: #fffde2;
     font-size: 16px;
     font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
@@ -37,6 +60,7 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
+.cover {width: 100%;}
 .center{
     text-align: center;
     margin: auto;
@@ -52,6 +76,15 @@ h2, h3, p {
 button{
     border: 0.5px solid #fffde2;
     padding: 20px;
+}
+
+@media(max-width: 768px){
+    .split-grid{
+        grid-template-columns: 1fr;
+    }
+    /* #nav{
+        grid-template-columns: 1fr 1fr;
+    } */
 }
 
 /* .img-background {
