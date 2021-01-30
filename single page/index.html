@@ -9,8 +9,7 @@
 
 <body>
     <div id="tab">
-        <button class="left" onclick="openPage('home')">ÖLDUNDERKUNGCUPEN</button>
-        <button class="right" onclick="openPage('home')">Hem</button>
+        <button id="default-open" class="right" onclick="openPage('home')">Hem</button>
         <button class="right" onclick="openPage('about')">Om oss</button>
         <button class="right" onclick="openPage('contact')">Kontakt</button>
         <button class="right" onclick="openPage('sign-up')">Anmäl lag</button>
@@ -18,14 +17,14 @@
         <button class="right" onclick="openPage('table')">Livetabell</button>
     </div>
     <div id="home" class="tabcontent">
-        <div class="img-background">
-            <img src="./img/dunderlogga2021-smal.jpg" alt="Image">
-            <div class="center-on-image">
-                <h2>ÖLDUNDERKUNGCUPEN</h2>
-                <p>
+        <div class="split-grid">
+            <img id="home-height" class="cover" src="./img/dunderlogga_kvadrat.jpg" alt="Image">
+            <div class="center">
+                <h1>ÖLCUPEN 2021</h1>
+                <h3>
                     29 maj 2021 09:00 – 15:00 <br><br>
                     Östra Löa 122, 714 94 Kopparberg, Sverige <br>
-                </p>
+                </h3>
                 <button type="button" onclick="openPage('sign-up')">Anmäl lag</button>
             </div>
         </div>

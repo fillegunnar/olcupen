@@ -1,19 +1,65 @@
+.cover {width: 100%;}
+.left {text-align: left;}
+.right {text-align: right;}
+
+#tab {
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}#tab button, button {
+    background-color: inherit;
+    color: #fffde2;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 1s;
+}#tab button:hover, button:hover {
+    background-color: #fffde2;
+    color: black;
+}
 body {
     background-color: black;
-    color: white;
+    color: #fffde2;
     font-size: 16px;
     font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
-    /* font-weight: lighter; */
     margin: 0px;
 }
+.one-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    width: 100%;
+}
+.split-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+.center{
+    text-align: center;
+    margin: auto;
+}
+h1{
+    font-family: 'Merriweather';
+    font-weight: lighter;
+}
+h2, h3, p {
+    font-family: sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
+    font-weight: lighter;
+}
+button{
+    border: 0.5px solid #fffde2;
+    padding: 20px;
+}
 
-.img-background {
+/* .img-background {
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
-    /* Height set in javascript */
 } .img-background img {
-    opacity: 0.5;
+    opacity: 0.2;
     width: 100%;
 }.img-background .center-on-image {
     position: absolute;
@@ -27,25 +73,19 @@ body {
     font-size: x-large;
     -webkit-text-stroke: 0.8px #a17b57;
     text-shadow: 0 0 16px #f48b3a;
-}.img-background button, #tab button {
+}button {
     width: auto;
     background-color: transparent;
     padding: 10px;
-    border: 1px solid grey;
+    outline: none;
     cursor: pointer;
-}.img-background button:active {
+}button:active, button:hover  {
     background-color: #f48b3a;
-}
+}.img-background button{
+    border: 1px solid #fefde1;
+} */
 
-/* What is written here affects the tab */
-#tab {
-    /* position: fixed; */
-    border-bottom: 1px solid grey;
-    background-color: transparent;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 6fr 1fr 1fr 1fr 1fr 1fr 1fr;
-/* }#tab button {
+ /*#tab button {
     background-color: transparent;
     border: none;
     outline: none;
@@ -55,8 +95,7 @@ body {
     font-size: 17px;
     color: white;
 } */
-.left { text-align: left;}
-.right { text-align: right;}
+
 
 /* #tab {
     background-color: black;
@@ -90,12 +129,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-}
-
-.grid-split{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
 }
 
 .grid-3-split{

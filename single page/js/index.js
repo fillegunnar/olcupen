@@ -11,19 +11,6 @@ function openPage(pageName){
     document.getElementById(pageName).style.display = "block";
 }
 
-function setHeight() {
-    HEIGHT = window.innerHeight;
-    var elements = document.getElementsByClassName("img-background");
-
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].style.height = HEIGHT.toString() + "px";
-    }
-}
 window.onload = function () {
-    openPage(DEFAULT_OPEN);
-    // setHeight();
-}
-
-window.onresize = function () {
-    // setHeight();
+    document.getElementById("default-open").click();
 }
