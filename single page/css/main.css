@@ -12,7 +12,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
-}#nav button, button {
+}#nav button, button, #mobile-button {
     background-color: inherit;
     color: #fffde2;
     text-align: center;
@@ -22,7 +22,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     transition: 1s;
-}#nav button:hover, button:hover {
+}#nav button:hover, button:hover, nav button:active, button:active, #mobile-button:active {
     background-color: #fffde2;
     color: black;
 }#social-and-mobile-button img{
@@ -30,12 +30,12 @@
     padding: 10px;
     transition: 1s;
     border-radius: 8%;
-}#social-and-mobile-button img:hover{
+}#social-and-mobile-button img:hover, #social-and-mobile-button img:active,{
     background-color: #fffde2;
 }
 #mobile-button {
-    padding-right: 15px;
-    padding-top: 5px;
+    margin: auto;
+    padding-top: 10px;
     line-height: 50%;
 }
 
@@ -79,11 +79,17 @@ button{
 }
 
 @media(max-width: 768px){
-    .split-grid{
+    .split-grid, #nav{
         grid-template-columns: 1fr;
     }
-    /* #nav{
-        grid-template-columns: 1fr 1fr;
+    #nav button, button, #mobile-button {
+        transition: 0s;
+    }
+    #social-and-mobile-button img {
+        transition: 0s;
+    }
+    /* .right {
+        float: none;
     } */
 }
 

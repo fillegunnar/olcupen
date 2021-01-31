@@ -1,47 +1,45 @@
-// Because it does not exist height = 100% in css which works the way I want
-var HEIGHT;
-var tabcontent;
-let DEFAULT_OPEN = "home";
-tabcontent = document.getElementsByClassName("tabcontent");
 
-function openPage(pageName){
+function openPage(pageName, element){
+    var tabcontent = document.getElementsByClassName("tabcontent");
     for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
+    var tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.backgroundColor = "";
+    }
     document.getElementById(pageName).style.display = "block";
+    // element.style.backgroundColor = "#fffde2";
+
     var deviceWidth = window.outerWidth;
-    var currentDisplay = document.getElementById("nav").style.display;
-    if (deviceWidth < 769 && currentDisplay == "block"){
-        toggleMobileNav();
+    if (deviceWidth < 769 ){
+        hasMobileView();
     }
 }
 
-function hasMobileButton() {
+function hasMobileView() {
     var deviceWidth = window.outerWidth;
     if (deviceWidth < 769){
-        document.getElementById("mobile-button").innerHTML = "<a onclick='toggleMobileNav()'>__<br>__<br>__<br></button>";
+        document.getElementById("mobile-button-space").innerHTML = "<button id='mobile-button' onclick='toggleMobileNav()'>__<br>__<br>__<br></button>";
+        document.getElementById("nav").innerHTML = "";
     }else {
-        document.getElementById("mobile-button").innerHTML = "";
+        document.getElementById("mobile-button-space").innerHTML = "";
+        document.getElementById("nav").innerHTML = sessionStorage.navButtonsHTML;
     }
 }
 
 function toggleMobileNav() {
-    var currentDisplay = document.getElementById("nav").style.display;
-
-    if (currentDisplay == "block"){ document.getElementById("nav").style.display = "none"; }
-    else { openMobileNav() }
-}
-
-function openMobileNav() {
-    document.getElementById("nav").style.display = "block"; 
-    document.getElementById("nav").style.gridTemplateColumns = "1fr 1fr";
+    var innerHTML = document.getElementById("nav").innerHTML;
+    if (innerHTML == ""){document.getElementById("nav").innerHTML = sessionStorage.navButtonsHTML;}
+    else {document.getElementById("nav").innerHTML = "";}
 }
 
 window.onload = function () {
+    sessionStorage.navButtonsHTML = document.getElementById("nav").innerHTML;
     document.getElementById("default-open").click();
-    hasMobileButton();
+    // hasMobileView();
 }
 
 window.onresize = function () {
-    hasMobileButton();
+    hasMobileView();
 }
