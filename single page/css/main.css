@@ -3,48 +3,14 @@
  */
 .left{text-align: left;}
 .right{float: right;}
-
-
-/* 
- * Tab eller övriga knappar
- */
-#nav {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 10px;
-}#nav button, button, #mobile-button, #nav button:focus {
-    background-color: inherit;
-    color: #fffde2;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    border-radius: 8%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    transition: 1s;
-}#nav button:hover, button:hover, nav button:active, button:active, #mobile-button:active {
-    background-color: #fffde2;
-    color: black;
-}#social-and-mobile-button img{
-    height: 25px;
-    padding: 10px;
-    transition: 1s;
-    border-radius: 8%;
-}#social-and-mobile-button img:hover, #social-and-mobile-button img:active,{
-    background-color: #fffde2;
-}
-#mobile-button {
-    margin: auto;
-    padding-top: 10px;
-    line-height: 50%;
-}
+.cover {width: 100%;}
 
 /* 
  * För hela bodyn eller klasser
  */
-body {
-    background-image: url(../img/maxad_bakgrund.png); /* #1d0e06 */
+ body {
+    background-color: #1d0e06;
+    background-image: url(../img/maxad_bakgrund.png); 
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -65,7 +31,6 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
 }
-.cover {width: 100%;}
 .center{
     text-align: center;
     margin: auto;
@@ -83,19 +48,59 @@ button{
     padding: 20px;
 }
 
+
+/* 
+ * Tab eller övriga knappar
+ */
+#nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}.tablink, button, #mobile-button, button:focus {
+    background-color: inherit;
+    color: #fffde2;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 8%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 1s;
+}.tablink:hover, button:hover, nav button:active, button:active, #mobile-button:active {
+    background-color: #fffde2;
+    color: black;
+}#social-and-mobile-button img{
+    height: 25px;
+    padding: 10px;
+    transition: 1s;
+    border-radius: 8%;
+}#social-and-mobile-button img:hover, #social-and-mobile-button img:active,{
+    background-color: #fffde2;
+}
+#mobile-button {
+    margin: auto;
+    padding-top: 10px;
+    line-height: 50%;
+}
+
+/* 
+ * Mobil
+ */
 @media(max-width: 768px){
+    body{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
     .split-grid, #nav{
         grid-template-columns: 1fr;
     }
-    #nav button, button, #mobile-button {
+    .tablink, button, #mobile-button {
         transition: 0s;
     }
     #social-and-mobile-button img {
         transition: 0s;
     }
-    /* .right {
-        float: none;
-    } */
 }
 
 /* .img-background {
