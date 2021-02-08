@@ -1,15 +1,7 @@
 
 function openPage(pageName, element){
-    var tabcontent = document.getElementsByClassName("tabcontent");
-    for (var i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    var tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.backgroundColor = "";
-    }
-    document.getElementById(pageName).style.display = "block";
-    // element.style.backgroundColor = "#fffde2";
+    
+    document.getElementById("display").innerHTML = document.getElementById(pageName).text;
 
     var deviceWidth = window.outerWidth;
     if (deviceWidth < 769 ){

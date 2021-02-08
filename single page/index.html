@@ -6,26 +6,7 @@
     <title>ÖLDUNDERKUNGCUPEN</title>
     <link rel="stylesheet" href="./css/main.css">
     <script src="./js/index.js"></script>
-</head>
-
-<body>
-    <div class="split-grid">
-        <div id="social-and-mobile-button">
-            <a href="instagram.com/loaolcup/"><img src="./img/instagram.png" alt="I"></a>
-            <a href="https://www.facebook.com/loaolcup"><img src="./img/facebook.png" alt="I"></a>
-            <div id="mobile-button-space" class="right"></div>
-        </div>
-        <div id="nav">
-            <button class="tablink" id="default-open" class="right" onclick="openPage('home')">Hem</button>
-            <button class="tablink" class="right" onclick="openPage('about', 'this')">Om oss</button>
-            <button class="tablink" class="right" onclick="openPage('contact', 'this')">Kontakt</button>
-            <button class="tablink" class="right" onclick="openPage('sign-up', 'this')">Anmäl lag</button>
-            <button class="tablink" class="right" onclick="openPage('gallery', 'this')">Galleri</button>
-            <button class="tablink" class="right" onclick="openPage('table', 'this')">Livetabell</button>
-        </div>
-        
-    </div>
-    <div id="home" class="tabcontent">
+    <script type="text/view" id="home" class="tabcontent">
         <div class="split-grid">
             <img class="cover" src="./img/logga_utan_bakgrund_noflames.png" alt="Image">
             <div class="center">
@@ -37,13 +18,13 @@
                 <button type="button" onclick="openPage('sign-up')">Anmäl lag</button>
             </div>
         </div>
-    </div>
+    </script>
 
-    <div id="about" class="tabcontent">
+    <script type="text/view" id="about" class="tabcontent">
         <h1>About</h1>
-    </div>
+    </script>
 
-    <div id="contact" class="tabcontent">
+    <script type="text/view" id="contact" class="tabcontent">
         <div class="grid-3-split">
             <div class="dynamic-height">
                 <p>
@@ -71,19 +52,40 @@
                 </h2>
             </div>
         </div>
-    </div>
+    </script>
 
-    <div id="sign-up" class="tabcontent">
-        <h1>Sign-up</h1>
-    </div>
+    <script type="text/view" id="sign-up" class="tabcontent">
+        <iframe id="form" src="https://docs.google.com/forms/d/e/1FAIpQLScbXXgY86G-ueTw2Kjt9U3C72_krnJucG3slqoUBJ-He2rF5w/viewform?embedded=true" >Läser in …</iframe>
+    </script>
 
-    <div id="gallery" class="tabcontent">
-        <h2>Galleri</h2>
-    </div>
-    
-    <div id="table" class="tabcontent">
+    <script type="text/view" id="gallery" class="tabcontent">
+        <h1>Galleri</h1>
+    </script>
+
+    <script type="text/view" id="table" class="tabcontent">
         <h1>Tabell</h1><br>
         <p>Här kommer ni kunna följa tabellen live när ÖLDUNDERKUNGCUPEN är igång.</p>
+    </script>
+</head>
+
+<body>
+    <div class="split-grid">
+        <div id="social-and-mobile-button">
+            <a href="instagram.com/loaolcup/"><img src="./img/instagram.png" alt="I"></a>
+            <a href="https://www.facebook.com/loaolcup"><img src="./img/facebook.png" alt="I"></a>
+            <div id="mobile-button-space" class="right"></div>
+        </div>
+        <div id="nav">
+            <button class="tablink" id="default-open" class="right" onclick="openPage('home', 'this')">Hem</button>
+            <button class="tablink" class="right" onclick="openPage('about', 'this')">Om oss</button>
+            <button class="tablink" class="right" onclick="openPage('contact', 'this')">Kontakt</button>
+            <button class="tablink" class="right" onclick="openPage('sign-up', 'this')">Anmäl lag</button>
+            <button class="tablink" class="right" onclick="openPage('gallery', 'this')">Galleri</button>
+            <button class="tablink" class="right" onclick="openPage('table', 'this')">Livetabell</button>
+        </div>
+    </div>
+    <div id="display">
+
     </div>
 </body>
 </html>
