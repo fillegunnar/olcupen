@@ -44,6 +44,15 @@ h2, h3, p {
     font-weight: lighter;
 }
 button{
+    background-color: inherit;
+    color: #fffde2;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    border-radius: 8%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 1s;
     border: 0.5px solid #fffde2;
     padding: 20px;
 }
@@ -61,6 +70,10 @@ button{
     border: none;
 }
 
+.freebirdFormviewerComponentsQuestionBaseRoot, .listitem, .freebirdFormviewerItemList{
+    background-color: none;
+}
+
 
 /* 
  * Tab eller övriga knappar
@@ -69,7 +82,7 @@ button{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
-}.tablink, button, #mobile-button, button:focus {
+}.tablink, #mobile-button, button:focus {
     background-color: inherit;
     color: #fffde2;
     text-align: center;
