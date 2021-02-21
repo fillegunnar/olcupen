@@ -17,6 +17,7 @@
     background-size: cover;
     color: #fffde2;
     font-size: 16px;
+    line-height: 25px;
     font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
     margin: 0px;
 }
@@ -33,6 +34,10 @@
 }
 .center{
     text-align: center;
+    margin: auto;
+}
+.container{
+    width: 1000px;
     margin: auto;
 }
 h1{
@@ -126,6 +131,9 @@ button{
     }
     #social-and-mobile-button img {
         transition: 0s;
+    }
+    .container{
+        width: 95%;
     }
 }
 
