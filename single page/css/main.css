@@ -16,9 +16,10 @@
     background-position: center;
     background-size: cover;
     color: #fffde2;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 25px;
     font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
+    font-weight: lighter;
     margin: 0px;
 }
 .one-grid {
@@ -39,6 +40,15 @@
 .container{
     width: 1000px;
     margin: auto;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.link-on-site{ 
+    cursor: pointer; 
+    text-decoration: underline;
+    color: lightblue;
 }
 h1{
     font-family: 'Merriweather';
@@ -75,17 +85,17 @@ button{
     border: none;
 }
 
-.freebirdFormviewerComponentsQuestionBaseRoot, .listitem, .freebirdFormviewerItemList{
-    background-color: none;
-}
-
 
 /* 
  * Tab eller övriga knappar
  */
+#social-and-nav{
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+}
 #nav {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
 }.tablink, #mobile-button, button:focus {
     background-color: inherit;
@@ -101,17 +111,19 @@ button{
 }.tablink:hover, button:hover, nav button:active, button:active, #mobile-button:active {
     background-color: #fffde2;
     color: black;
-}#social-and-mobile-button img{
+}.social-button{
     height: 25px;
     padding: 10px;
+    margin-left: 10px;
     transition: 1s;
     border-radius: 8%;
-}#social-and-mobile-button img:hover, #social-and-mobile-button img:active{
+}.social-button:hover, .social-button:active{
     background-color: #fffde2;
 }
 #mobile-button {
     margin: auto;
     padding-top: 10px;
+    padding-bottom: 20px;
     line-height: 50%;
 }
 
@@ -126,10 +138,7 @@ button{
     .split-grid, #nav{
         grid-template-columns: 1fr;
     }
-    .tablink, button, #mobile-button {
-        transition: 0s;
-    }
-    #social-and-mobile-button img {
+    .tablink, button, #mobile-button, .social-button {
         transition: 0s;
     }
     .container{
