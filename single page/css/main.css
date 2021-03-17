@@ -64,7 +64,7 @@ button{
     text-align: center;
     cursor: pointer;
     outline: none;
-    border-radius: 8%;
+    border-radius: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     transition: 1s;
@@ -104,7 +104,7 @@ button{
     cursor: pointer;
     border: none;
     outline: none;
-    border-radius: 8%;
+    border-radius: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
     transition: 1s;
@@ -115,8 +115,9 @@ button{
     height: 25px;
     padding: 10px;
     margin-left: 10px;
+    margin-top: 5px;
     transition: 1s;
-    border-radius: 8%;
+    border-radius: 10px;
 }.social-button:hover, .social-button:active{
     background-color: #fffde2;
 }
