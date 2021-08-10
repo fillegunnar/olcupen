@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ölcupen  |  Världens mäktigaste fotbollsturnering</title>
     <link rel="stylesheet" href="./css/main.css">
-    <script src="./js/index.js"></script>
     <script type="text/view" id="home" class="tabcontent">
         <div class="split-grid">
             <img class="cover" src="./img/logga_utan_bakgrund_noflames.png" alt="Image">
@@ -136,7 +135,6 @@
         </div>
     </script>
 </head>
-
 <body>
     <div id="social-and-nav" class="split-grid">
         <div>
@@ -145,7 +143,7 @@
             <div id="mobile-button-space" class="right"></div>
         </div>
         <div id="nav">
-            <button class="tablink" id="default-open" class="right" onclick="openPage('home', 'this')">Hem</button>
+            <button class="tablink" class="right" onclick="openPage('home', 'this')">Hem</button>
             <!-- <button class="tablink" class="right" onclick="openPage('sign-up', 'this')">Anmäl lag</button> -->
             <button class="tablink" class="right" onclick="openPage('rules', 'this')">Regler</button>
             <!-- <button class="tablink" class="right" onclick="openPage('about', 'this')">Om oss</button> -->
@@ -157,5 +155,6 @@
     <div id="display">
 
     </div>
+    <script src="./js/main.js"></script>
 </body>
 </html>
