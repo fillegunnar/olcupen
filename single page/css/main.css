@@ -38,12 +38,16 @@
     margin: auto;
 }
 .container{
-    width: 1000px;
+    width: 95%;
+    max-width: 1000px;
     margin: auto;
     border: 1px solid grey;
     border-radius: 5px;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.6);
+}
+iframe{
+    width: 100%;
 }
 .link-on-site{ 
     cursor: pointer; 
