@@ -99,7 +99,7 @@ button{
 }
 #nav {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
 }.tablink, #mobile-button, button:focus {
     background-color: inherit;
