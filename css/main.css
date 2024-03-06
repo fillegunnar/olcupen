@@ -1,0 +1,152 @@
+/* 
+ * Små hjälp funktioner
+ */
+.left{text-align: left;}
+.right{float: right;}
+.cover {width: 100%;}
+
+/* 
+ * För hela bodyn eller klasser
+ */
+ body {
+    background-color: #1d0e06;
+    background-image: url(../img/maxad_bakgrund.png); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    color: #fffde2;
+    font-size: 18px;
+    line-height: 25px;
+    font-family:  sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
+    font-weight: lighter;
+    margin: 0px;
+}
+.one-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    width: 100%;
+}
+.split-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+.center{
+    text-align: center;
+    margin: auto;
+}
+.container{
+    width: 95%;
+    max-width: 1000px;
+    margin: auto;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+iframe{
+    width: 100%;
+}
+.link-on-site{ 
+    cursor: pointer; 
+    text-decoration: underline;
+    color: lightblue;
+}
+h1{
+    font-family: 'Merriweather';
+    font-weight: lighter;
+}
+h2, h3, p {
+    font-family: sans-serif, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial;
+    font-weight: lighter;
+}
+button{
+    background-color: inherit;
+    color: #fffde2;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 1s;
+    border: 0.5px solid #fffde2;
+    padding: 20px;
+}
+#form {
+    width: 95%;
+    height: 1500px;
+    border: 0;
+    margin: 0;
+    background-color: inherit;
+    color: #fffde2;
+    /* width="640" height="1064" frameborder="0" marginheight="0" marginwidth="0" */
+}form{
+    background-color: transparent;
+    color: #fffde2;
+    border: none;
+}
+
+
+/* 
+ * Tab eller övriga knappar
+ */
+#social-and-nav{
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+}
+#nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}.tablink, #mobile-button, button:focus {
+    background-color: inherit;
+    color: #fffde2;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition: 1s;
+}.tablink:hover, button:hover, nav button:active, button:active, #mobile-button:active {
+    background-color: #fffde2;
+    color: black;
+}.social-button{
+    height: 25px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
+    transition: 1s;
+    border-radius: 10px;
+}.social-button:hover, .social-button:active{
+    background-color: #fffde2;
+}
+#mobile-button {
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    line-height: 50%;
+}
+
+/* 
+ * Mobil
+ */
+@media(max-width: 768px){
+    body{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .split-grid, #nav{
+        grid-template-columns: 1fr;
+    }
+    .tablink, button, #mobile-button, .social-button {
+        transition: 0s;
+    }
+    .container{
+        width: 95%;
+    }
+}
