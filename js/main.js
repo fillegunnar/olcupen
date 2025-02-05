@@ -39,3 +39,29 @@ window.onload = function () {
 window.onresize = function () {
     displayNav();
 }
+
+var countDownDate = new Date("Mar 01, 2025 18:00:00").getTime();
+        
+var countDown = setInterval(function() {
+    var now = new Date().getTime();
+    var timeLeft = countDownDate - now;
+
+    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    var strDay = ' dagar, ';
+    var strHour = ' timmar, ';
+    var strMin = ' minuter och ';
+    var strSec = ' sekunder. ';
+
+    if (days === 1) strDay = ' dag, ';
+    if (hours === 1) strHour = ' timme, ';
+    if (minutes === 1) strMin = ' minut och ';
+    if (seconds === 1) strSec = ' sekund. ';
+
+    document.getElementById("days").innerHTML = days + strDay;
+    document.getElementById("hours").innerHTML = hours + strHour;
+    document.getElementById("mins").innerHTML = minutes + strMin;
+    document.getElementById("secs").innerHTML = seconds + strSec;
+}, 1000)

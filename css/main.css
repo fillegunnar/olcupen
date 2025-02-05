@@ -91,6 +91,9 @@ button{
 a {
     color: #c8bf38;
 }
+.inline {
+    display: inline;
+}
 
 
 /* 
