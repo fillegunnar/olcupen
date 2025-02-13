@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #006400; /* Dark green background to resemble a football field */
+}
+
+canvas {
+  background-color: #32CD32; /* Lighter green for the field */
+  border: 2px solid #FFFFFF; /* White border for the field lines */
+}

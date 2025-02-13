@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #282c34; /* Dark background */
+}
+
+.floating-image {
+  position: absolute;
+  width: 80px; /* Adjust size */
+  opacity: 0.7;
+  animation: floatAnimation var(--animation-duration) infinite ease-in-out alternate,
+             moveX var(--animation-duration) infinite ease-in-out alternate,
+             moveY var(--animation-duration) infinite ease-in-out alternate,
+             rotateAnimation var(--animation-duration) infinite linear;
+  animation-delay: var(--animation-delay);
+}
+
+/* Vertical floating */
+@keyframes floatAnimation {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-100px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Horizontal movement */
+@keyframes moveX {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(100px); }
+  100% { transform: translateX(0px); }
+}
+
+/* Random movement up/down */
+@keyframes moveY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(50px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Slight rotation */
+@keyframes rotateAnimation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
