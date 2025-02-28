@@ -107,7 +107,7 @@ a {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 10px;
-}.tablink, #mobile-button, button:focus {
+}.tablink, #mobile-button {
     background-color: inherit;
     color: #fffde2;
     text-align: center;
