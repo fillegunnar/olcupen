@@ -99,6 +99,9 @@ a {
 #social-and-nav{
     border-bottom: 1px solid grey;
     margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background-color: #1d0e06;
 }
 #nav {
     display: grid;
