@@ -40,7 +40,7 @@ window.onresize = function () {
     displayNav();
 }
 
-var countDownDate = new Date("Mar 01, 2025 18:00:00").getTime();
+var countDownDate = new Date("Mar 01, 2026 18:00:00").getTime();
         
 var countDown = setInterval(function() {
     var now = new Date().getTime();
