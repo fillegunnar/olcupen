@@ -14,14 +14,18 @@
 
 ### Phase 1: Foundation & Infrastructure (Week 1-2)
 
-| Task                    | Description                                                     |
-| ----------------------- | --------------------------------------------------------------- |
-| Set up monorepo         | Create workspace with `frontend/` (React) and `backend/` (Rust) |
-| React app scaffold      | Vite + React + TypeScript + TailwindCSS                         |
-| Rust backend scaffold   | Axum or Actix-web with basic API structure                      |
-| Database design         | PostgreSQL schema for teams, players, matches, scores           |
-| CI/CD pipeline          | GitHub Actions for build/test/deploy                            |
-| Development environment | Docker Compose for local dev                                    |
+| Task                    | Description                                                                |
+| ----------------------- | -------------------------------------------------------------------------- |
+| Set up monorepo         | Create workspace with `frontend/` (React) and `backend/` (TypeScript/Node) |
+| React app scaffold      | Vite + React + TypeScript + TailwindCSS                                    |
+| TS backend scaffold     | Express + TypeScript with basic API structure                              |
+| Database design         | PostgreSQL schema for teams, players, matches, scores                      |
+| CI/CD pipeline          | GitHub Actions for build/test/deploy                                       |
+| Development environment | Docker Compose for local dev                                               |
+
+#### Backend framework choice
+
+- **Start with:** Express + TypeScript (ubiquitous ecosystem, easy onboarding, great for a first iteration).
 
 ### Phase 2: Backend API Development (Week 3-5)
 
@@ -90,8 +94,8 @@
 │                       │    ┌────────────┴────────────┐            │    │
 │                       │    │                         │            │    │
 │                       │  ┌─▼───────────┐  ┌─────────▼─────────┐  │    │
-│                       │  │  Frontend   │  │  Backend (Rust)   │  │    │
-│                       │  │  (React)    │  │  Axum API         │  │    │
+│                       │  │  Frontend   │  │ Backend (Node/TS) │  │    │
+│                       │  │  (React)    │  │ Express API       │  │    │
 │                       │  │  Port 3000  │  │  Port 3001        │  │    │
 │                       │  └─────────────┘  └─────────┬─────────┘  │    │
 │                       │                             │             │    │
@@ -162,13 +166,13 @@ olcupen/
 │   │   └── tests/
 │   ├── package.json
 │   └── vite.config.ts
-├── backend/                # Rust API
+├── backend/                # Node.js + TypeScript API (Express)
 │   ├── src/
 │   │   ├── api/
-│   │   ├── models/
 │   │   ├── db/
 │   │   └── tests/
-│   ├── Cargo.toml
+│   ├── package.json
+│   ├── tsconfig.json
 │   └── migrations/
 ├── shared/                 # Shared types/contracts
 ├── docs/                   # User stories, ADRs
@@ -184,7 +188,7 @@ olcupen/
 
 ## 🚀 Recommended Next Steps
 
-1. **Create the monorepo structure** - Scaffold both React and Rust projects
+1. **Create the monorepo structure** - Scaffold both React and Node/TypeScript projects
 2. **Write user stories** - Document features in `docs/user-stories/`
 3. **Start with US-001** - Follow full TDD cycle together
 4. **Iterate** - Continue with remaining user stories using ATDD methodology
