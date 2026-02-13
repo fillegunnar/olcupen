@@ -9,7 +9,7 @@
 | Persona                  | Description                                                                                    |
 | ------------------------ | ---------------------------------------------------------------------------------------------- |
 | **Visitor**              | A fan, friend, or curious person who visits the site to check teams, schedules, and standings. |
-| **Team Captain**         | A player who leads a team and wants to register their team and roster for the tournament.      |
+| **Team Captain**         | A player who leads a team, registers for the tournament, and manages their own team's roster.  |
 | **Tournament Organizer** | An admin who sets up the tournament: creates teams, schedules matches, and records results.    |
 
 ## Prioritized User Stories
@@ -35,12 +35,12 @@ Stories are ordered by dependency and incremental value delivery. Each story is 
 
 ### Players
 
-| ID     | Title                  | Persona              | Priority |
-| ------ | ---------------------- | -------------------- | -------- |
-| US-006 | View team roster       | Visitor              | 8        |
-| US-007 | Add a player to a team | Tournament Organizer | 9        |
-| US-008 | Update player details  | Tournament Organizer | 10       |
-| US-009 | Remove a player        | Tournament Organizer | 11       |
+| ID     | Title                  | Persona                             | Priority |
+| ------ | ---------------------- | ----------------------------------- | -------- |
+| US-006 | View team roster       | Visitor                             | 8        |
+| US-007 | Add a player to a team | Tournament Organizer / Team Captain | 9        |
+| US-008 | Update player details  | Tournament Organizer / Team Captain | 10       |
+| US-009 | Remove a player        | Tournament Organizer / Team Captain | 11       |
 
 ### Matches & Schedule
 
@@ -64,9 +64,9 @@ Stories are ordered by dependency and incremental value delivery. Each story is 
 
 ### Authentication
 
-| ID     | Title                    | Persona              | Priority |
-| ------ | ------------------------ | -------------------- | -------- |
-| US-015 | Organizer authentication | Tournament Organizer | 17       |
+| ID     | Title                            | Persona                             | Priority |
+| ------ | -------------------------------- | ----------------------------------- | -------- |
+| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 17       |
 
 ## Decomposition Rationale
 
@@ -93,7 +93,7 @@ The stories follow the **Elephant Carpaccio** technique — each one is the thin
 Together, these 17 stories replace the hardcoded HTML and Google Sheets with a fully dynamic backend:
 
 - **Visitors** get live, always-current team rosters, match schedules, and standings — no more stale data or Google Sheets embeds.
-- **Team Captains** can self-register their teams through the site instead of an external Google Form.
+- **Team Captains** can self-register their teams through the site instead of an external Google Form, and manage their own team's roster once approved.
 - **Tournament Organizers** can manage the entire tournament lifecycle (teams → groups → players → matches → results → standings) through authenticated admin operations.
 
 Each story delivers a working increment that can be demonstrated, tested, and deployed independently, enabling rapid feedback and iterative refinement.

@@ -11,6 +11,7 @@ so that we are signed up to participate without needing to use an external form.
 - This replaces the current Google Forms registration workflow.
 - Registration is a self-service action by the team captain — it does not require admin privileges.
 - A registration should capture the team name, captain's name, and contact information (e.g., email or phone).
+- Registration establishes the link between the captain and their team — once approved, the captain can manage their own roster (US-007–US-009).
 - Registered teams are not immediately added to the active tournament — an organizer reviews and approves them (approval could be a follow-up story).
 
 ## Acceptance criteria
