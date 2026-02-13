@@ -56,17 +56,25 @@ Stories are ordered by dependency and incremental value delivery. Each story is 
 | ------ | -------------------- | ------- | -------- |
 | US-013 | View group standings | Visitor | 15       |
 
+### Finals Bracket
+
+| ID     | Title                                   | Persona              | Priority |
+| ------ | --------------------------------------- | -------------------- | -------- |
+| US-018 | Create finals bracket                   | Tournament Organizer | 16       |
+| US-019 | View finals bracket                     | Visitor              | 17       |
+| US-020 | Seed bracket and record bracket results | Tournament Organizer | 18       |
+
 ### Registration
 
 | ID     | Title                              | Persona      | Priority |
 | ------ | ---------------------------------- | ------------ | -------- |
-| US-014 | Register a team for the tournament | Team Captain | 16       |
+| US-014 | Register a team for the tournament | Team Captain | 19       |
 
 ### Authentication
 
 | ID     | Title                            | Persona                             | Priority |
 | ------ | -------------------------------- | ----------------------------------- | -------- |
-| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 17       |
+| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 20       |
 
 ## Decomposition Rationale
 
@@ -84,16 +92,18 @@ The stories follow the **Elephant Carpaccio** technique — each one is the thin
 
 6. **Standings depend on match results.** Group standings are computed from match outcomes, making US-013 a natural successor to US-012.
 
-7. **Registration is independent.** Team registration (US-014) is a self-service flow for team captains. It can be built in parallel with admin CRUD, but is sequenced later because the organizer workflow has higher initial priority for tournament setup.
+7. **Finals bracket depends on standings.** The knockout stage (US-018–US-020) follows the group stage. The bracket structure is created first, then teams are seeded based on group standings, and bracket results advance winners through rounds to the final.
 
-8. **Authentication is cross-cutting.** Admin auth (US-015) is deliberately placed last. The admin CRUD stories can be developed and tested without authentication first, and auth is then layered on as a security concern. This avoids blocking progress on business logic while the auth mechanism is designed.
+8. **Registration is independent.** Team registration (US-014) is a self-service flow for team captains. It can be built in parallel with admin CRUD, but is sequenced later because the organizer workflow has higher initial priority for tournament setup.
+
+9. **Authentication is cross-cutting.** Admin auth (US-015) is deliberately placed last. The admin CRUD stories can be developed and tested without authentication first, and auth is then layered on as a security concern. This avoids blocking progress on business logic while the auth mechanism is designed.
 
 ## How These Stories Solve the Problem
 
-Together, these 17 stories replace the hardcoded HTML and Google Sheets with a fully dynamic backend:
+Together, these 20 stories replace the hardcoded HTML and Google Sheets with a fully dynamic backend:
 
 - **Visitors** get live, always-current team rosters, match schedules, and standings — no more stale data or Google Sheets embeds.
 - **Team Captains** can self-register their teams through the site instead of an external Google Form, and manage their own team's roster once approved.
-- **Tournament Organizers** can manage the entire tournament lifecycle (teams → groups → players → matches → results → standings) through authenticated admin operations.
+- **Tournament Organizers** can manage the entire tournament lifecycle (teams → groups → players → matches → results → standings → finals bracket) through authenticated admin operations.
 
 Each story delivers a working increment that can be demonstrated, tested, and deployed independently, enabling rapid feedback and iterative refinement.
