@@ -3,7 +3,6 @@ import path from "node:path";
 import pool from "./pool.js";
 
 const migrationsDir = path.join(__dirname, "./migrations");
-console.log("Migrations directory:", migrationsDir);    
 
 export async function runMigrations(): Promise<void> {
   await pool.query(`
@@ -17,7 +16,6 @@ export async function runMigrations(): Promise<void> {
   const appliedSet = new Set(applied.rows.map((r) => r.name));
 
   const files = fs.readdirSync(migrationsDir).filter((f) => f.endsWith(".sql")).sort();
-  console.log("Migration files found:", files);
 
   for (const file of files) {
     if (appliedSet.has(file)) continue;
