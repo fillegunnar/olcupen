@@ -1,18 +1,16 @@
-import cors from "cors";
-import express from "express";
+import app from "./app.js";
+import { runMigrations } from "./db/migrate.js";
 
-const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
-app.use(express.json());
+async function start() {
+  await runMigrations();
+  app.listen(PORT, () => {
+    console.log(`Backend running on http://localhost:${PORT}`);
+  });
+}
 
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+start().catch((err) => {
+  console.error("Failed to start:", err);
+  process.exit(1);
 });
-
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
-});
-
-export default app;

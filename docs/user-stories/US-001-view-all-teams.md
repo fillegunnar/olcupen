@@ -14,9 +14,9 @@ so that I can quickly find out which teams are playing.
 
 ## Acceptance criteria
 
-- [ ] Given the tournament has registered teams, when I request the list of teams, then I receive all teams with their name.
-- [ ] Given no teams have been registered yet, when I request the list of teams, then I receive an empty list (not an error).
-- [ ] Given the service is running, when I request the list of teams, then the response is returned in a structured, consistent format.
+- [x] Given the tournament has registered teams, when I request the list of teams, then I receive all teams with their name.
+- [x] Given no teams have been registered yet, when I request the list of teams, then I receive an empty list (not an error).
+- [x] Given the service is running, when I request the list of teams, then the response is returned in a structured, consistent format.
 
 ## Notes
 
