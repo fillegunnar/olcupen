@@ -38,3 +38,40 @@ export async function updateTeam(id: number, name: string): Promise<Team> {
 
   return result.rows[0];
 }
+
+export async function countTeamDependencies(id: number): Promise<number> {
+  let dependencyCount = 0;
+
+  // Check for players (if players table exists)
+  try {
+    const playersResult = await pool.query<{ count: number }>(
+      "SELECT COUNT(*) as count FROM players WHERE team_id = $1",
+      [id],
+    );
+    dependencyCount += parseInt(playersResult.rows[0].count as any, 10) || 0;
+  } catch {
+    // Table doesn't exist yet, ignore
+  }
+
+  // Check for scheduled matches (if matches table exists)
+  try {
+    const matchesResult = await pool.query<{ count: number }>(
+      "SELECT COUNT(*) as count FROM matches WHERE team_a_id = $1 OR team_b_id = $1",
+      [id],
+    );
+    dependencyCount += parseInt(matchesResult.rows[0].count as any, 10) || 0;
+  } catch {
+    // Table doesn't exist yet, ignore
+  }
+
+  return dependencyCount;
+}
+
+export async function deleteTeam(id: number): Promise<boolean> {
+  const result = await pool.query<{ id: number }>(
+    "DELETE FROM teams WHERE id = $1 RETURNING id",
+    [id],
+  );
+
+  return result.rows.length > 0;
+}
