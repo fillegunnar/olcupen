@@ -10,3 +10,12 @@ export async function getAllTeams(): Promise<Team[]> {
     const result = await pool.query<Team>("SELECT id, name, created_at FROM teams ORDER BY name");
   return result.rows;
 }
+
+export async function createTeam(name: string): Promise<Team> {
+  const result = await pool.query<Team>(
+    "INSERT INTO teams (name) VALUES ($1) RETURNING id, name, created_at",
+    [name],
+  );
+  
+  return result.rows[0];
+}
