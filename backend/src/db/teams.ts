@@ -11,6 +11,15 @@ export async function getAllTeams(): Promise<Team[]> {
   return result.rows;
 }
 
+export async function getTeamById(id: number): Promise<Team | null> {
+  const result = await pool.query<Team>(
+    "SELECT * FROM teams WHERE id = $1",
+    [id],
+  );
+  
+  return result.rows[0] || null;
+}
+
 export async function createTeam(name: string): Promise<Team> {
   const result = await pool.query<Team>(
     "INSERT INTO teams (name) VALUES ($1) RETURNING id, name, created_at",

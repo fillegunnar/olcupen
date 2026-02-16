@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllTeams, createTeam } from "../db/teams.js";
+import { getAllTeams, getTeamById, createTeam } from "../db/teams.js";
 
 const router = Router();
 
@@ -9,6 +9,27 @@ router.get("/", async (_req, res) => {
     res.json(teams);
   } catch (err) {
     console.error("Failed to fetch teams:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: "Invalid team ID" });
+    return;
+  }
+
+  try {
+    const team = await getTeamById(id);
+    if (!team) {
+      res.status(404).json({ error: "Team not found" });
+      return;
+    }
+    res.json(team);
+  } catch (err) {
+    console.error("Failed to fetch team:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

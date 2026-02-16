@@ -4,13 +4,15 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 // Mock the db/teams module before importing app
 vi.mock("../db/teams.js", () => ({
   getAllTeams: vi.fn(),
+  getTeamById: vi.fn(),
   createTeam: vi.fn(),
 }));
 
 import app from "../app.js";
-import { createTeam, getAllTeams } from "../db/teams.js";
+import { createTeam, getAllTeams, getTeamById } from "../db/teams.js";
 
 const mockedGetAllTeams = vi.mocked(getAllTeams);
+const mockedGetTeamById = vi.mocked(getTeamById);
 const mockedCreateTeam = vi.mocked(createTeam);
 
 describe("GET /api/teams", () => {
@@ -59,6 +61,49 @@ describe("GET /api/teams", () => {
     mockedGetAllTeams.mockRejectedValue(new Error("connection refused"));
 
     const res = await request(app).get("/api/teams");
+
+    expect(res.status).toBe(500);
+    expect(res.body).toEqual({ error: "Internal server error" });
+  });
+});
+
+describe("GET /api/teams/:id", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns a team when it exists", async () => {
+    const team = { id: 1, name: "Ansen", created_at: "2026-01-01T00:00:00.000Z" };
+    mockedGetTeamById.mockResolvedValue(team);
+
+    const res = await request(app).get("/api/teams/1");
+
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(team);
+    expect(mockedGetTeamById).toHaveBeenCalledWith(1);
+  });
+
+  it("returns 404 when team does not exist", async () => {
+    mockedGetTeamById.mockResolvedValue(null);
+
+    const res = await request(app).get("/api/teams/999");
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Team not found" });
+  });
+
+  it("returns 400 when id is not a valid number", async () => {
+    const res = await request(app).get("/api/teams/invalid");
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Invalid team ID" });
+    expect(mockedGetTeamById).not.toHaveBeenCalled();
+  });
+
+  it("returns 500 on database error", async () => {
+    mockedGetTeamById.mockRejectedValue(new Error("connection refused"));
+
+    const res = await request(app).get("/api/teams/1");
 
     expect(res.status).toBe(500);
     expect(res.body).toEqual({ error: "Internal server error" });
