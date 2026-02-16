@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { getAllTeams, getTeamById, createTeam } from "../db/teams.js";
+import {
+  getAllTeams,
+  getTeamById,
+  createTeam,
+  updateTeam,
+} from "../db/teams.js";
 
 const router = Router();
 
@@ -46,12 +51,46 @@ router.post("/", async (req, res) => {
     const team = await createTeam(name.trim());
     res.status(201).json(team);
   } catch (err: any) {
-      const postgresDuplicateErrorCode = "23505";
+    const postgresDuplicateErrorCode = "23505";
     if (err?.code === postgresDuplicateErrorCode) {
       res.status(409).json({ error: "A team with that name already exists" });
       return;
     }
     console.error("Failed to create team:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { name } = req.body;
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: "Invalid team ID" });
+    return;
+  }
+
+  if (!name || typeof name !== "string" || name.trim().length === 0) {
+    res.status(400).json({ error: "Team name is required" });
+    return;
+  }
+
+  try {
+    const existingTeam = await getTeamById(id);
+    if (!existingTeam) {
+      res.status(404).json({ error: "Team not found" });
+      return;
+    }
+
+    const team = await updateTeam(id, name.trim());
+    res.json(team);
+  } catch (err: any) {
+    const postgresDuplicateErrorCode = "23505";
+    if (err?.code === postgresDuplicateErrorCode) {
+      res.status(409).json({ error: "A team with that name already exists" });
+      return;
+    }
+    console.error("Failed to update team:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
