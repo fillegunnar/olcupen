@@ -4,8 +4,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 cleanup() {
-  echo "Stopping and removing compose services..."
-  podman compose -f compose.yml down --remove-orphans
+  echo "Stopping database service..."
+  podman compose -f compose.yml down db
 }
 
 trap cleanup EXIT
