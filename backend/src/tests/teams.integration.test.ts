@@ -1,27 +1,15 @@
 import request from "supertest";
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import app from "../app.js";
-import { runMigrations } from "../db/migrate.js";
-import pool from "../db/pool.js";
-
-const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
-
-const describeIfDatabase = hasDatabaseUrl ? describe.sequential : describe.skip;
+import {
+  describeIfDatabase,
+  setupIntegrationDatabase,
+} from "./utils/integration-db.js";
 
 const teamName = "Kung FC";
 const newTeamName = "Kung Fu FC";
 describeIfDatabase("Teams API integration tests (real database)", () => {
-  beforeAll(async () => {
-    await runMigrations();
-  });
-
-  beforeEach(async () => {
-    await pool.query("TRUNCATE TABLE teams RESTART IDENTITY CASCADE");
-  });
-
-  afterAll(async () => {
-    await pool.end();
-  });
+  setupIntegrationDatabase(["teams"]);
 
   it("creates and fetches teams with persisted data", async () => {
     const createRes = await request(app)
