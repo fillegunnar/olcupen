@@ -9,6 +9,6 @@
     "dev:backend": "npm run dev --workspace=backend",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "test:integration:podman": "./scripts/run-backend-integration-podman.sh"
+    "test:backend:podman": "./scripts/run-backend-tests-podman.sh"
   }
 }

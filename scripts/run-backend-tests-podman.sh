@@ -13,7 +13,7 @@ trap cleanup EXIT
 echo "Starting database service..."
 podman compose -f compose.yml up -d db
 
-echo "Running integration tests in one-off backend container..."
-podman compose -f compose.yml run --rm --build backend npm run test:integration
+echo "Running backend tests in one-off backend container..."
+podman compose -f compose.yml run --rm --build backend npm run test -- --run --fileParallelism=false
 
-echo "Integration test run finished."
+echo "Backend test run finished."

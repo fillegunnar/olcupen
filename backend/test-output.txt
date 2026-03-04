@@ -1,0 +1,130 @@
+
+> olcupen-backend@0.0.1 test
+> vitest
+
+
+ DEV  v3.2.4 /home/gun/repos/olcupen/backend
+
+ ↓ src/tests/teams.integration.test.ts (4 tests | 4 skipped)
+stderr | src/tests/teams.test.ts > Teams API > GET /api/teams > returns 500 when the database query fails
+Failed to fetch teams: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:79:43
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+stderr | src/tests/teams.test.ts > Teams API > GET /api/teams/:id > returns 500 on database error
+Failed to fetch team: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:122:43
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+stderr | src/tests/teams.test.ts > Teams API > POST /api/teams > returns 500 on unexpected database error
+Failed to create team: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:193:42
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+stderr | src/tests/teams.test.ts > Teams API > PUT /api/teams/:id > returns 500 on unexpected database error
+Failed to update team: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:330:42
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+stderr | src/tests/teams.test.ts > Teams API > DELETE /api/teams/:id > returns 500 on unexpected database error
+Failed to delete team: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:424:9
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+stderr | src/tests/teams.test.ts > Teams API > GET /api/teams/:id/players > returns 500 on database error
+Failed to fetch players for team: Error: connection refused
+    at [90m/home/gun/repos/olcupen/backend/[39msrc/tests/teams.test.ts:492:50
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:155:11
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:26
+    at file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1897:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1863:10)
+    at runTest (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1574:12)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+    at runSuite (file:///home/gun/repos/olcupen/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:1729:8)
+
+ ✓ src/tests/teams.test.ts (32 tests) 128ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/tests/db.test.ts [ src/tests/db.test.ts ]
+ReferenceError: describe is not defined
+ ❯ src/tests/db.test.ts:22:3
+     20|   setupIntegrationDatabase(["teams", "players"]);
+     21| 
+     22|   describe("Teams", () => {
+       |   ^
+     23|     it("creates a team", async () => {
+     24|       const team = await createTeam("Test Team");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed | 1 skipped (3)
+      Tests  32 passed | 4 skipped (36)
+   Start at  21:04:57
+   Duration  647ms (transform 450ms, setup 0ms, collect 568ms, tests 128ms, environment 1ms, prepare 239ms)
+
+ FAIL  Tests failed. Watching for file changes...
+       press h to show help, press q to quit
+c[3J RERUN  src/tests/db.test.ts x1 
+
+ ↓ src/tests/db.test.ts (14 tests | 14 skipped)
+
+ Test Files  1 skipped (1)
+      Tests  14 skipped (14)
+   Start at  21:05:32
+   Duration  51ms
+
+ PASS  Waiting for file changes...
+       press h to show help, press q to quit
+Cancelling test run. Press CTRL+c again to exit forcefully.
+
+npm error Lifecycle script `test` failed with error:
+npm error code 130
+npm error path /home/gun/repos/olcupen/backend
+npm error workspace olcupen-backend@0.0.1
+npm error location /home/gun/repos/olcupen/backend
+npm error command failed
+npm error command sh -c vitest

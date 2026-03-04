@@ -6,6 +6,15 @@ export interface Team {
   created_at: string;
 }
 
+export interface Player {
+  id: number;
+  name: string;
+  number: number;
+  age: number;
+  team_id: number;
+  created_at: string;
+}
+
 export async function getAllTeams(): Promise<Team[]> {
   const result = await pool.query<Team>(
     "SELECT id, name, created_at FROM teams ORDER BY name",
@@ -74,4 +83,12 @@ export async function deleteTeam(id: number): Promise<boolean> {
   );
 
   return result.rows.length > 0;
+}
+
+export async function getPlayersByTeamId(teamId: number): Promise<Player[]> {
+  const result = await pool.query<Player>(
+    "SELECT id, name, number, age, team_id, created_at FROM players WHERE team_id = $1 ORDER BY number",
+    [teamId],
+  );
+  return result.rows;
 }

@@ -1,6 +1,7 @@
 import request from "supertest";
 import { expect, it } from "vitest";
 import app from "../app.js";
+import pool from "../db/pool.js";
 import {
   describeIfDatabase,
   setupIntegrationDatabase,
@@ -8,8 +9,9 @@ import {
 
 const teamName = "Kung FC";
 const newTeamName = "Kung Fu FC";
-describeIfDatabase("Teams API integration tests (real database)", () => {
-  setupIntegrationDatabase(["teams"]);
+
+describeIfDatabase("Teams API integration tests (happy path)", () => {
+  setupIntegrationDatabase(["teams", "players"]);
 
   it("creates and fetches teams with persisted data", async () => {
     const createRes = await request(app)
@@ -29,20 +31,7 @@ describeIfDatabase("Teams API integration tests (real database)", () => {
     expect(listRes.body[0].name).toBe(teamName);
   });
 
-  it("returns 409 when creating duplicate team names", async () => {
-    await request(app).post("/api/teams").send({ name: teamName });
-
-    const duplicateRes = await request(app)
-      .post("/api/teams")
-      .send({ name: teamName });
-
-    expect(duplicateRes.status).toBe(409);
-    expect(duplicateRes.body).toEqual({
-      error: "A team with that name already exists",
-    });
-  });
-
-  it("updates an existing team and returns persisted value", async () => {
+  it("updates an existing team", async () => {
     const createRes = await request(app)
       .post("/api/teams")
       .send({ name: teamName });
@@ -60,12 +49,38 @@ describeIfDatabase("Teams API integration tests (real database)", () => {
     expect(getRes.body.name).toBe(newTeamName);
   });
 
-  it("deletes an existing team and removes it from database", async () => {
+  it("fetches players for a team", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    // Insert players directly into database
+    await pool.query(
+      "INSERT INTO players (name, number, age, team_id) VALUES ($1, $2, $3, $4)",
+      ["John Doe", 10, 25, teamId],
+    );
+    await pool.query(
+      "INSERT INTO players (name, number, age, team_id) VALUES ($1, $2, $3, $4)",
+      ["Jane Smith", 7, 24, teamId],
+    );
+
+    const playersRes = await request(app).get(`/api/teams/${teamId}/players`);
+
+    expect(playersRes.status).toBe(200);
+    expect(playersRes.body).toHaveLength(2);
+    expect(playersRes.body[0].name).toBe("Jane Smith"); // Ordered by number (7 < 10)
+    expect(playersRes.body[1].name).toBe("John Doe");
+  });
+
+  it("deletes a team without dependencies", async () => {
     const createRes = await request(app)
       .post("/api/teams")
       .send({ name: teamName });
 
-    const deleteRes = await request(app).delete(`/api/teams/${createRes.body.id}`);
+    const deleteRes = await request(app).delete(
+      `/api/teams/${createRes.body.id}`,
+    );
 
     expect(deleteRes.status).toBe(204);
 

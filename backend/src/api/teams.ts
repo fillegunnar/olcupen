@@ -6,6 +6,7 @@ import {
   updateTeam,
   deleteTeam,
   countTeamDependencies,
+  getPlayersByTeamId,
 } from "../db/teams.js";
 
 const router = Router();
@@ -124,6 +125,29 @@ router.delete("/:id", async (req, res) => {
     res.status(204).send();
   } catch (err) {
     console.error("Failed to delete team:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/:id/players", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: "Invalid team ID" });
+    return;
+  }
+
+  try {
+    const team = await getTeamById(id);
+    if (!team) {
+      res.status(404).json({ error: "Team not found" });
+      return;
+    }
+
+    const players = await getPlayersByTeamId(id);
+    res.json(players);
+  } catch (err) {
+    console.error("Failed to fetch players for team:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
