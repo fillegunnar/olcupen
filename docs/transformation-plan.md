@@ -27,7 +27,20 @@
 
 - **Start with:** Express + TypeScript (ubiquitous ecosystem, easy onboarding, great for a first iteration).
 
-### Phase 2: Backend API Development (Week 3-5)
+### Phase 2a: Frontend Styling & Polish (Static) (Week 2-3)
+
+Before migrating to dynamic data, improve the static frontend with better design and add new content pages:
+
+| Task               | Description                                                     |
+| ------------------ | --------------------------------------------------------------- |
+| Modern styling     | Apply TailwindCSS, improve responsive design, visual hierarchy  |
+| Hall of Fame page  | Display historical tournament winners and notable players       |
+| Tournament History | Archive of past tournaments with results and statistics         |
+| Do You Know page   | Interesting facts, records, trivia about the tournament         |
+| Navigation polish  | Improved header/footer, better mobile experience, accessibility |
+| Brand consistency  | Update colors, typography, imagery across all pages             |
+
+### Phase 2b: Backend API Development (Week 3-5)
 
 | Feature       | Endpoints                          |
 | ------------- | ---------------------------------- |

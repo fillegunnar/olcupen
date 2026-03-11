@@ -1,8 +1,11 @@
-# User Stories — Phase 2: Backend API Development
+# User Stories — Phase 2a (Frontend Styling) & Phase 2b (Backend API Development)
 
 ## Problem Summary
 
-Ölcupen (loaolcup.se) is a Swedish football/beer cup tournament site currently built with static HTML, hardcoded data, and Google Sheets embeds. The tournament needs a proper backend API so that organizers can manage teams, players, matches, and standings dynamically — and visitors can browse up-to-date tournament information without relying on external services.
+Ölcupen (loaolcup.se) is a Swedish football/beer cup tournament site currently built with static HTML, hardcoded data, and Google Sheets embeds. The transformation happens in two phases:
+
+- **Phase 2a:** Improve the existing static frontend with modern styling (TailwindCSS), responsive design, and new content pages (Hall of Fame, History, Do You Know?).
+- **Phase 2b:** Build a backend API so organizers can manage teams, players, matches, and standings dynamically — replacing hardcoded data and external services.
 
 ## User Personas
 
@@ -16,69 +19,86 @@
 
 Stories are ordered by dependency and incremental value delivery. Each story is a thin vertical slice that can be developed and shipped independently.
 
+### Frontend Styling & Content (Phase 2a)
+
+| ID     | Title                               | Persona | Priority |
+| ------ | ----------------------------------- | ------- | -------- |
+| US-021 | Improve responsive design & styling | Visitor | 1        |
+| US-022 | Hall of Fame                        | Visitor | 2        |
+| US-023 | Tournament History                  | Visitor | 3        |
+| US-024 | Do You Know? Trivia & Facts         | Visitor | 4        |
+
 ### Teams (Foundation)
 
 | ID     | Title                   | Persona              | Priority |
 | ------ | ----------------------- | -------------------- | -------- |
-| US-001 | View all teams          | Visitor              | 1        |
-| US-002 | Add a team              | Tournament Organizer | 2        |
-| US-003 | View team details       | Visitor              | 3        |
-| US-004 | Update team information | Tournament Organizer | 4        |
-| US-005 | Remove a team           | Tournament Organizer | 5        |
+| US-001 | View all teams          | Visitor              | 5        |
+| US-002 | Add a team              | Tournament Organizer | 6        |
+| US-003 | View team details       | Visitor              | 7        |
+| US-004 | Update team information | Tournament Organizer | 8        |
+| US-005 | Remove a team           | Tournament Organizer | 9        |
 
 ### Groups
 
 | ID     | Title                    | Persona                        | Priority |
 | ------ | ------------------------ | ------------------------------ | -------- |
-| US-016 | Create and view groups   | Tournament Organizer / Visitor | 6        |
-| US-017 | Assign a team to a group | Tournament Organizer           | 7        |
+| US-016 | Create and view groups   | Tournament Organizer / Visitor | 10       |
+| US-017 | Assign a team to a group | Tournament Organizer           | 11       |
 
 ### Players
 
 | ID     | Title                  | Persona                             | Priority |
 | ------ | ---------------------- | ----------------------------------- | -------- |
-| US-006 | View team roster       | Visitor                             | 8        |
-| US-007 | Add a player to a team | Tournament Organizer / Team Captain | 9        |
-| US-008 | Update player details  | Tournament Organizer / Team Captain | 10       |
-| US-009 | Remove a player        | Tournament Organizer / Team Captain | 11       |
+| US-006 | View team roster       | Visitor                             | 12       |
+| US-007 | Add a player to a team | Tournament Organizer / Team Captain | 13       |
+| US-008 | Update player details  | Tournament Organizer / Team Captain | 14       |
+| US-009 | Remove a player        | Tournament Organizer / Team Captain | 15       |
 
 ### Matches & Schedule
 
 | ID     | Title                    | Persona              | Priority |
 | ------ | ------------------------ | -------------------- | -------- |
-| US-010 | View tournament schedule | Visitor              | 12       |
-| US-011 | Schedule a match         | Tournament Organizer | 13       |
-| US-012 | Record match result      | Tournament Organizer | 14       |
+| US-010 | View tournament schedule | Visitor              | 16       |
+| US-011 | Schedule a match         | Tournament Organizer | 17       |
+| US-012 | Record match result      | Tournament Organizer | 18       |
 
 ### Standings
 
 | ID     | Title                | Persona | Priority |
 | ------ | -------------------- | ------- | -------- |
-| US-013 | View group standings | Visitor | 15       |
+| US-013 | View group standings | Visitor | 19       |
 
 ### Finals Bracket
 
 | ID     | Title                                   | Persona              | Priority |
 | ------ | --------------------------------------- | -------------------- | -------- |
-| US-018 | Create finals bracket                   | Tournament Organizer | 16       |
-| US-019 | View finals bracket                     | Visitor              | 17       |
-| US-020 | Seed bracket and record bracket results | Tournament Organizer | 18       |
+| US-018 | Create finals bracket                   | Tournament Organizer | 20       |
+| US-019 | View finals bracket                     | Visitor              | 21       |
+| US-020 | Seed bracket and record bracket results | Tournament Organizer | 22       |
 
 ### Registration
 
 | ID     | Title                              | Persona      | Priority |
 | ------ | ---------------------------------- | ------------ | -------- |
-| US-014 | Register a team for the tournament | Team Captain | 19       |
+| US-014 | Register a team for the tournament | Team Captain | 23       |
 
 ### Authentication
 
 | ID     | Title                            | Persona                             | Priority |
 | ------ | -------------------------------- | ----------------------------------- | -------- |
-| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 20       |
+| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 24       |
 
 ## Decomposition Rationale
 
 The stories follow the **Elephant Carpaccio** technique — each one is the thinnest possible vertical slice that still delivers end-to-end value:
+
+### Phase 2a: Frontend Styling & Content
+
+1. **US-021 (Responsive Design).** Before adding new pages and content, establish a modern, responsive design system using TailwindCSS. This creates a consistent foundation for the pages that follow.
+
+2. **US-022, US-023, US-024 (Content Pages).** These three stories add new static pages that enhance visitor engagement and preserve tournament history. They can be built in parallel after the design system is in place, and require no backend integration initially (data is hardcoded).
+
+### Phase 2b: Backend API Development
 
 1. **Teams first.** Teams are the foundational entity. US-001 (view teams) is the natural starting point because it forces establishing the database connection, schema, and first API endpoint — the minimum infrastructure needed for everything else.
 
@@ -100,10 +120,8 @@ The stories follow the **Elephant Carpaccio** technique — each one is the thin
 
 ## How These Stories Solve the Problem
 
-Together, these 20 stories replace the hardcoded HTML and Google Sheets with a fully dynamic backend:
+**Phase 2a** improves the visitor experience with modern styling and engaging content about the tournament's history and achievements — keeping the site fresh and appealing.
 
-- **Visitors** get live, always-current team rosters, match schedules, and standings — no more stale data or Google Sheets embeds.
-- **Team Captains** can self-register their teams through the site instead of an external Google Form, and manage their own team's roster once approved.
-- **Tournament Organizers** can manage the entire tournament lifecycle (teams → groups → players → matches → results → standings → finals bracket) through authenticated admin operations.
+**Phase 2b** together, the 20 backend stories replace the hardcoded HTML and Google Sheets with a fully dynamic system:
 
 Each story delivers a working increment that can be demonstrated, tested, and deployed independently, enabling rapid feedback and iterative refinement.
