@@ -28,65 +28,71 @@ Stories are ordered by dependency and incremental value delivery. Each story is 
 | US-023 | Tournament History                  | Visitor | 3        |
 | US-024 | Do You Know? Trivia & Facts         | Visitor | 4        |
 
+### Performance & User Experience
+
+| ID     | Title                                   | Persona | Priority |
+| ------ | --------------------------------------- | ------- | -------- |
+| US-025 | Fast load times & support slow networks | All     | 5        |
+
 ### Teams (Foundation)
 
 | ID     | Title                   | Persona              | Priority |
 | ------ | ----------------------- | -------------------- | -------- |
-| US-001 | View all teams          | Visitor              | 5        |
-| US-002 | Add a team              | Tournament Organizer | 6        |
-| US-003 | View team details       | Visitor              | 7        |
-| US-004 | Update team information | Tournament Organizer | 8        |
-| US-005 | Remove a team           | Tournament Organizer | 9        |
+| US-001 | View all teams          | Visitor              | 6        |
+| US-002 | Add a team              | Tournament Organizer | 7        |
+| US-003 | View team details       | Visitor              | 8        |
+| US-004 | Update team information | Tournament Organizer | 9        |
+| US-005 | Remove a team           | Tournament Organizer | 10       |
 
 ### Groups
 
 | ID     | Title                    | Persona                        | Priority |
 | ------ | ------------------------ | ------------------------------ | -------- |
-| US-016 | Create and view groups   | Tournament Organizer / Visitor | 10       |
-| US-017 | Assign a team to a group | Tournament Organizer           | 11       |
+| US-016 | Create and view groups   | Tournament Organizer / Visitor | 11       |
+| US-017 | Assign a team to a group | Tournament Organizer           | 12       |
 
 ### Players
 
 | ID     | Title                  | Persona                             | Priority |
 | ------ | ---------------------- | ----------------------------------- | -------- |
-| US-006 | View team roster       | Visitor                             | 12       |
-| US-007 | Add a player to a team | Tournament Organizer / Team Captain | 13       |
-| US-008 | Update player details  | Tournament Organizer / Team Captain | 14       |
-| US-009 | Remove a player        | Tournament Organizer / Team Captain | 15       |
+| US-006 | View team roster       | Visitor                             | 13       |
+| US-007 | Add a player to a team | Tournament Organizer / Team Captain | 14       |
+| US-008 | Update player details  | Tournament Organizer / Team Captain | 15       |
+| US-009 | Remove a player        | Tournament Organizer / Team Captain | 16       |
 
 ### Matches & Schedule
 
 | ID     | Title                    | Persona              | Priority |
 | ------ | ------------------------ | -------------------- | -------- |
-| US-010 | View tournament schedule | Visitor              | 16       |
-| US-011 | Schedule a match         | Tournament Organizer | 17       |
-| US-012 | Record match result      | Tournament Organizer | 18       |
+| US-010 | View tournament schedule | Visitor              | 17       |
+| US-011 | Schedule a match         | Tournament Organizer | 18       |
+| US-012 | Record match result      | Tournament Organizer | 19       |
 
 ### Standings
 
 | ID     | Title                | Persona | Priority |
 | ------ | -------------------- | ------- | -------- |
-| US-013 | View group standings | Visitor | 19       |
+| US-013 | View group standings | Visitor | 20       |
 
 ### Finals Bracket
 
 | ID     | Title                                   | Persona              | Priority |
 | ------ | --------------------------------------- | -------------------- | -------- |
-| US-018 | Create finals bracket                   | Tournament Organizer | 20       |
-| US-019 | View finals bracket                     | Visitor              | 21       |
-| US-020 | Seed bracket and record bracket results | Tournament Organizer | 22       |
+| US-018 | Create finals bracket                   | Tournament Organizer | 21       |
+| US-019 | View finals bracket                     | Visitor              | 22       |
+| US-020 | Seed bracket and record bracket results | Tournament Organizer | 23       |
 
 ### Registration
 
 | ID     | Title                              | Persona      | Priority |
 | ------ | ---------------------------------- | ------------ | -------- |
-| US-014 | Register a team for the tournament | Team Captain | 23       |
+| US-014 | Register a team for the tournament | Team Captain | 24       |
 
 ### Authentication
 
 | ID     | Title                            | Persona                             | Priority |
 | ------ | -------------------------------- | ----------------------------------- | -------- |
-| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 24       |
+| US-015 | Authentication and authorization | Tournament Organizer / Team Captain | 25       |
 
 ## Decomposition Rationale
 
@@ -97,6 +103,8 @@ The stories follow the **Elephant Carpaccio** technique — each one is the thin
 1. **US-021 (Responsive Design).** Before adding new pages and content, establish a modern, responsive design system using TailwindCSS. This creates a consistent foundation for the pages that follow.
 
 2. **US-022, US-023, US-024 (Content Pages).** These three stories add new static pages that enhance visitor engagement and preserve tournament history. They can be built in parallel after the design system is in place, and require no backend integration initially (data is hardcoded).
+
+3. **US-025 (Performance & Slow Networks).** A cross-cutting concern that applies throughout Phase 2a and Phase 2b. The tournament venue has poor network coverage, so all pages must load quickly and provide clear feedback during slow loads. This includes loading indicators, skeleton screens, optimized asset delivery, and support for slow 3G connections. Should be prioritized early and integrated into all frontend development.
 
 ### Phase 2b: Backend API Development
 
