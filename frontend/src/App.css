@@ -444,13 +444,13 @@
   margin-bottom: 1rem;
 }
 
-.footer-socials img {
-  width: 28px;
-  height: 28px;
-  opacity: 0.6;
-  transition: opacity 0.2s;
+.footer-socials a {
+  color: var(--white-50);
+  transition: color 0.2s, opacity 0.2s;
+  display: flex;
 }
 
-.footer-socials img:hover {
+.footer-socials a:hover {
+  color: var(--gold);
   opacity: 1;
 }

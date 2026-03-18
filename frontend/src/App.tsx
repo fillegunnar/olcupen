@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
+import { FaInstagram, FaFacebook } from "react-icons/fa";
 import "./App.css";
 import Home from "./Home";
 import Rules from "./Rules";
@@ -60,15 +61,17 @@ function Footer() {
           href="https://www.instagram.com/loaolcup/"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Instagram"
         >
-          <img src="/img/instagram.png" alt="Instagram" />
+          <FaInstagram size={28} />
         </a>
         <a
           href="https://www.facebook.com/loaolcup"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Facebook"
         >
-          <img src="/img/facebook.png" alt="Facebook" />
+          <FaFacebook size={28} />
         </a>
       </div>
       <p>© 2016–2025 Ölcupen. Est. 2016.</p>
