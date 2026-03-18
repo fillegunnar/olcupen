@@ -25,25 +25,15 @@ function Hero() {
         alt="Ölcupen logga"
       />
       <h1>
-        ÖLCUPEN <span className="gold">2025</span>
+        ÖLCUPEN <span className="gold">2026</span>
       </h1>
       <p className="hero-subtitle">
-        31 maj 10:00 – 14:00{" "}
-        <a href="https://www.facebook.com/events/1661880931110708">
-          (samma dag som livets fest)
+        30 maj 10:00 – 14:00{" "}
+        <a href="https://www.facebook.com/loafestkommitten">
+          (samma dag som livets fest!)
         </a>
       </p>
-      <p className="hero-location">
-        Östra Löa 122, 714 94 Kopparberg, Sverige
-      </p>
-      <a
-        className="hero-cta"
-        href="https://www.facebook.com/events/1661880931110708"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Anmäl ditt lag
-      </a>
+      <p className="hero-location">Östra Löa 122, 714 94 Kopparberg, Sverige</p>
     </section>
   );
 }
@@ -63,7 +53,7 @@ export default function Home() {
           Kopparberg
         </InfoCard>
         <InfoCard icon="🏆" title="Priser">
-          Pokaler &amp; ÖL
+          Asmånga OPÖL
           <br />
           till vinnarna
         </InfoCard>
@@ -74,9 +64,9 @@ export default function Home() {
           Välkommen till <span className="gold">Ölcupen</span>
         </h2>
         <p className="section-text">
-          Sedan 2016 har Ölcupen samlat amatörlag från hela regionen för en
-          årlig fotbollsturnering fylld av passion, skicklighet och
-          sportsmannaanda. I år firar vi vår 10:e upplaga — missa inte det!
+          Sedan 2016 har Ölcupen samlat törstiga lag för en årlig
+          fotbollsturnering fylld av passion, skicklighet och öl. I år firar vi
+          vår 10:e upplaga!
         </p>
       </div>
     </>
