@@ -1,3 +1,43 @@
+interface ContactLink {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+  external?: boolean;
+}
+
+const contactLinks: ContactLink[] = [
+  {
+    href: "https://www.instagram.com/loaolcup/",
+    label: "Instagram",
+    icon: <img src="/img/instagram.png" alt="Instagram" />,
+    external: true,
+  },
+  {
+    href: "https://www.facebook.com/loaolcup",
+    label: "Facebook",
+    icon: <img src="/img/facebook.png" alt="Facebook" />,
+    external: true,
+  },
+  {
+    href: "mailto:loaolcup@gmail.com",
+    label: "Mail",
+    icon: <span style={{ fontSize: "2rem" }}>✉️</span>,
+  },
+];
+
+function ContactCard({ href, label, icon, external }: ContactLink) {
+  return (
+    <a
+      className="contact-link"
+      href={href}
+      {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+    >
+      {icon}
+      <span>{label}</span>
+    </a>
+  );
+}
+
 export default function Contact() {
   return (
     <div className="page contact-container">
@@ -11,28 +51,9 @@ export default function Contact() {
       </p>
 
       <div className="contact-links">
-        <a
-          className="contact-link"
-          href="https://www.instagram.com/loaolcup/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/img/instagram.png" alt="Instagram" />
-          <span>Instagram</span>
-        </a>
-        <a
-          className="contact-link"
-          href="https://www.facebook.com/loaolcup"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/img/facebook.png" alt="Facebook" />
-          <span>Facebook</span>
-        </a>
-        <a className="contact-link" href="mailto:loaolcup@gmail.com">
-          <span style={{ fontSize: "2rem" }}>✉️</span>
-          <span>Mail</span>
-        </a>
+        {contactLinks.map((link) => (
+          <ContactCard key={link.label} {...link} />
+        ))}
       </div>
     </div>
   );

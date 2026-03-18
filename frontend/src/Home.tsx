@@ -1,64 +1,72 @@
+interface InfoCardProps {
+  icon: string;
+  title: string;
+  children: React.ReactNode;
+}
+
+function InfoCard({ icon, title, children }: InfoCardProps) {
+  return (
+    <div className="info-card">
+      <div className="info-card-icon">{icon}</div>
+      <div>
+        <h3>{title}</h3>
+        <p>{children}</p>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero">
+      <img
+        className="hero-logo"
+        src="/img/logga-olcupen.png"
+        alt="Ölcupen logga"
+      />
+      <h1>
+        ÖLCUPEN <span className="gold">2025</span>
+      </h1>
+      <p className="hero-subtitle">
+        31 maj 10:00 – 14:00{" "}
+        <a href="https://www.facebook.com/events/1661880931110708">
+          (samma dag som livets fest)
+        </a>
+      </p>
+      <p className="hero-location">
+        Östra Löa 122, 714 94 Kopparberg, Sverige
+      </p>
+      <a
+        className="hero-cta"
+        href="https://www.facebook.com/events/1661880931110708"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Anmäl ditt lag
+      </a>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
-      <section className="hero">
-        <img
-          className="hero-logo"
-          src="/img/logga-olcupen.png"
-          alt="Ölcupen logga"
-        />
-        <h1>
-          ÖLCUPEN <span className="gold">2025</span>
-        </h1>
-        <p className="hero-subtitle">
-          31 maj 10:00 – 14:00{" "}
-          <a href="https://www.facebook.com/events/1661880931110708">
-            (samma dag som livets fest)
-          </a>
-        </p>
-        <p className="hero-location">
-          Östra Löa 122, 714 94 Kopparberg, Sverige
-        </p>
-        <a
-          className="hero-cta"
-          href="https://www.facebook.com/events/1661880931110708"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Anmäl ditt lag
-        </a>
-      </section>
+      <Hero />
 
       <div className="info-cards">
-        <div className="info-card">
-          <div className="info-card-icon">📅</div>
-          <div>
-            <h3>Datum</h3>
-            <p>31 maj 2025</p>
-          </div>
-        </div>
-        <div className="info-card">
-          <div className="info-card-icon">📍</div>
-          <div>
-            <h3>Plats</h3>
-            <p>
-              Östra Löa 122
-              <br />
-              Kopparberg
-            </p>
-          </div>
-        </div>
-        <div className="info-card">
-          <div className="info-card-icon">🏆</div>
-          <div>
-            <h3>Priser</h3>
-            <p>
-              Pokaler &amp; ÖL
-              <br />
-              till vinnarna
-            </p>
-          </div>
-        </div>
+        <InfoCard icon="📅" title="Datum">
+          31 maj 2025
+        </InfoCard>
+        <InfoCard icon="📍" title="Plats">
+          Östra Löa 122
+          <br />
+          Kopparberg
+        </InfoCard>
+        <InfoCard icon="🏆" title="Priser">
+          Pokaler &amp; ÖL
+          <br />
+          till vinnarna
+        </InfoCard>
       </div>
 
       <div className="page">

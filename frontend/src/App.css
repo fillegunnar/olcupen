@@ -74,6 +74,7 @@
   font-weight: 700;
   font-size: 1.15rem;
   padding: 0;
+  text-decoration: none;
 }
 
 .nav-brand img {
@@ -92,20 +93,21 @@
   margin: 0;
 }
 
-.nav-links button {
+.nav-links a {
   background: none;
   color: var(--white-70);
   font-weight: 500;
   font-size: 0.95rem;
   padding: 0.3rem 0;
   border-bottom: 2px solid transparent;
+  text-decoration: none;
   transition:
     color 0.2s,
     border-color 0.2s;
 }
 
-.nav-links button:hover,
-.nav-links button.active {
+.nav-links a:hover,
+.nav-links a.active {
   color: var(--gold);
   border-bottom-color: var(--gold);
 }
@@ -135,11 +137,12 @@
   .nav-links.open {
     display: flex;
   }
-  .nav-links button {
+  .nav-links a {
     padding: 0.8rem 1.5rem;
     width: 100%;
     text-align: left;
     border-bottom: none;
+    display: block;
   }
   .nav-toggle {
     display: block;
