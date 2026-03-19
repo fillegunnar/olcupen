@@ -1,4 +1,4 @@
-import { FaInstagram, FaFacebook, FaEnvelope } from "react-icons/fa";
+import { InstagramIcon, FacebookIcon, EnvelopeIcon } from "./icons";
 
 interface ContactLink {
   href: string;
@@ -11,19 +11,19 @@ const contactLinks: ContactLink[] = [
   {
     href: "https://www.instagram.com/loaolcup/",
     label: "Instagram",
-    icon: <FaInstagram size={32} />,
+    icon: <InstagramIcon size={32} />,
     external: true,
   },
   {
     href: "https://www.facebook.com/loaolcup",
     label: "Facebook",
-    icon: <FaFacebook size={32} />,
+    icon: <FacebookIcon size={32} />,
     external: true,
   },
   {
     href: "mailto:loaolcup@gmail.com",
     label: "Mail",
-    icon: <FaEnvelope size={32} />,
+    icon: <EnvelopeIcon size={32} />,
   },
 ];
 

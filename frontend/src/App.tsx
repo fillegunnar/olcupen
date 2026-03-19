@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
-import { FaInstagram, FaFacebook } from "react-icons/fa";
+import { InstagramIcon, FacebookIcon } from "./icons";
 import "./App.css";
 import Home from "./Home";
 import Rules from "./Rules";
@@ -63,7 +63,7 @@ function Footer() {
           rel="noopener noreferrer"
           aria-label="Instagram"
         >
-          <FaInstagram size={28} />
+          <InstagramIcon size={28} />
         </a>
         <a
           href="https://www.facebook.com/loaolcup"
@@ -71,7 +71,7 @@ function Footer() {
           rel="noopener noreferrer"
           aria-label="Facebook"
         >
-          <FaFacebook size={28} />
+          <FacebookIcon size={28} />
         </a>
       </div>
       <p>© 2016–2025 Ölcupen. Est. 2016.</p>
