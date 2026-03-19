@@ -183,42 +183,6 @@
   color: var(--gold);
 }
 
-.hero-subtitle {
-  font-size: 1.15rem;
-  color: var(--white-70);
-  margin-bottom: 0.3rem;
-}
-
-.hero-subtitle a {
-  color: var(--gold);
-  font-weight: 600;
-}
-
-.hero-location {
-  font-size: 0.95rem;
-  color: var(--white-50);
-  margin-bottom: 2rem;
-}
-
-.hero-cta {
-  display: inline-block;
-  padding: 0.85rem 2.4rem;
-  background: var(--gold);
-  color: var(--bg);
-  font-weight: 700;
-  font-size: 1.05rem;
-  border-radius: 6px;
-  border: 2px solid var(--gold);
-  transition: all 0.25s;
-  box-shadow: 0 4px 20px rgba(255, 196, 18, 0.25);
-}
-
-.hero-cta:hover {
-  background: transparent;
-  color: var(--gold);
-  box-shadow: 0 4px 30px rgba(255, 196, 18, 0.35);
-}
-
 @media (min-width: 768px) {
   .hero {
     padding: 6rem 2rem 4rem;
@@ -282,28 +246,6 @@
   font-size: 0.85rem;
   color: var(--white-70);
   line-height: 1.4;
-}
-
-/* ───── Sections ───── */
-.section-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.section-title .gold {
-  color: var(--gold);
-  font-style: italic;
-}
-
-.section-text {
-  font-size: 1rem;
-  color: var(--white-70);
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  text-align: center;
-  line-height: 1.7;
 }
 
 /* ───── Rules page ───── */
@@ -411,12 +353,6 @@
   box-shadow: 0 8px 25px rgba(255, 196, 18, 0.15);
 }
 
-.contact-link img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
 .contact-link span {
   color: var(--white);
   font-weight: 600;
@@ -446,7 +382,9 @@
 
 .footer-socials a {
   color: var(--white-50);
-  transition: color 0.2s, opacity 0.2s;
+  transition:
+    color 0.2s,
+    opacity 0.2s;
   display: flex;
 }
 
