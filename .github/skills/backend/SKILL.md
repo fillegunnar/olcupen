@@ -132,6 +132,22 @@ Update `backend/src/tests/<entity>.test.ts`:
 - Create a `vi.mocked()` variable for it
 - Add a new `describe` block with tests
 
+All three registration points must be updated together:
+
+```typescript
+// 1. Mock factory — add the new function
+vi.mock("../db/teams.js", () => ({
+  // ...existing mocks...
+  deletePlayer: vi.fn(), // ← add here
+}));
+
+// 2. Import block — add the new function
+import { /* ...existing imports... */ deletePlayer } from "../db/teams.js";
+
+// 3. Mocked variable — create a typed mock reference
+const mockedDeletePlayer = vi.mocked(deletePlayer);
+```
+
 ### 4. DB Tests
 
 - Add tests for the new DB functions to `backend/src/tests/db.test.ts`

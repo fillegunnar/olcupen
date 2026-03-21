@@ -139,6 +139,76 @@ router.delete("/:id", async (req, res) => {
 });
 ```
 
+## DELETE (child resource with ownership check)
+
+For nested resources (e.g., players under teams), verify the child belongs to the parent before deleting:
+
+```typescript
+router.delete("/:id/players/:playerId", async (req, res) => {
+  const playerId = parseInt(req.params.playerId, 10);
+  if (isNaN(playerId)) {
+    res.status(400).json({ error: "Invalid player ID" });
+    return;
+  }
+
+  try {
+    // resolveTeam validates the parent ID and checks existence
+    const resolved = await resolveTeam(req, res);
+    if (!resolved) return;
+
+    const player = await getPlayerById(playerId);
+    if (!player) {
+      res.status(404).json({ error: "Player not found" });
+      return;
+    }
+
+    // Ownership check: player must belong to this team
+    if (player.team_id !== resolved.id) {
+      res.status(404).json({ error: "Player not found on this team" });
+      return;
+    }
+
+    await deletePlayer(playerId);
+    res.status(204).send();
+  } catch (err) {
+    console.error("Failed to delete player:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+```
+
+## Nested Resource Helpers
+
+When a router has nested child resources, extract common validation into helpers:
+
+```typescript
+/** Parse and validate parent ID; sends 400/404 and returns null on failure. */
+async function resolveTeam(req: Request<{ id: string }>, res: Response) {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    res.status(400).json({ error: "Invalid team ID" });
+    return null;
+  }
+  const team = await getTeamById(id);
+  if (!team) {
+    res.status(404).json({ error: "Team not found" });
+    return null;
+  }
+  return { id, team };
+}
+
+/** Validate child resource body fields; sends 400 and returns null on failure. */
+function validatePlayerBody(
+  body: any,
+  res: Response,
+): { name: string; number: number; age: number } | null {
+  // ... field checks, return null + send 400 on failure
+  return { name: name.trim(), number, age };
+}
+```
+
+Child resource routes always: resolve the parent first, then look up the child, then verify ownership (`child.parent_id === resolved.id`).
+
 ## Mounting in app.ts
 
 ```typescript

@@ -126,3 +126,8 @@ export async function updatePlayer(
   );
   return result.rows[0] || null;
 }
+
+export async function deletePlayer(id: number): Promise<boolean> {
+  const result = await pool.query("DELETE FROM players WHERE id = $1", [id]);
+  return (result.rowCount ?? 0) > 0;
+}

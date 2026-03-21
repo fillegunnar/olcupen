@@ -10,6 +10,7 @@ import {
   getPlayerById,
   createPlayer,
   updatePlayer,
+  deletePlayer,
 } from "../db/teams.js";
 
 const router = Router();
@@ -235,6 +236,36 @@ router.put("/:id/players/:playerId", async (req, res) => {
       return;
     }
     console.error("Failed to update player:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.delete("/:id/players/:playerId", async (req, res) => {
+  const playerId = parseInt(req.params.playerId, 10);
+  if (isNaN(playerId)) {
+    res.status(400).json({ error: "Invalid player ID" });
+    return;
+  }
+
+  try {
+    const resolved = await resolveTeam(req, res);
+    if (!resolved) return;
+
+    const existingPlayer = await getPlayerById(playerId);
+    if (!existingPlayer) {
+      res.status(404).json({ error: "Player not found" });
+      return;
+    }
+
+    if (existingPlayer.team_id !== resolved.id) {
+      res.status(404).json({ error: "Player not found on this team" });
+      return;
+    }
+
+    await deletePlayer(playerId);
+    res.status(204).send();
+  } catch (err) {
+    console.error("Failed to delete player:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

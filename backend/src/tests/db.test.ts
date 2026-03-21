@@ -4,6 +4,7 @@ import {
   countTeamDependencies,
   createPlayer,
   createTeam,
+  deletePlayer,
   deleteTeam,
   getAllTeams,
   getPlayerById,
@@ -246,6 +247,36 @@ describeIfDatabase("Database layer - Teams", () => {
       await expect(
         updatePlayer(player2.id, "Player Two", 10, 26),
       ).rejects.toMatchObject({ code: "23505" });
+    });
+
+    it("deletes a player", async () => {
+      const team = await createTeam("Test Team");
+      const player = await createPlayer(team.id, "John Doe", 10, 25);
+
+      const deleted = await deletePlayer(player.id);
+
+      expect(deleted).toBe(true);
+
+      const refetched = await getPlayerById(player.id);
+      expect(refetched).toBeNull();
+    });
+
+    it("returns false when deleting non-existent player", async () => {
+      const deleted = await deletePlayer(NON_EXISTENT_TEAM_ID);
+
+      expect(deleted).toBe(false);
+    });
+
+    it("player no longer appears in team roster after deletion", async () => {
+      const team = await createTeam("Test Team");
+      const player = await createPlayer(team.id, "John Doe", 10, 25);
+      await createPlayer(team.id, "Jane Smith", 7, 22);
+
+      await deletePlayer(player.id);
+
+      const players = await getPlayersByTeamId(team.id);
+      expect(players).toHaveLength(1);
+      expect(players[0].name).toBe("Jane Smith");
     });
   });
 

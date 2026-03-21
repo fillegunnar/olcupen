@@ -273,4 +273,58 @@ describeIfDatabase("Teams API integration tests (happy path)", () => {
       error: "A player with that number already exists on this team",
     });
   });
+
+  it("removes a player from a team", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+    const playerId = playerRes.body.id;
+
+    const deleteRes = await request(app).delete(
+      `/api/teams/${teamId}/players/${playerId}`,
+    );
+
+    expect(deleteRes.status).toBe(204);
+
+    const rosterRes = await request(app).get(`/api/teams/${teamId}/players`);
+    expect(rosterRes.status).toBe(200);
+    expect(rosterRes.body).toHaveLength(0);
+  });
+
+  it("returns 404 when removing a non-existent player", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const res = await request(app).delete(`/api/teams/${teamId}/players/99999`);
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Player not found" });
+  });
+
+  it("returns 404 when removing a player from wrong team", async () => {
+    const team1Res = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const team2Res = await request(app)
+      .post("/api/teams")
+      .send({ name: "Other FC" });
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${team1Res.body.id}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    const res = await request(app).delete(
+      `/api/teams/${team2Res.body.id}/players/${playerRes.body.id}`,
+    );
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Player not found on this team" });
+  });
 });

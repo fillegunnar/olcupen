@@ -97,6 +97,44 @@ it("returns 409 on duplicate name", async () => {
 });
 ```
 
+### Testing DELETE (with ownership check)
+
+```typescript
+describe("DELETE /api/teams/:id/players/:playerId", () => {
+  it("deletes a player and returns 204", async () => {
+    vi.mocked(getTeamById).mockResolvedValue(buildTeam());
+    vi.mocked(getPlayerById).mockResolvedValue(buildPlayer());
+    vi.mocked(deletePlayer).mockResolvedValue(true);
+
+    const res = await request(app).delete("/api/teams/1/players/1");
+
+    expect(res.status).toBe(204);
+    expect(res.body).toEqual({});
+    expect(vi.mocked(deletePlayer)).toHaveBeenCalledWith(1);
+  });
+
+  it("returns 404 when player does not exist", async () => {
+    vi.mocked(getTeamById).mockResolvedValue(buildTeam());
+    vi.mocked(getPlayerById).mockResolvedValue(null);
+
+    const res = await request(app).delete("/api/teams/1/players/999");
+
+    expect(res.status).toBe(404);
+    expect(vi.mocked(deletePlayer)).not.toHaveBeenCalled();
+  });
+
+  it("returns 404 when player belongs to a different team", async () => {
+    vi.mocked(getTeamById).mockResolvedValue(buildTeam());
+    vi.mocked(getPlayerById).mockResolvedValue(buildPlayer({ team_id: 2 }));
+
+    const res = await request(app).delete("/api/teams/1/players/1");
+
+    expect(res.status).toBe(404);
+    expect(vi.mocked(deletePlayer)).not.toHaveBeenCalled();
+  });
+});
+```
+
 ## Integration Tests (real DB)
 
 File: `backend/src/tests/<entity>.integration.test.ts`
@@ -141,7 +179,7 @@ describeIfDatabase("Teams Integration", () => {
 ### Key Points
 
 - `describeIfDatabase()` — skips all tests if `DATABASE_URL` is not set
-- `setupIntegrationDatabase()` — truncates tables + runs migrations in `beforeAll`, closes pool in `afterAll`
+- `setupIntegrationDatabase(tables?)` — truncates tables + runs migrations in `beforeAll`, closes pool in `afterAll`. Pass a table name array (e.g., `["teams", "players"]`) to specify which tables to truncate between tests. Order doesn't matter for truncation since it uses `TRUNCATE ... CASCADE`, but listing them is good documentation.
 - `describe.sequential` — prevents parallel test execution (avoids race conditions)
 - Tests interact with a real PostgreSQL database
 

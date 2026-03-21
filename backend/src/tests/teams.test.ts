@@ -13,6 +13,7 @@ vi.mock("../db/teams.js", () => ({
   getPlayerById: vi.fn(),
   createPlayer: vi.fn(),
   updatePlayer: vi.fn(),
+  deletePlayer: vi.fn(),
 }));
 
 import app from "../app.js";
@@ -20,6 +21,7 @@ import {
   countTeamDependencies,
   createPlayer,
   createTeam,
+  deletePlayer,
   deleteTeam,
   getAllTeams,
   getPlayerById,
@@ -73,6 +75,7 @@ const mockedGetPlayersByTeamId = vi.mocked(getPlayersByTeamId);
 const mockedGetPlayerById = vi.mocked(getPlayerById);
 const mockedCreatePlayer = vi.mocked(createPlayer);
 const mockedUpdatePlayer = vi.mocked(updatePlayer);
+const mockedDeletePlayer = vi.mocked(deletePlayer);
 
 describe("Teams API", () => {
   beforeEach(() => {
@@ -813,6 +816,81 @@ describe("Teams API", () => {
       const res = await request(app)
         .put("/api/teams/1/players/1")
         .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(500);
+      expect(res.body).toEqual({ error: "Internal server error" });
+    });
+  });
+
+  describe("DELETE /api/teams/:id/players/:playerId", () => {
+    it("deletes a player and returns 204", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer());
+      mockedDeletePlayer.mockResolvedValue(true);
+
+      const res = await request(app).delete("/api/teams/1/players/1");
+
+      expect(res.status).toBe(204);
+      expect(res.body).toEqual({});
+      expect(mockedGetTeamById).toHaveBeenCalledWith(1);
+      expect(mockedGetPlayerById).toHaveBeenCalledWith(1);
+      expect(mockedDeletePlayer).toHaveBeenCalledWith(1);
+    });
+
+    it("returns 404 when team does not exist", async () => {
+      mockedGetTeamById.mockResolvedValue(null);
+
+      const res = await request(app).delete("/api/teams/999/players/1");
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Team not found" });
+      expect(mockedDeletePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 404 when player does not exist", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(null);
+
+      const res = await request(app).delete("/api/teams/1/players/999");
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Player not found" });
+      expect(mockedDeletePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 404 when player belongs to a different team", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer({ team_id: 2 }));
+
+      const res = await request(app).delete("/api/teams/1/players/1");
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Player not found on this team" });
+      expect(mockedDeletePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when team id is not a valid number", async () => {
+      const res = await request(app).delete("/api/teams/invalid/players/1");
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Invalid team ID" });
+      expect(mockedDeletePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when player id is not a valid number", async () => {
+      const res = await request(app).delete("/api/teams/1/players/invalid");
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Invalid player ID" });
+      expect(mockedDeletePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 500 on unexpected database error", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer());
+      mockedDeletePlayer.mockRejectedValue(new Error("connection refused"));
+
+      const res = await request(app).delete("/api/teams/1/players/1");
 
       expect(res.status).toBe(500);
       expect(res.body).toEqual({ error: "Internal server error" });
