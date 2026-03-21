@@ -168,4 +168,109 @@ describeIfDatabase("Teams API integration tests (happy path)", () => {
       error: "A player with that number already exists on this team",
     });
   });
+
+  it("updates a player's details", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+    const playerId = playerRes.body.id;
+
+    const updateRes = await request(app)
+      .put(`/api/teams/${teamId}/players/${playerId}`)
+      .send({ name: "John Smith", number: 7, age: 26 });
+
+    expect(updateRes.status).toBe(200);
+    expect(updateRes.body.name).toBe("John Smith");
+    expect(updateRes.body.number).toBe(7);
+    expect(updateRes.body.age).toBe(26);
+    expect(updateRes.body.team_id).toBe(teamId);
+    expect(updateRes.body.id).toBe(playerId);
+
+    const rosterRes = await request(app).get(`/api/teams/${teamId}/players`);
+    expect(rosterRes.status).toBe(200);
+    expect(rosterRes.body).toHaveLength(1);
+    expect(rosterRes.body[0].name).toBe("John Smith");
+    expect(rosterRes.body[0].number).toBe(7);
+  });
+
+  it("returns 404 when updating a non-existent player", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const res = await request(app)
+      .put(`/api/teams/${teamId}/players/99999`)
+      .send({ name: "John Smith", number: 7, age: 26 });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Player not found" });
+  });
+
+  it("returns 404 when updating a player on wrong team", async () => {
+    const team1Res = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const team2Res = await request(app)
+      .post("/api/teams")
+      .send({ name: "Other FC" });
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${team1Res.body.id}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    const res = await request(app)
+      .put(`/api/teams/${team2Res.body.id}/players/${playerRes.body.id}`)
+      .send({ name: "John Smith", number: 7, age: 26 });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Player not found on this team" });
+  });
+
+  it("returns 400 when updating a player with empty name", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    const res = await request(app)
+      .put(`/api/teams/${teamId}/players/${playerRes.body.id}`)
+      .send({ name: "", number: 7, age: 26 });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Player name is required" });
+  });
+
+  it("returns 409 when updating player number to duplicate on same team", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    const player2Res = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "Jane Smith", number: 7, age: 22 });
+
+    const res = await request(app)
+      .put(`/api/teams/${teamId}/players/${player2Res.body.id}`)
+      .send({ name: "Jane Smith", number: 10, age: 22 });
+
+    expect(res.status).toBe(409);
+    expect(res.body).toEqual({
+      error: "A player with that number already exists on this team",
+    });
+  });
 });

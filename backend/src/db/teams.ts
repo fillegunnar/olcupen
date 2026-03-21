@@ -93,6 +93,14 @@ export async function getPlayersByTeamId(teamId: number): Promise<Player[]> {
   return result.rows;
 }
 
+export async function getPlayerById(id: number): Promise<Player | null> {
+  const result = await pool.query<Player>(
+    "SELECT id, name, number, age, team_id, created_at FROM players WHERE id = $1",
+    [id],
+  );
+  return result.rows[0] || null;
+}
+
 export async function createPlayer(
   teamId: number,
   name: string,
@@ -104,4 +112,17 @@ export async function createPlayer(
     [teamId, name, number, age],
   );
   return result.rows[0];
+}
+
+export async function updatePlayer(
+  id: number,
+  name: string,
+  number: number,
+  age: number,
+): Promise<Player | null> {
+  const result = await pool.query<Player>(
+    "UPDATE players SET name = $1, number = $2, age = $3 WHERE id = $4 RETURNING id, name, number, age, team_id, created_at",
+    [name, number, age, id],
+  );
+  return result.rows[0] || null;
 }

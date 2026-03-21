@@ -10,7 +10,9 @@ vi.mock("../db/teams.js", () => ({
   deleteTeam: vi.fn(),
   countTeamDependencies: vi.fn(),
   getPlayersByTeamId: vi.fn(),
+  getPlayerById: vi.fn(),
   createPlayer: vi.fn(),
+  updatePlayer: vi.fn(),
 }));
 
 import app from "../app.js";
@@ -20,8 +22,10 @@ import {
   createTeam,
   deleteTeam,
   getAllTeams,
+  getPlayerById,
   getPlayersByTeamId,
   getTeamById,
+  updatePlayer,
   updateTeam,
 } from "../db/teams.js";
 
@@ -66,7 +70,9 @@ const mockedUpdateTeam = vi.mocked(updateTeam);
 const mockedDeleteTeam = vi.mocked(deleteTeam);
 const mockedCountTeamDependencies = vi.mocked(countTeamDependencies);
 const mockedGetPlayersByTeamId = vi.mocked(getPlayersByTeamId);
+const mockedGetPlayerById = vi.mocked(getPlayerById);
 const mockedCreatePlayer = vi.mocked(createPlayer);
+const mockedUpdatePlayer = vi.mocked(updatePlayer);
 
 describe("Teams API", () => {
   beforeEach(() => {
@@ -614,6 +620,199 @@ describe("Teams API", () => {
       const res = await request(app)
         .post("/api/teams/1/players")
         .send({ name: "Player One", number: 10, age: 25 });
+
+      expect(res.status).toBe(500);
+      expect(res.body).toEqual({ error: "Internal server error" });
+    });
+  });
+
+  describe("PUT /api/teams/:id/players/:playerId", () => {
+    it("updates a player and returns updated player", async () => {
+      const team = buildTeam();
+      const existingPlayer = buildPlayer();
+      const updatedPlayer = buildPlayer({
+        name: "Updated Name",
+        number: 99,
+        age: 30,
+      });
+      mockedGetTeamById.mockResolvedValue(team);
+      mockedGetPlayerById.mockResolvedValue(existingPlayer);
+      mockedUpdatePlayer.mockResolvedValue(updatedPlayer);
+
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual(updatedPlayer);
+      expect(mockedGetTeamById).toHaveBeenCalledWith(1);
+      expect(mockedGetPlayerById).toHaveBeenCalledWith(1);
+      expect(mockedUpdatePlayer).toHaveBeenCalledWith(
+        1,
+        "Updated Name",
+        99,
+        30,
+      );
+    });
+
+    it("trims whitespace from player name", async () => {
+      const team = buildTeam();
+      const existingPlayer = buildPlayer();
+      const updatedPlayer = buildPlayer({ name: "Updated Name" });
+      mockedGetTeamById.mockResolvedValue(team);
+      mockedGetPlayerById.mockResolvedValue(existingPlayer);
+      mockedUpdatePlayer.mockResolvedValue(updatedPlayer);
+
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "  Updated Name  ", number: 10, age: 25 });
+
+      expect(res.status).toBe(200);
+      expect(mockedUpdatePlayer).toHaveBeenCalledWith(
+        1,
+        "Updated Name",
+        10,
+        25,
+      );
+    });
+
+    it("returns 404 when team does not exist", async () => {
+      mockedGetTeamById.mockResolvedValue(null);
+
+      const res = await request(app)
+        .put("/api/teams/999/players/1")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Team not found" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 404 when player does not exist", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(null);
+
+      const res = await request(app)
+        .put("/api/teams/1/players/999")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Player not found" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 404 when player belongs to a different team", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer({ team_id: 2 }));
+
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Player not found on this team" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when team id is not a valid number", async () => {
+      const res = await request(app)
+        .put("/api/teams/invalid/players/1")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Invalid team ID" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when player id is not a valid number", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/invalid")
+        .send({ name: "Updated Name", number: 99, age: 30 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Invalid player ID" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when name is missing", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ number: 99, age: 30 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player name is required" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when name is empty string", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "  ", number: 99, age: 30 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player name is required" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when number is missing", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", age: 30 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: "Player number is required and must be an integer",
+      });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when age is missing", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 99 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: "Player age is required and must be an integer",
+      });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when age is under 18", async () => {
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 99, age: 17 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player must be older than 17" });
+      expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 409 when updated number already exists on team", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer());
+      const dbError = new Error("duplicate key") as any;
+      dbError.code = "23505";
+      mockedUpdatePlayer.mockRejectedValue(dbError);
+
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 11, age: 25 });
+
+      expect(res.status).toBe(409);
+      expect(res.body).toEqual({
+        error: "A player with that number already exists on this team",
+      });
+    });
+
+    it("returns 500 on unexpected database error", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedGetPlayerById.mockResolvedValue(buildPlayer());
+      mockedUpdatePlayer.mockRejectedValue(new Error("connection refused"));
+
+      const res = await request(app)
+        .put("/api/teams/1/players/1")
+        .send({ name: "Updated Name", number: 99, age: 30 });
 
       expect(res.status).toBe(500);
       expect(res.body).toEqual({ error: "Internal server error" });

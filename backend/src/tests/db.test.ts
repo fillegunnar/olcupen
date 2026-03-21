@@ -6,8 +6,10 @@ import {
   createTeam,
   deleteTeam,
   getAllTeams,
+  getPlayerById,
   getPlayersByTeamId,
   getTeamById,
+  updatePlayer,
   updateTeam,
 } from "../db/teams.js";
 import {
@@ -190,6 +192,60 @@ describeIfDatabase("Database layer - Teams", () => {
       const players = await getPlayersByTeamId(NON_EXISTENT_TEAM_ID);
 
       expect(players).toEqual([]);
+    });
+
+    it("retrieves a player by id", async () => {
+      const team = await createTeam("Test Team");
+      const created = await createPlayer(team.id, "John Doe", 10, 25);
+
+      const player = await getPlayerById(created.id);
+
+      expect(player).not.toBeNull();
+      expect(player!.id).toBe(created.id);
+      expect(player!.name).toBe("John Doe");
+      expect(player!.number).toBe(10);
+      expect(player!.age).toBe(25);
+      expect(player!.team_id).toBe(team.id);
+    });
+
+    it("returns null when player does not exist", async () => {
+      const player = await getPlayerById(NON_EXISTENT_TEAM_ID);
+
+      expect(player).toBeNull();
+    });
+
+    it("updates a player's details", async () => {
+      const team = await createTeam("Test Team");
+      const created = await createPlayer(team.id, "John Doe", 10, 25);
+
+      const updated = await updatePlayer(created.id, "Jane Smith", 7, 28);
+
+      expect(updated).not.toBeNull();
+      expect(updated!.id).toBe(created.id);
+      expect(updated!.name).toBe("Jane Smith");
+      expect(updated!.number).toBe(7);
+      expect(updated!.age).toBe(28);
+      expect(updated!.team_id).toBe(team.id);
+
+      const refetched = await getPlayerById(created.id);
+      expect(refetched!.name).toBe("Jane Smith");
+      expect(refetched!.number).toBe(7);
+    });
+
+    it("returns null when updating non-existent player", async () => {
+      const result = await updatePlayer(NON_EXISTENT_TEAM_ID, "Ghost", 1, 20);
+
+      expect(result).toBeNull();
+    });
+
+    it("throws when updating player number to a duplicate on same team", async () => {
+      const team = await createTeam("Test Team");
+      await createPlayer(team.id, "Player One", 10, 25);
+      const player2 = await createPlayer(team.id, "Player Two", 11, 26);
+
+      await expect(
+        updatePlayer(player2.id, "Player Two", 10, 26),
+      ).rejects.toMatchObject({ code: "23505" });
     });
   });
 

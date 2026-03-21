@@ -29,6 +29,7 @@ backend/src/
 │   └── migrations/
 │       └── NNN_<name>.sql
 └── tests/
+    ├── db.test.ts                     # DB-layer tests (real DB, query functions directly)
     ├── <entity>.test.ts               # Unit tests (mocked DB)
     ├── <entity>.integration.test.ts   # Integration tests (real DB)
     └── utils/
@@ -77,7 +78,15 @@ Create `backend/src/tests/<entity>.test.ts`:
 - Reset mocks in `beforeEach`
 - See [test patterns reference](./references/test-patterns.md)
 
-### 5. Integration Tests
+### 5. DB Tests
+
+Add tests to `backend/src/tests/db.test.ts`:
+
+- Test new query functions directly (no mocks, real DB via `describeIfDatabase`)
+- Cover: create, read, update, null returns for non-existent rows, constraint violations (`23505`)
+- Import and call DB functions directly, assert on returned rows
+
+### 6. Integration Tests
 
 Create `backend/src/tests/<entity>.integration.test.ts`:
 
@@ -87,7 +96,7 @@ Create `backend/src/tests/<entity>.integration.test.ts`:
 - Test against a real PostgreSQL instance
 - See [test patterns reference](./references/test-patterns.md)
 
-### 6. Run Tests
+### 7. Run Tests
 
 After making changes, always run both test suites:
 
@@ -100,6 +109,47 @@ cd /home/gun/repos/olcupen && npm run test:backend:podman
 ```
 
 Both must pass before the work is considered complete.
+
+## Procedure: Extending an Existing Entity
+
+When adding new operations to an existing entity (e.g., adding update/delete for players):
+
+### 1. DB Module
+
+- Add new query functions to the existing `backend/src/db/<entity>.ts`
+
+### 2. API Routes
+
+- Add new route handlers to the existing `backend/src/api/<entity>.ts`
+- Update the import block at the top to include new DB functions
+
+### 3. Unit Tests
+
+Update `backend/src/tests/<entity>.test.ts`:
+
+- Add the new function to the `vi.mock()` factory object
+- Add it to the import block
+- Create a `vi.mocked()` variable for it
+- Add a new `describe` block with tests
+
+### 4. DB Tests
+
+- Add tests for the new DB functions to `backend/src/tests/db.test.ts`
+- Update the import block to include the new functions
+
+### 5. Integration Tests
+
+- Add tests to the existing `backend/src/tests/<entity>.integration.test.ts`
+
+### 6. Run Tests
+
+Same as new entity — run both unit and integration suites.
+
+## Domain Validation Rules
+
+- **Player age**: must be ≥ 18 (error: "Player must be older than 17")
+- **Player number**: must be an integer, unique per team (UNIQUE constraint on `team_id, number`)
+- **Names**: must be non-empty strings, trimmed of whitespace
 
 ## Key Conventions
 
