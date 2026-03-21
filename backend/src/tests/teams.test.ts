@@ -10,11 +10,13 @@ vi.mock("../db/teams.js", () => ({
   deleteTeam: vi.fn(),
   countTeamDependencies: vi.fn(),
   getPlayersByTeamId: vi.fn(),
+  createPlayer: vi.fn(),
 }));
 
 import app from "../app.js";
 import {
   countTeamDependencies,
+  createPlayer,
   createTeam,
   deleteTeam,
   getAllTeams,
@@ -64,6 +66,7 @@ const mockedUpdateTeam = vi.mocked(updateTeam);
 const mockedDeleteTeam = vi.mocked(deleteTeam);
 const mockedCountTeamDependencies = vi.mocked(countTeamDependencies);
 const mockedGetPlayersByTeamId = vi.mocked(getPlayersByTeamId);
+const mockedCreatePlayer = vi.mocked(createPlayer);
 
 describe("Teams API", () => {
   beforeEach(() => {
@@ -456,9 +459,161 @@ describe("Teams API", () => {
 
     it("returns 500 on database error", async () => {
       mockedGetTeamById.mockResolvedValue(buildTeam());
-      mockedGetPlayersByTeamId.mockRejectedValue(new Error("connection refused"));
+      mockedGetPlayersByTeamId.mockRejectedValue(
+        new Error("connection refused"),
+      );
 
       const res = await request(app).get("/api/teams/1/players");
+
+      expect(res.status).toBe(500);
+      expect(res.body).toEqual({ error: "Internal server error" });
+    });
+  });
+
+  describe("POST /api/teams/:id/players", () => {
+    it("creates a player and returns 201", async () => {
+      const team = buildTeam();
+      const player = buildPlayer();
+      mockedGetTeamById.mockResolvedValue(team);
+      mockedCreatePlayer.mockResolvedValue(player);
+
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10, age: 25 });
+
+      expect(res.status).toBe(201);
+      expect(res.body).toEqual(player);
+      expect(mockedGetTeamById).toHaveBeenCalledWith(1);
+      expect(mockedCreatePlayer).toHaveBeenCalledWith(1, "Player One", 10, 25);
+    });
+
+    it("trims whitespace from player name", async () => {
+      const team = buildTeam();
+      const player = buildPlayer();
+      mockedGetTeamById.mockResolvedValue(team);
+      mockedCreatePlayer.mockResolvedValue(player);
+
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "  Player One  ", number: 10, age: 25 });
+
+      expect(res.status).toBe(201);
+      expect(mockedCreatePlayer).toHaveBeenCalledWith(1, "Player One", 10, 25);
+    });
+
+    it("returns 404 when team does not exist", async () => {
+      mockedGetTeamById.mockResolvedValue(null);
+
+      const res = await request(app)
+        .post("/api/teams/999/players")
+        .send({ name: "Player One", number: 10, age: 25 });
+
+      expect(res.status).toBe(404);
+      expect(res.body).toEqual({ error: "Team not found" });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when name is missing", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ number: 10, age: 25 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player name is required" });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when name is empty string", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "  ", number: 10, age: 25 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player name is required" });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when number is missing", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", age: 25 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: "Player number is required and must be an integer",
+      });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when age is missing", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: "Player age is required and must be an integer",
+      });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when age is not an integer", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10, age: "twenty" });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: "Player age is required and must be an integer",
+      });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when age is under 18", async () => {
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10, age: 17 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Player must be older than 17" });
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 400 when team id is not a valid number", async () => {
+      const res = await request(app)
+        .post("/api/teams/invalid/players")
+        .send({ name: "Player One", number: 10, age: 25 });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({ error: "Invalid team ID" });
+      expect(mockedGetTeamById).not.toHaveBeenCalled();
+      expect(mockedCreatePlayer).not.toHaveBeenCalled();
+    });
+
+    it("returns 409 when player number already exists on team", async () => {
+      const team = buildTeam();
+      mockedGetTeamById.mockResolvedValue(team);
+      const dbError = new Error("duplicate key") as any;
+      dbError.code = "23505";
+      mockedCreatePlayer.mockRejectedValue(dbError);
+
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10, age: 25 });
+
+      expect(res.status).toBe(409);
+      expect(res.body).toEqual({
+        error: "A player with that number already exists on this team",
+      });
+    });
+
+    it("returns 500 on unexpected database error", async () => {
+      mockedGetTeamById.mockResolvedValue(buildTeam());
+      mockedCreatePlayer.mockRejectedValue(new Error("connection refused"));
+
+      const res = await request(app)
+        .post("/api/teams/1/players")
+        .send({ name: "Player One", number: 10, age: 25 });
 
       expect(res.status).toBe(500);
       expect(res.body).toEqual({ error: "Internal server error" });

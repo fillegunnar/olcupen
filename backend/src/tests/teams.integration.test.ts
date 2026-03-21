@@ -89,4 +89,83 @@ describeIfDatabase("Teams API integration tests (happy path)", () => {
     expect(getRes.status).toBe(404);
     expect(getRes.body).toEqual({ error: "Team not found" });
   });
+
+  it("adds a player to a team", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    const playerRes = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    expect(playerRes.status).toBe(201);
+    expect(playerRes.body.name).toBe("John Doe");
+    expect(playerRes.body.number).toBe(10);
+    expect(playerRes.body.age).toBe(25);
+    expect(playerRes.body.team_id).toBe(teamId);
+    expect(playerRes.body.id).toBeTruthy();
+    expect(playerRes.body.created_at).toBeTruthy();
+
+    const rosterRes = await request(app).get(`/api/teams/${teamId}/players`);
+    expect(rosterRes.status).toBe(200);
+    expect(rosterRes.body).toHaveLength(1);
+    expect(rosterRes.body[0].name).toBe("John Doe");
+  });
+
+  it("returns 404 when adding a player to a non-existent team", async () => {
+    const res = await request(app)
+      .post("/api/teams/99999/players")
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: "Team not found" });
+  });
+
+  it("returns 400 when adding a player without a name", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+
+    const res = await request(app)
+      .post(`/api/teams/${teamRes.body.id}/players`)
+      .send({ number: 10, age: 25 });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Player name is required" });
+  });
+
+  it("returns 400 when adding a player under 18", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+
+    const res = await request(app)
+      .post(`/api/teams/${teamRes.body.id}/players`)
+      .send({ name: "Young Player", number: 10, age: 17 });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({ error: "Player must be older than 17" });
+  });
+
+  it("returns 409 when adding a player with a duplicate number on same team", async () => {
+    const teamRes = await request(app)
+      .post("/api/teams")
+      .send({ name: teamName });
+    const teamId = teamRes.body.id;
+
+    await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "John Doe", number: 10, age: 25 });
+
+    const res = await request(app)
+      .post(`/api/teams/${teamId}/players`)
+      .send({ name: "Jane Smith", number: 10, age: 22 });
+
+    expect(res.status).toBe(409);
+    expect(res.body).toEqual({
+      error: "A player with that number already exists on this team",
+    });
+  });
 });

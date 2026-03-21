@@ -92,3 +92,16 @@ export async function getPlayersByTeamId(teamId: number): Promise<Player[]> {
   );
   return result.rows;
 }
+
+export async function createPlayer(
+  teamId: number,
+  name: string,
+  number: number,
+  age: number,
+): Promise<Player> {
+  const result = await pool.query<Player>(
+    "INSERT INTO players (team_id, name, number, age) VALUES ($1, $2, $3, $4) RETURNING id, name, number, age, team_id, created_at",
+    [teamId, name, number, age],
+  );
+  return result.rows[0];
+}

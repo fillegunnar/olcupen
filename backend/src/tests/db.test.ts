@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import pool from "../db/pool.js";
 import {
   countTeamDependencies,
+  createPlayer,
   createTeam,
   deleteTeam,
   getAllTeams,
@@ -96,6 +97,49 @@ describeIfDatabase("Database layer - Teams", () => {
   });
 
   describe("Players", () => {
+    it("creates a player and returns the full row", async () => {
+      const team = await createTeam("Test Team");
+
+      const player = await createPlayer(team.id, "John Doe", 10, 25);
+
+      expect(player.id).toBeTruthy();
+      expect(player.name).toBe("John Doe");
+      expect(player.number).toBe(10);
+      expect(player.age).toBe(25);
+      expect(player.team_id).toBe(team.id);
+      expect(player.created_at).toBeTruthy();
+    });
+
+    it("created player appears in getPlayersByTeamId", async () => {
+      const team = await createTeam("Test Team");
+
+      await createPlayer(team.id, "John Doe", 10, 25);
+
+      const players = await getPlayersByTeamId(team.id);
+      expect(players).toHaveLength(1);
+      expect(players[0].name).toBe("John Doe");
+    });
+
+    it("throws when adding a duplicate number to the same team", async () => {
+      const team = await createTeam("Test Team");
+      await createPlayer(team.id, "John Doe", 10, 25);
+
+      await expect(
+        createPlayer(team.id, "Jane Smith", 10, 22),
+      ).rejects.toMatchObject({ code: "23505" });
+    });
+
+    it("allows the same number on different teams", async () => {
+      const team1 = await createTeam("Team One");
+      const team2 = await createTeam("Team Two");
+
+      await createPlayer(team1.id, "Player A", 10, 20);
+      const player2 = await createPlayer(team2.id, "Player B", 10, 22);
+
+      expect(player2.number).toBe(10);
+      expect(player2.team_id).toBe(team2.id);
+    });
+
     it("only returns players for the specified team", async () => {
       const team1 = await createTeam("Team One");
       const team2 = await createTeam("Team Two");
