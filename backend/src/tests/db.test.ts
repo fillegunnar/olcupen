@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { getAllMatches } from "../db/matches.js";
 import pool from "../db/pool.js";
 import {
   countTeamDependencies,
@@ -32,7 +33,7 @@ async function insertPlayer(
 }
 
 describeIfDatabase("Database layer - Teams", () => {
-  setupIntegrationDatabase(["teams", "players"]);
+  setupIntegrationDatabase(["matches", "players", "teams"]);
 
   describe("Teams", () => {
     it("creates a team", async () => {
@@ -299,33 +300,19 @@ describeIfDatabase("Database layer - Teams", () => {
     });
 
     it("counts match dependencies", async () => {
-      // Create matches table if it doesn't exist (for future use)
-      try {
-        await pool.query(`
-          CREATE TABLE IF NOT EXISTS matches (
-            id SERIAL PRIMARY KEY,
-            team_a_id INTEGER NOT NULL REFERENCES teams(id),
-            team_b_id INTEGER NOT NULL REFERENCES teams(id),
-            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-          )
-        `);
+      const team1 = await createTeam("Team One");
+      const team2 = await createTeam("Team Two");
 
-        const team1 = await createTeam("Team One");
-        const team2 = await createTeam("Team Two");
+      let count = await countTeamDependencies(team1.id);
+      expect(count).toBe(0);
 
-        let count = await countTeamDependencies(team1.id);
-        expect(count).toBe(0);
+      await pool.query(
+        "INSERT INTO matches (team_a_id, team_b_id, match_date) VALUES ($1, $2, $3)",
+        [team1.id, team2.id, "2026-06-15T10:00:00Z"],
+      );
 
-        await pool.query(
-          "INSERT INTO matches (team_a_id, team_b_id) VALUES ($1, $2)",
-          [team1.id, team2.id],
-        );
-
-        count = await countTeamDependencies(team1.id);
-        expect(count).toBe(1);
-      } catch {
-        // Matches table not available yet, skip this test
-      }
+      count = await countTeamDependencies(team1.id);
+      expect(count).toBe(1);
     });
 
     it("counts both players and matches as dependencies", async () => {
@@ -340,6 +327,55 @@ describeIfDatabase("Database layer - Teams", () => {
 
       count = await countTeamDependencies(team.id);
       expect(count).toBe(2);
+    });
+  });
+
+  describe("Matches", () => {
+    it("returns empty array when no matches exist", async () => {
+      const matches = await getAllMatches();
+
+      expect(matches).toEqual([]);
+    });
+
+    it("returns matches with team names in chronological order", async () => {
+      const team1 = await createTeam("Alpha FC");
+      const team2 = await createTeam("Beta United");
+
+      // Insert later match first
+      await pool.query(
+        "INSERT INTO matches (team_a_id, team_b_id, match_date, group_name, location) VALUES ($1, $2, $3, $4, $5)",
+        [team1.id, team2.id, "2026-06-15T14:00:00Z", "Group A", "Pitch 2"],
+      );
+      await pool.query(
+        "INSERT INTO matches (team_a_id, team_b_id, match_date, group_name, location) VALUES ($1, $2, $3, $4, $5)",
+        [team2.id, team1.id, "2026-06-15T10:00:00Z", "Group A", "Pitch 1"],
+      );
+
+      const matches = await getAllMatches();
+
+      expect(matches).toHaveLength(2);
+      expect(matches[0].team_a_name).toBe("Beta United");
+      expect(matches[0].team_b_name).toBe("Alpha FC");
+      expect(matches[0].location).toBe("Pitch 1");
+      expect(matches[1].team_a_name).toBe("Alpha FC");
+      expect(matches[1].team_b_name).toBe("Beta United");
+      expect(matches[1].location).toBe("Pitch 2");
+    });
+
+    it("returns null for optional fields when not set", async () => {
+      const team1 = await createTeam("Alpha FC");
+      const team2 = await createTeam("Beta United");
+
+      await pool.query(
+        "INSERT INTO matches (team_a_id, team_b_id, match_date) VALUES ($1, $2, $3)",
+        [team1.id, team2.id, "2026-06-15T10:00:00Z"],
+      );
+
+      const matches = await getAllMatches();
+
+      expect(matches).toHaveLength(1);
+      expect(matches[0].group_name).toBeNull();
+      expect(matches[0].location).toBeNull();
     });
   });
 });
