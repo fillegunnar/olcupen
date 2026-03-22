@@ -21,12 +21,12 @@ Stories are ordered by dependency and incremental value delivery. Each story is 
 
 ### Frontend Styling & Content (Phase 2a)
 
-| ID     | Title                               | Persona | Priority |
-| ------ | ----------------------------------- | ------- | -------- |
-| US-021 | Improve responsive design & styling | Visitor | 1        |
-| US-022 | Hall of Fame                        | Visitor | 2        |
-| US-023 | Tournament History                  | Visitor | 3        |
-| US-024 | Do You Know? Trivia & Facts         | Visitor | 4        |
+| ID     | Title                                | Persona | Priority |
+| ------ | ------------------------------------ | ------- | -------- |
+| US-021 | Improve responsive design & styling  | Visitor | 1        |
+| US-022 | Hall of Fame                         | Visitor | 2        |
+| US-023 | Tournament History                   | Visitor | 3        |
+| US-024 | Ölcupen Times — Newspaper & Timeline | Visitor | 4        |
 
 ### Performance & User Experience
 
@@ -102,7 +102,7 @@ The stories follow the **Elephant Carpaccio** technique — each one is the thin
 
 1. **US-021 (Responsive Design).** Before adding new pages and content, establish a modern, responsive design system using TailwindCSS. This creates a consistent foundation for the pages that follow.
 
-2. **US-022, US-023, US-024 (Content Pages).** These three stories add new static pages that enhance visitor engagement and preserve tournament history. They can be built in parallel after the design system is in place, and require no backend integration initially (data is hardcoded).
+2. **US-022, US-023, US-024 (Content Pages).** These three stories add new content pages that enhance visitor engagement and preserve tournament history. US-024 ("Ölcupen Times") introduces a newspaper-style page with two browse modes (latest stories and historical timeline). They can be built in parallel after the design system is in place, and require no backend integration initially (data is hardcoded).
 
 3. **US-025 (Performance & Slow Networks).** A cross-cutting concern that applies throughout Phase 2a and Phase 2b. The tournament venue has poor network coverage, so all pages must load quickly and provide clear feedback during slow loads. This includes loading indicators, skeleton screens, optimized asset delivery, and support for slow 3G connections. Should be prioritized early and integrated into all frontend development.
 
