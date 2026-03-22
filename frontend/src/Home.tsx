@@ -21,7 +21,7 @@ function Hero() {
     <section className="hero">
       <img
         className="hero-logo"
-        src="/img/logga-olcupen.png"
+        src="/img/logga-olcupen-2.webp"
         alt="Ölcupen logga"
       />
       <h1>

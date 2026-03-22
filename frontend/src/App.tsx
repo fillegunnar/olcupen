@@ -5,6 +5,7 @@ import "./App.css";
 import Home from "./Home";
 import Rules from "./Rules";
 import Contact from "./Contact";
+import Olbladet from "./Olbladet";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,7 +21,7 @@ function Navbar() {
   return (
     <nav className="nav">
       <NavLink className="nav-brand" to="/" onClick={() => setMenuOpen(false)}>
-        <img src="/img/logga-olcupen.png" alt="Ölcupen" />
+        <img src="/img/logga-olcupen-2.webp" alt="Ölcupen" />
         <span>Ölcupen</span>
       </NavLink>
 
@@ -36,6 +37,11 @@ function Navbar() {
         <li>
           <NavLink to="/" end onClick={() => setMenuOpen(false)}>
             Hem
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/olbladet" onClick={() => setMenuOpen(false)}>
+            Ölbladet
           </NavLink>
         </li>
         <li>
@@ -87,6 +93,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/olbladet" element={<Olbladet />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
