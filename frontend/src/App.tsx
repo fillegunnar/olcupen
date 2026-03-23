@@ -5,7 +5,7 @@ import "./App.css";
 import Home from "./Home";
 import Rules from "./Rules";
 import Contact from "./Contact";
-import Olbladet from "./Olbladet";
+import Olabladet from "./Olabladet";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,8 +40,8 @@ function Navbar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/olbladet" onClick={() => setMenuOpen(false)}>
-            Ölbladet
+          <NavLink to="/olabladet" onClick={() => setMenuOpen(false)}>
+            Ölabladet
           </NavLink>
         </li>
         <li>
@@ -93,7 +93,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/olbladet" element={<Olbladet />} />
+        <Route path="/olabladet" element={<Olabladet />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>

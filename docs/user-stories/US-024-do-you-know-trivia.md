@@ -1,14 +1,14 @@
-# US-024: Ölbladet — Tournament Newspaper & Timeline
+# US-024: Ölabladet — Tournament Newspaper & Timeline
 
 ## Story
 
 As a **visitor**,
-I want to browse "Ölbladet" — a newspaper-style page of tournament stories, records, and memorable moments — and switch between reading the latest stories first or exploring them on a historical timeline,
+I want to browse "Ölabladet" — a newspaper-style page of tournament stories, records, and memorable moments — and switch between reading the latest stories first or exploring them on a historical timeline,
 so that I can stay up to date with new content or relive the tournament's history in chronological order.
 
 ## Context
 
-- "Ölbladet" is a newspaper-themed page that publishes stories about the tournament: records, fun facts, memorable moments, milestones, and behind-the-scenes observations.
+- "Ölabladet" is a newspaper-themed page that publishes stories about the tournament: records, fun facts, memorable moments, milestones, and behind-the-scenes observations.
 - The newspaper format means content doesn't need to be added all at once — stories are published over time, each with a headline, a publish date, and an event date (when the event actually happened in tournament history).
 - Two view modes let visitors choose how they want to browse:
   - **Latest stories** — ordered by publish date (newest first), like reading today's paper.
@@ -19,14 +19,14 @@ so that I can stay up to date with new content or relive the tournament's histor
 
 ## Acceptance criteria
 
-- [ ] Given I navigate to "Ölbladet", when the page loads, then I see a newspaper-styled page with a collection of published stories.
+- [ ] Given I navigate to "Ölabladet", when the page loads, then I see a newspaper-styled page with a collection of published stories.
 - [ ] Given I view the page, when I look at the default view, then stories are shown in "Latest stories" order (newest publish date first).
 - [ ] Given I'm viewing "Latest stories", when I switch to "Historical timeline" mode, then stories reorder by event date (earliest first) and are presented along a visual timeline.
 - [ ] Given I'm viewing the historical timeline, when I switch back to "Latest stories" mode, then stories return to publish-date order (newest first).
 - [ ] Given I view a story, when I read it, then I see a headline, a publish date, an event date (e.g., "Happened: Summer 2019"), and the story body text.
 - [ ] Given I view a short story (1–2 paragraphs), when I read it, then it is displayed inline without unnecessary whitespace or empty sections.
 - [ ] Given I view a longer feature story, when I read it, then the layout accommodates the full text comfortably with clear readability.
-- [ ] Given I'm on the page, when I look at the main navigation, then there is a clear link to "Ölbladet".
+- [ ] Given I'm on the page, when I look at the main navigation, then there is a clear link to "Ölabladet".
 - [ ] Given I view the page on a mobile device, when I browse stories in either mode, then the layout is responsive, readable, and requires no horizontal scrolling.
 - [ ] Given I view the page, when I look at the overall design, then it has a newspaper/editorial feel (typography, layout, and visual style evoke a newspaper or gazette).
 

@@ -39,7 +39,7 @@ function AnimatedNumber({
   }, [value, duration]);
 
   return (
-    <span ref={ref} className="olbladet-animated-number">
+    <span ref={ref} className="olabladet-animated-number">
       {display}
       {suffix}
     </span>
@@ -78,14 +78,14 @@ function StatBar({
   const pct = (value / max) * 100;
 
   return (
-    <div ref={ref} className="olbladet-stat-bar">
-      <div className="olbladet-stat-bar-label">
+    <div ref={ref} className="olabladet-stat-bar">
+      <div className="olabladet-stat-bar-label">
         <span>{label}</span>
         <span style={{ color }}>{value}</span>
       </div>
-      <div className="olbladet-stat-bar-track">
+      <div className="olabladet-stat-bar-track">
         <div
-          className="olbladet-stat-bar-fill"
+          className="olabladet-stat-bar-fill"
           style={{
             width: visible ? `${pct}%` : "0%",
             background: color,
@@ -108,10 +108,10 @@ function StatCard({
   children: ReactNode;
 }) {
   return (
-    <div className="olbladet-stat-card">
-      <span className="olbladet-stat-card-icon">{icon}</span>
-      <div className="olbladet-stat-card-value">{children}</div>
-      <span className="olbladet-stat-card-label">{label}</span>
+    <div className="olabladet-stat-card">
+      <span className="olabladet-stat-card-icon">{icon}</span>
+      <div className="olabladet-stat-card-value">{children}</div>
+      <span className="olabladet-stat-card-label">{label}</span>
     </div>
   );
 }
@@ -147,21 +147,20 @@ const stories: Story[] = [
     blocks: [
       {
         type: "text",
-        value:
-        "Visste du att Ölcupsledningens favoritöl är KUNG?"
+        value: "Visste du att Ölcupsledningens favoritöl är KUNG?",
       },
       {
         type: "text",
         value:
-        "KUNG är en redig designburk och tillsammans med den låga kostnaden på 13:90 per burk så säga att det är ren, ärlig leverans varje gång. När livet sviker så står Kungen kvar – billig, stabil och lojal (förhoppningsvis kall)."
+          "KUNG är en redig designburk och tillsammans med den låga kostnaden på 13:90 per burk så säga att det är ren, ärlig leverans varje gång. När livet sviker så står Kungen kvar – billig, stabil och lojal (förhoppningsvis kall).",
       },
       {
         type: "text",
-        value: "Kanske inte bäst i världen."
+        value: "Kanske inte bäst i världen.",
       },
       {
         type: "text",
-        value: "Men alltid rätt i stunden."
+        value: "Men alltid rätt i stunden.",
       },
       {
         type: "stats",
@@ -242,8 +241,8 @@ function renderWidget(key: string): ReactNode {
   switch (key) {
     case "final-2023":
       return (
-        <div className="olbladet-widget">
-          <h3 className="olbladet-widget-title">
+        <div className="olabladet-widget">
+          <h3 className="olabladet-widget-title">
             Matchstatistik — Finalen 2023
           </h3>
           <StatBar label="Löa Legends" value={7} max={8} color="var(--gold)" />
@@ -253,7 +252,7 @@ function renderWidget(key: string): ReactNode {
             max={8}
             color="var(--white-50)"
           />
-          <div className="olbladet-stat-cards">
+          <div className="olabladet-stat-cards">
             <StatCard icon="⚽" label="Totalt mål">
               <AnimatedNumber value={8} />
             </StatCard>
@@ -268,7 +267,7 @@ function renderWidget(key: string): ReactNode {
       );
     case "kung-facts":
       return (
-        <div className="olbladet-widget">
+        <div className="olabladet-widget">
           <StatCard icon="👑" label="Alkoholhalt">
             <AnimatedNumber value={5.2} suffix="%" />
           </StatCard>
@@ -278,16 +277,16 @@ function renderWidget(key: string): ReactNode {
           <StatCard icon="🗓️" label="Började säljas">
             <AnimatedNumber value={2011} />
           </StatCard>
-          <StatBar label="Beska" value={4} max={10} color="var(--gold)" /> 
-          <StatBar label="Fyllighet" value={4} max={10} color="var(--gold)" /> 
-          <StatBar label="Sötma" value={2} max={10} color="var(--gold)" /> 
+          <StatBar label="Beska" value={4} max={10} color="var(--gold)" />
+          <StatBar label="Fyllighet" value={4} max={10} color="var(--gold)" />
+          <StatBar label="Sötma" value={2} max={10} color="var(--gold)" />
         </div>
-      )
+      );
     case "founding":
       return (
-        <div className="olbladet-widget">
-          <h3 className="olbladet-widget-title">Ölcupen i siffror</h3>
-          <div className="olbladet-stat-cards">
+        <div className="olabladet-widget">
+          <h3 className="olabladet-widget-title">Ölcupen i siffror</h3>
+          <div className="olabladet-stat-cards">
             <StatCard icon="📅" label="År sedan starten">
               <AnimatedNumber value={10} suffix="+" />
             </StatCard>
@@ -305,8 +304,8 @@ function renderWidget(key: string): ReactNode {
       );
     case "goalkeeper-2021":
       return (
-        <div className="olbladet-widget">
-          <div className="olbladet-stat-cards">
+        <div className="olabladet-widget">
+          <div className="olabladet-stat-cards">
             <StatCard icon="🧤" label="Räddningar">
               <AnimatedNumber value={7} />
             </StatCard>
@@ -336,7 +335,7 @@ function getPreview(story: Story): string {
   return text.slice(0, 120).replace(/\s+\S*$/, "") + "…";
 }
 
-export default function Olbladet() {
+export default function Olabladet() {
   const [mode, setMode] = useState<ViewMode>("latest");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
@@ -355,15 +354,15 @@ export default function Olbladet() {
   );
 
   return (
-    <div className="page olbladet">
-      <header className="olbladet-header">
-        <h1 className="olbladet-title">Ölbladet</h1>
-        <p className="olbladet-subtitle">
+    <div className="page olabladet">
+      <header className="olabladet-header">
+        <h1 className="olabladet-title">Ölabladet</h1>
+        <p className="olabladet-subtitle">
           Nyheter, rekord och minnesvärda ögonblick från Ölcupens historia
         </p>
       </header>
 
-      <div className="olbladet-toggle">
+      <div className="olabladet-toggle">
         <button
           className={mode === "latest" ? "active" : ""}
           onClick={() => setMode("latest")}
@@ -378,38 +377,38 @@ export default function Olbladet() {
         </button>
       </div>
 
-      <div className={`olbladet-stories ${mode}`}>
+      <div className={`olabladet-stories ${mode}`}>
         {sorted.map((story) => {
           const isOpen = expanded.has(story.headline);
           return (
             <article
               key={story.headline}
-              className={`olbladet-story${isOpen ? " open" : ""}`}
+              className={`olabladet-story${isOpen ? " open" : ""}`}
               onClick={() => toggle(story.headline)}
             >
-              <div className="olbladet-story-header">
+              <div className="olabladet-story-header">
                 <div>
-                  <div className="olbladet-story-dates">
-                    <span className="olbladet-event-date">
+                  <div className="olabladet-story-dates">
+                    <span className="olabladet-event-date">
                       📅 {story.eventDate}
                     </span>
-                    <span className="olbladet-publish-date">
+                    <span className="olabladet-publish-date">
                       Publicerad: {story.publishDate}
                     </span>
                   </div>
                   <h2>{story.headline}</h2>
                 </div>
-                <span className="olbladet-expand-icon">
+                <span className="olabladet-expand-icon">
                   {isOpen ? "▲" : "▼"}
                 </span>
               </div>
 
               {!isOpen && (
-                <p className="olbladet-preview">{getPreview(story)}</p>
+                <p className="olabladet-preview">{getPreview(story)}</p>
               )}
 
               {isOpen && (
-                <div className="olbladet-story-body">
+                <div className="olabladet-story-body">
                   {story.blocks.map((block, i) =>
                     block.type === "text" ? (
                       <p key={i}>{block.value}</p>
