@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { InstagramIcon, FacebookIcon } from "./icons";
 import "./styles/App.css";
-import Home from "./Home";
-import Rules from "./Rules";
-import Contact from "./Contact";
-import Olabladet from "./Olabladet";
+import Home from "./pages/Home/Home";
+import Rules from "./pages/Rules/Rules";
+import Contact from "./pages/Contact/Contact";
+import Olabladet from "./pages/Olabladet/Olabladet";
 
 function ScrollToTop() {
   const { pathname } = useLocation();

@@ -1,4 +1,4 @@
-import "./styles/Rules.css";
+import "./Rules.css";
 
 interface Prize {
   icon: string;

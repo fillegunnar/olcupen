@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
-import "./styles/Olabladet.css";
+import "./Olabladet.css";
 
 /* ── Animated counter: rolls from 0 to target when visible ── */
 

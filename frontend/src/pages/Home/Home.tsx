@@ -1,4 +1,4 @@
-import "./styles/Home.css";
+import "./Home.css";
 
 interface InfoCardProps {
   icon: string;
