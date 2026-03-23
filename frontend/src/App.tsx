@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { InstagramIcon, FacebookIcon } from "./icons";
-import "./styles/App.css";
+import "./App.css";
 import Home from "./pages/Home/Home";
 import Rules from "./pages/Rules/Rules";
 import Contact from "./pages/Contact/Contact";
