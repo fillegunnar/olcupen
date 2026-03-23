@@ -1,0 +1,88 @@
+/* ───── Hero ───── */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 4rem 1.25rem 3rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.hero-logo {
+  width: 400px;
+  height: auto;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 30px rgba(255, 196, 18, 0.35));
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+
+.hero h1 .gold {
+  color: var(--gold);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 6rem 2rem 4rem;
+  }
+  .hero h1 {
+    font-size: 4rem;
+  }
+}
+
+/* ───── Info cards row ───── */
+.info-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 960px;
+  margin: 0 auto 3rem;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .info-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.info-card-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 196, 18, 0.12);
+  border-radius: 10px;
+  color: var(--gold);
+}
+
+.info-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.15rem;
+}
+
+.info-card p {
+  font-size: 0.85rem;
+  color: var(--white-70);
+  line-height: 1.4;
+}

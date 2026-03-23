@@ -1,3 +1,5 @@
+import "./styles/Home.css";
+
 interface InfoCardProps {
   icon: string;
   title: string;

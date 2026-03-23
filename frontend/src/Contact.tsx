@@ -1,4 +1,5 @@
 import { InstagramIcon, FacebookIcon, EnvelopeIcon } from "./icons";
+import "./styles/Contact.css";
 
 interface ContactLink {
   href: string;

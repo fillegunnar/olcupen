@@ -1,0 +1,263 @@
+/* ───── Ölabladet page ───── */
+.olabladet-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--gold-dim);
+}
+
+.olabladet-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3rem;
+  font-style: italic;
+}
+
+.olabladet-subtitle {
+  font-size: 1rem;
+  color: var(--white-50);
+  font-style: italic;
+}
+
+.olabladet-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+}
+
+.olabladet-toggle button {
+  padding: 0.6rem 1.5rem;
+  background: var(--white-05);
+  color: var(--white-70);
+  border: 1px solid var(--white-10);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.olabladet-toggle button:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.olabladet-toggle button:last-child {
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+}
+
+.olabladet-toggle button.active {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+
+.olabladet-toggle button:not(.active):hover {
+  background: var(--white-10);
+  color: var(--white);
+}
+
+.olabladet-stories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.olabladet-stories.timeline {
+  border-left: 3px solid var(--gold-dim);
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.olabladet-story {
+  padding: 1.25rem 1.5rem;
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 10px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.olabladet-story:hover {
+  border-color: var(--gold-dim);
+  box-shadow: 0 2px 12px rgba(255, 196, 18, 0.08);
+}
+
+.olabladet-story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.olabladet-expand-icon {
+  color: var(--gold-dim);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+  transition: color 0.2s;
+}
+
+.olabladet-story:hover .olabladet-expand-icon {
+  color: var(--gold);
+}
+
+.olabladet-preview {
+  font-size: 0.9rem;
+  color: var(--white-50);
+  line-height: 1.5;
+  margin-top: 0.4rem;
+}
+
+.olabladet-story-body {
+  margin-top: 0.8rem;
+}
+
+.olabladet-stories.timeline .olabladet-story {
+  position: relative;
+}
+
+.olabladet-stories.timeline .olabladet-story::before {
+  content: "";
+  position: absolute;
+  left: -2.05rem;
+  top: 1.8rem;
+  width: 12px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+
+.olabladet-story-dates {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.olabladet-event-date {
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+.olabladet-publish-date {
+  font-size: 0.8rem;
+  color: var(--white-50);
+}
+
+.olabladet-story h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  line-height: 1.35;
+}
+
+.olabladet-story p {
+  font-size: 0.95rem;
+  color: var(--white-70);
+  line-height: 1.7;
+  margin-bottom: 0.5rem;
+}
+
+.olabladet-story p:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .olabladet-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* ── Ölabladet widgets ── */
+.olabladet-widget {
+  margin: 1rem 0;
+  padding: 1.25rem;
+  background: rgba(255, 196, 18, 0.04);
+  border: 1px solid rgba(255, 196, 18, 0.15);
+  border-radius: 10px;
+}
+
+.olabladet-widget-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* stat cards grid */
+.olabladet-stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.olabladet-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 1rem 0.5rem;
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.olabladet-stat-card-icon {
+  font-size: 1.4rem;
+}
+
+.olabladet-stat-card-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.olabladet-stat-card-label {
+  font-size: 0.75rem;
+  color: var(--white-50);
+  font-weight: 500;
+}
+
+.olabladet-animated-number {
+  display: inline-block;
+}
+
+/* stat bars */
+.olabladet-stat-bar {
+  margin-bottom: 0.6rem;
+}
+
+.olabladet-stat-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--white-70);
+  margin-bottom: 0.3rem;
+}
+
+.olabladet-stat-bar-track {
+  height: 10px;
+  background: var(--white-10);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.olabladet-stat-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 3s cubic-bezier(0.22, 1, 0.36, 1);
+}

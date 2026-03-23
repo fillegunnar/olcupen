@@ -1,3 +1,5 @@
+import "./styles/Rules.css";
+
 interface Prize {
   icon: string;
   label: string;
