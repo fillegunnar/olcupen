@@ -21,7 +21,10 @@ function Navbar() {
   return (
     <nav className="nav">
       <NavLink className="nav-brand" to="/" onClick={() => setMenuOpen(false)}>
-        <img src="/img/logga-olcupen-2.webp" alt="Ölcupen" />
+        <img
+          src={import.meta.env.BASE_URL + "img/logga-olcupen-2.webp"}
+          alt="Ölcupen"
+        />
         <span>Ölcupen</span>
       </NavLink>
 
