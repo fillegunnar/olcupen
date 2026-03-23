@@ -169,103 +169,12 @@ const stories: Story[] = [
       },
     ],
   },
-  {
-    headline: "Rekordseger i finalen — 7-1 krossade allt motstånd",
-    publishDate: "Juni 2024",
-    eventDate: "Sommaren 2023",
-    eventSort: 20230601,
-    publishSort: 20240601,
-    blocks: [
-      {
-        type: "text",
-        value:
-          "I 2023 års final såg vi något som aldrig hänt förut i Ölcupens historia. Laget Löa Legends körde över motståndarna med hela 7-1 i en match som hade allt: drömträffar, tavlor i ribban och en målvakt som hellre drack öl än räddade skott.",
-      },
-      { type: "bars", value: "final-2023" },
-      {
-        type: "text",
-        value:
-          "Redan efter tre minuter stod det 3-0, och resten av matchen var ren uppvisning. Segrarna belönades med 15 OPÖL — som försvann snabbare än målskillnaden antyder.",
-      },
-    ],
-  },
-  {
-    headline: "Ölcupen grundades i en husvagn",
-    publishDate: "Januari 2026",
-    eventDate: "Sommaren 2016",
-    eventSort: 20160601,
-    publishSort: 20260102,
-    blocks: [
-      {
-        type: "text",
-        value:
-          "Allt började med en diskussion kring en grill och en husvagn i Löa, sommaren 2016. Fyra kompisar bestämde sig för att arrangera en fotbollsturnering med en twist — förlorarna bjuder vinnarna på öl. Konceptet var så enkelt att det inte kunde misslyckas.",
-      },
-      { type: "stats", value: "founding" },
-      {
-        type: "text",
-        value:
-          "Första året deltog bara fyra lag, spelplatsen var en lerig äng bakom ladugården, och det fanns exakt en boll — som dessutom sprack under semifinalen. Men ingen brydde sig. Stämningen var magisk. Alla grillade, alla skrattade, och alla lovade att komma tillbaka nästa år.",
-      },
-      {
-        type: "text",
-        value:
-          "Och det gjorde de. År två hade deltagarantalet dubblats. År tre kom det folk som ingen hade bjudit in — de hade bara hört ryktet. Husvagnen, som från början bara var parkerad i vägen, blev en samlingspunkt och sedan en symbol. Den finns kvar på loggan som en påminnelse om var allt började.",
-      },
-      {
-        type: "text",
-        value:
-          "Idag, tio år senare, är Ölcupen en fast tradition. Reglerna har blivit fler, lagen har blivit bättre (marginellt), och ölinsatserna har växt. Men känslan är densamma: en sommardag med kompisar, fotboll, och en kyld öl i handen.",
-      },
-    ],
-  },
-  {
-    headline: "Målvakten som räddade allt — utom sin värdighet",
-    publishDate: "Mars 2026",
-    eventDate: "Sommaren 2021",
-    eventSort: 20210601,
-    publishSort: 20260303,
-    blocks: [
-      {
-        type: "text",
-        value:
-          "Under gruppspelet 2021 gjorde en anonym målvakt sju strålande räddningar i en och samma match. Laget vann 1-0 och supportrarna firade som om det var en VM-final. Problemet? I nästa match gled samme målvakt på en korv och missade hela andra halvlek.",
-      },
-      { type: "stats", value: "goalkeeper-2021" },
-    ],
-  },
 ];
 
 /* ── Widget renderers ── */
 
 function renderWidget(key: string): ReactNode {
   switch (key) {
-    case "final-2023":
-      return (
-        <div className="olabladet-widget">
-          <h3 className="olabladet-widget-title">
-            Matchstatistik — Finalen 2023
-          </h3>
-          <StatBar label="Löa Legends" value={7} max={8} color="var(--gold)" />
-          <StatBar
-            label="Motståndarna"
-            value={1}
-            max={8}
-            color="var(--white-50)"
-          />
-          <div className="olabladet-stat-cards">
-            <StatCard icon="⚽" label="Totalt mål">
-              <AnimatedNumber value={8} />
-            </StatCard>
-            <StatCard icon="⏱️" label="Minuter">
-              <AnimatedNumber value={12} />
-            </StatCard>
-            <StatCard icon="🍺" label="OPÖL till vinnarna">
-              <AnimatedNumber value={15} />
-            </StatCard>
-          </div>
-        </div>
-      );
     case "kung-facts":
       return (
         <div className="olabladet-widget">
@@ -281,42 +190,6 @@ function renderWidget(key: string): ReactNode {
           <StatBar label="Beska" value={4} max={10} color="var(--gold)" />
           <StatBar label="Fyllighet" value={4} max={10} color="var(--gold)" />
           <StatBar label="Sötma" value={2} max={10} color="var(--gold)" />
-        </div>
-      );
-    case "founding":
-      return (
-        <div className="olabladet-widget">
-          <h3 className="olabladet-widget-title">Ölcupen i siffror</h3>
-          <div className="olabladet-stat-cards">
-            <StatCard icon="📅" label="År sedan starten">
-              <AnimatedNumber value={10} suffix="+" />
-            </StatCard>
-            <StatCard icon="👕" label="Lag, första året">
-              <AnimatedNumber value={4} />
-            </StatCard>
-            <StatCard icon="🍺" label="OPÖL utdelade totalt">
-              <AnimatedNumber value={247} />
-            </StatCard>
-            <StatCard icon="🏆" label="Turneringar">
-              <AnimatedNumber value={9} />
-            </StatCard>
-          </div>
-        </div>
-      );
-    case "goalkeeper-2021":
-      return (
-        <div className="olabladet-widget">
-          <div className="olabladet-stat-cards">
-            <StatCard icon="🧤" label="Räddningar">
-              <AnimatedNumber value={7} />
-            </StatCard>
-            <StatCard icon="🥅" label="Insläppta mål">
-              <AnimatedNumber value={0} />
-            </StatCard>
-            <StatCard icon="🌭" label="Korvar halkade på">
-              <AnimatedNumber value={1} />
-            </StatCard>
-          </div>
         </div>
       );
     default:
