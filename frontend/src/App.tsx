@@ -83,7 +83,7 @@ function Footer() {
           <FacebookIcon size={28} />
         </a>
       </div>
-      <p>© 2016–2025 Ölcupen. Est. 2016.</p>
+      <p>Hörs hej!</p>
     </footer>
   );
 }

@@ -40,7 +40,7 @@ export default function Home() {
 
       <div className="info-cards">
         <InfoCard icon="📅" title="Datum">
-          31 maj 2025
+          Lördag, 30 maj 2026
         </InfoCard>
         <InfoCard icon="📍" title="Plats">
           Östra Löa 122
