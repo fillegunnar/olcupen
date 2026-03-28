@@ -12,9 +12,13 @@ function AnimatedNumber({
   duration?: number;
   suffix?: string;
 }) {
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState("0");
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
+
+  const decimals = Number.isInteger(value)
+    ? 0
+    : (value.toString().split(".")[1]?.length ?? 0);
 
   useEffect(() => {
     const el = ref.current;
@@ -27,7 +31,12 @@ function AnimatedNumber({
           const step = (now: number) => {
             const progress = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-            setDisplay(Math.round(eased * value));
+            const current = eased * value;
+            setDisplay(
+              decimals > 0
+                ? current.toFixed(decimals)
+                : String(Math.round(current)),
+            );
             if (progress < 1) requestAnimationFrame(step);
           };
           requestAnimationFrame(step);
@@ -37,7 +46,7 @@ function AnimatedNumber({
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [value, duration]);
+  }, [value, duration, decimals]);
 
   return (
     <span ref={ref} className="olabladet-animated-number">
