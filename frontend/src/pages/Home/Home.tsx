@@ -1,13 +1,15 @@
+import { Link } from "react-router-dom";
 import "./Home.css";
 
 interface InfoCardProps {
   icon: string;
   title: string;
   href?: string;
+  internalLink?: string;
   children: React.ReactNode;
 }
 
-function InfoCard({ icon, title, href, children }: InfoCardProps) {
+function InfoCard({ icon, title, href, internalLink, children }: InfoCardProps) {
   const content = (
     <>
       <div className="info-card-icon">{icon}</div>
@@ -28,6 +30,14 @@ function InfoCard({ icon, title, href, children }: InfoCardProps) {
       >
         {content}
       </a>
+    );
+  }
+
+  if (internalLink) {
+    return (
+      <Link className="info-card info-card-link" to={internalLink}>
+        {content}
+      </Link>
     );
   }
 
@@ -67,7 +77,7 @@ export default function Home() {
           <br />
           Kopparberg
         </InfoCard>
-        <InfoCard icon="🏆" title="Priser">
+        <InfoCard icon="🏆" title="Priser" internalLink="/rules">
           Asmånga OPÖL
           <br />
           till vinnarna
