@@ -189,7 +189,16 @@ export default function Tournament() {
   useEffect(() => {
     fetchGroups();
     const id = setInterval(fetchGroups, POLL_INTERVAL_MS);
-    return () => clearInterval(id);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") fetchGroups();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [fetchGroups]);
 
   return (
