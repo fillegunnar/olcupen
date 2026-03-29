@@ -104,14 +104,14 @@ function GroupSection({ group }: { group: GroupData }) {
           <thead>
             <tr>
               <th>Lag</th>
-              <th>S</th>
-              <th>V</th>
-              <th>O</th>
-              <th>F</th>
-              <th>GM</th>
-              <th>IM</th>
-              <th>MS</th>
-              <th>P</th>
+              <th>GP</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>PTS</th>
             </tr>
           </thead>
           <tbody>
