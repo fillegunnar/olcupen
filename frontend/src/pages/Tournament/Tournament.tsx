@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./Tournament.css";
 
 const SHEET_ID = "1y0CI3Nh6uqtyZBh0aC2C6aAggKkq0Nw_";
@@ -163,22 +163,34 @@ function GroupSection({ group }: { group: GroupData }) {
   );
 }
 
+const POLL_INTERVAL_MS = 30_000;
+
 export default function Tournament() {
   const [groups, setGroups] = useState<GroupData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Promise.all([fetchSheet("Ö", "A1:K20"), fetchSheet("L", "A1:K20")])
-      .then(([rowsO, rowsL]) => {
-        setGroups([parseGroup("Grupp Ö", rowsO), parseGroup("Grupp L", rowsL)]);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch sheet data:", err);
-        setError("Kunde inte hämta data från Google Sheets.");
-      })
-      .finally(() => setLoading(false));
+  const fetchGroups = useCallback(async () => {
+    try {
+      const [rowsO, rowsL] = await Promise.all([
+        fetchSheet("Ö", "A1:K20"),
+        fetchSheet("L", "A1:K20"),
+      ]);
+      setGroups([parseGroup("Grupp Ö", rowsO), parseGroup("Grupp L", rowsL)]);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to fetch sheet data:", err);
+      setError("Kunde inte hämta data från Google Sheets.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchGroups();
+    const id = setInterval(fetchGroups, POLL_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [fetchGroups]);
 
   return (
     <div className="page tournament">
