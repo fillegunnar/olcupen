@@ -15,35 +15,108 @@
   color: var(--gold);
 }
 
-.tournament-section {
+/* ── Group section ── */
+.tournament-group {
   background: var(--white-05);
   border: 1px solid var(--white-10);
   border-radius: 12px;
   padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.tournament-section h2 {
-  font-size: 1.1rem;
+.tournament-group h2 {
+  font-size: 1.25rem;
   color: var(--gold);
   margin-bottom: 1rem;
 }
 
+.tournament-group h3 {
+  font-size: 1rem;
+  color: var(--gold);
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* ── Table wrapper (horizontal scroll on small screens) ── */
+.tournament-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Shared table styles ── */
+.tournament-standings,
+.tournament-schedule {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tournament-standings th,
+.tournament-standings td,
+.tournament-schedule th,
+.tournament-schedule td {
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tournament-standings thead th,
+.tournament-schedule thead th {
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold-dim);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.tournament-standings tbody tr:nth-child(even),
+.tournament-schedule tbody tr:nth-child(even) {
+  background: var(--white-05);
+}
+
+/* ── Standings specifics ── */
+.tournament-standings .team-name {
+  text-align: left;
+  font-weight: 600;
+}
+
+.tournament-standings .pts {
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* ── Schedule specifics ── */
+.tournament-schedule .match-time {
+  font-variant-numeric: tabular-nums;
+  color: var(--white-50);
+}
+
+.tournament-schedule .team-home {
+  text-align: right;
+  font-weight: 600;
+}
+
+.tournament-schedule .team-away {
+  text-align: left;
+  font-weight: 600;
+}
+
+.tournament-schedule .match-score {
+  font-weight: 700;
+  min-width: 3.5rem;
+}
+
+.tournament-schedule .score-col {
+  min-width: 3.5rem;
+}
+
+/* ── Loading / error ── */
 .tournament-loading {
   color: var(--white-50);
   font-style: italic;
+  text-align: center;
 }
 
 .tournament-error {
   color: #e74c3c;
-}
-
-.tournament-cell-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--white);
-  padding: 1rem;
-  background: var(--white-05);
-  border: 1px solid var(--gold-dim);
-  border-radius: 8px;
   text-align: center;
 }
