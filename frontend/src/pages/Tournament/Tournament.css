@@ -1,0 +1,49 @@
+/* ───── Tournament page ───── */
+.tournament {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.tournament-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.tournament-header h1 {
+  font-size: 2rem;
+  color: var(--gold);
+}
+
+.tournament-section {
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.tournament-section h2 {
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.tournament-loading {
+  color: var(--white-50);
+  font-style: italic;
+}
+
+.tournament-error {
+  color: #e74c3c;
+}
+
+.tournament-cell-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  padding: 1rem;
+  background: var(--white-05);
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  text-align: center;
+}
