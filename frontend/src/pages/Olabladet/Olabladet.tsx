@@ -62,12 +62,12 @@ function StatBar({
   label,
   value,
   max,
-  color,
+  color = "var(--gold)",
 }: {
   label: string;
   value: number;
   max: number;
-  color: string;
+  color?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -196,9 +196,9 @@ function renderWidget(key: string): ReactNode {
           <StatCard icon="🗓️" label="Började säljas">
             <AnimatedNumber value={2011} />
           </StatCard>
-          <StatBar label="Beska" value={4} max={10} color="var(--gold)" />
-          <StatBar label="Fyllighet" value={4} max={10} color="var(--gold)" />
-          <StatBar label="Sötma" value={2} max={10} color="var(--gold)" />
+          <StatBar label="Beska" value={4} max={10} />
+          <StatBar label="Fyllighet" value={4} max={10} />
+          <StatBar label="Sötma" value={2} max={10} />
         </div>
       );
     default:
