@@ -1,5 +1,15 @@
-import { useState, useEffect, useRef, type ReactNode } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import "./Olabladet.css";
+
+const SHEET_ID = "1lUacLqD8ZikXIq_SSgafWOPGt-P3HhFFBHn4ALXmlpc";
 
 /* ── Animated counter: rolls from 0 to target when visible ── */
 
@@ -62,11 +72,13 @@ function StatBar({
   label,
   value,
   max,
+  suffix = "",
   color = "var(--gold)",
 }: {
   label: string;
   value: number;
   max: number;
+  suffix?: string;
   color?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -91,7 +103,10 @@ function StatBar({
     <div ref={ref} className="olabladet-stat-bar">
       <div className="olabladet-stat-bar-label">
         <span>{label}</span>
-        <span style={{ color }}>{value}</span>
+        <span style={{ color }}>
+          {value}
+          {suffix && ` ${suffix}`}
+        </span>
       </div>
       <div className="olabladet-stat-bar-track">
         <div
@@ -106,104 +121,185 @@ function StatBar({
   );
 }
 
-/* ── Stat card grid ── */
+/* ── Types ── */
 
-function StatCard({
-  icon,
-  label,
-  children,
-}: {
-  icon: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="olabladet-stat-card">
-      <span className="olabladet-stat-card-icon">{icon}</span>
-      <div className="olabladet-stat-card-value">{children}</div>
-      <span className="olabladet-stat-card-label">{label}</span>
-    </div>
-  );
-}
-
-/* ── Story data ── */
-
-interface StoryContent {
-  type: "text";
-  value: string;
-}
-interface StoryWidget {
-  type: "stats" | "bars";
-  value: string; // widget key
-}
-type StoryBlock = StoryContent | StoryWidget;
+type ParsedBlock =
+  | { type: "text"; value: string }
+  | { type: "an"; value: number; suffix: string; label: string }
+  | { type: "sb"; value: number; max: number; suffix: string; label: string };
 
 interface Story {
   headline: string;
-  publishDate: string;
-  eventDate: string;
-  eventSort: number;
   publishSort: number;
-  blocks: StoryBlock[];
+  eventSort: number;
+  blocks: ParsedBlock[];
 }
 
-const stories: Story[] = [
-  {
-    headline: "Ölabladet lanseras - din källa till allt Ölcupen-relaterat",
-    publishDate: "Mars 2026",
-    eventDate: "Mars 2026",
-    eventSort: 20260301,
-    publishSort: 20260301,
-    blocks: [
-      {
-        type: "text",
-        value: "Visste du att Ölcupsledningens favoritöl är KUNG?",
-      },
-      {
-        type: "text",
-        value:
-          "KUNG är en redig designburk och tillsammans med den låga kostnaden på 13:90 per burk så säga att det är ren, ärlig leverans varje gång. När livet sviker så står Kungen kvar – billig, stabil och lojal (förhoppningsvis kall).",
-      },
-      {
-        type: "text",
-        value: "Kanske inte bäst i världen.",
-      },
-      {
-        type: "text",
-        value: "Men alltid rätt i stunden.",
-      },
-      {
-        type: "stats",
-        value: "kung-facts",
-      },
-    ],
-  },
+/* ── Date formatting ── */
+
+const MONTHS = [
+  "Januari",
+  "Februari",
+  "Mars",
+  "April",
+  "Maj",
+  "Juni",
+  "Juli",
+  "Augusti",
+  "September",
+  "Oktober",
+  "November",
+  "December",
 ];
 
-/* ── Widget renderers ── */
+function formatSortDate(sort: number): string {
+  const s = String(sort);
+  const year = s.slice(0, 4);
+  const month = parseInt(s.slice(4, 6), 10);
+  return `${MONTHS[month - 1]} ${year}`;
+}
 
-function renderWidget(key: string): ReactNode {
-  switch (key) {
-    case "kung-facts":
-      return (
-        <div className="olabladet-widget">
-          <StatCard icon="👑" label="Alkoholhalt">
-            <AnimatedNumber value={5.2} suffix="%" />
-          </StatCard>
-          <StatCard icon="🧴" label="Volym">
-            <AnimatedNumber value={500} suffix="ml" />
-          </StatCard>
-          <StatCard icon="🗓️" label="Började säljas">
-            <AnimatedNumber value={2011} />
-          </StatCard>
-          <StatBar label="Beska" value={4} max={10} />
-          <StatBar label="Fyllighet" value={4} max={10} />
-          <StatBar label="Sötma" value={2} max={10} />
-        </div>
-      );
-    default:
-      return null;
+/* ── Parse story content into blocks ── */
+
+function parseStoryContent(text: string): ParsedBlock[] {
+  const lines = text.split("\n");
+  const blocks: ParsedBlock[] = [];
+  let currentText = "";
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    const anMatch = trimmed.match(/^<an\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)>$/);
+    const sbMatch = trimmed.match(/^<sb\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)>$/);
+
+    if (anMatch) {
+      if (currentText.trim()) {
+        blocks.push({ type: "text", value: currentText.trimEnd() });
+        currentText = "";
+      }
+      const rawValue = anMatch[1].trim();
+      const suffix = anMatch[2].trim();
+      const label = anMatch[3].trim();
+      const num = parseFloat(rawValue.replace(",", ".")) || 0;
+      blocks.push({ type: "an", value: num, suffix, label });
+    } else if (sbMatch) {
+      if (currentText.trim()) {
+        blocks.push({ type: "text", value: currentText.trimEnd() });
+        currentText = "";
+      }
+      const rawValue = sbMatch[1].trim();
+      const suffix = sbMatch[2].trim();
+      const label = sbMatch[3].trim();
+      const [v, m] = rawValue.split("/").map(Number);
+      blocks.push({ type: "sb", value: v, max: m, suffix, label });
+    } else {
+      currentText += line + "\n";
+    }
   }
+
+  if (currentText.trim()) {
+    blocks.push({ type: "text", value: currentText.trimEnd() });
+  }
+
+  return blocks;
+}
+
+/* ── Fetch stories from Google Sheet ── */
+
+type GvizCell = { v: string | number | null; f?: string } | null;
+type GvizRow = { c: GvizCell[] };
+
+async function fetchStories(): Promise<Story[]> {
+  const url =
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
+    `?tqx=out:json&headers=0&range=A1:E100`;
+  const res = await fetch(url);
+  const text = await res.text();
+  const jsonStr = text.replace(/^[^(]*\(/, "").replace(/\);?\s*$/, "");
+  const data = JSON.parse(jsonStr);
+
+  const rows = data.table.rows as GvizRow[];
+  const stories: Story[] = [];
+
+  for (const row of rows) {
+    const cells = row.c;
+    const status =
+      cells[0]?.v != null ? String(cells[0].v).trim().toLowerCase() : "";
+    if (status !== "r") continue;
+
+    const publishSort = Number(cells[1]?.f ?? cells[1]?.v ?? 0);
+    const eventSort = Number(cells[2]?.f ?? cells[2]?.v ?? 0);
+    const headline = cells[3]?.v != null ? String(cells[3].v) : "";
+    const rawContent = cells[4]?.v != null ? String(cells[4].v) : "";
+    if (!headline) continue;
+
+    stories.push({
+      headline,
+      publishSort,
+      eventSort,
+      blocks: parseStoryContent(rawContent),
+    });
+  }
+
+  return stories;
+}
+
+/* ── Render parsed blocks ── */
+
+function renderBlocks(blocks: ParsedBlock[]): ReactNode[] {
+  const result: ReactNode[] = [];
+  let widgetGroup: ParsedBlock[] = [];
+
+  const flushWidgets = () => {
+    if (widgetGroup.length === 0) return;
+    const anBlocks = widgetGroup.filter((w) => w.type === "an");
+    const sbBlocks = widgetGroup.filter((w) => w.type === "sb");
+    result.push(
+      <div key={`widgets-${result.length}`} className="olabladet-widget">
+        {anBlocks.length > 0 && (
+          <div className="olabladet-stat-cards">
+            {anBlocks.map((w, i) =>
+              w.type === "an" ? (
+                <div key={i} className="olabladet-stat-card">
+                  <div className="olabladet-stat-card-value">
+                    <AnimatedNumber value={w.value} suffix={w.suffix} />
+                  </div>
+                  <span className="olabladet-stat-card-label">{w.label}</span>
+                </div>
+              ) : null,
+            )}
+          </div>
+        )}
+        {sbBlocks.map((w, i) =>
+          w.type === "sb" ? (
+            <StatBar
+              key={i}
+              label={w.label}
+              value={w.value}
+              max={w.max}
+              suffix={w.suffix}
+            />
+          ) : null,
+        )}
+      </div>,
+    );
+    widgetGroup = [];
+  };
+
+  for (const block of blocks) {
+    if (block.type === "text") {
+      flushWidgets();
+      result.push(
+        <p key={`text-${result.length}`} style={{ whiteSpace: "pre-wrap" }}>
+          {block.value}
+        </p>,
+      );
+    } else {
+      widgetGroup.push(block);
+    }
+  }
+  flushWidgets();
+
+  return result;
 }
 
 /* ── Main component ── */
@@ -212,7 +308,7 @@ type ViewMode = "latest" | "timeline";
 
 function getPreview(story: Story): string {
   const first = story.blocks.find((b) => b.type === "text");
-  if (!first) return "";
+  if (!first || first.type !== "text") return "";
   const text = first.value;
   if (text.length <= 120) return text;
   return text.slice(0, 120).replace(/\s+\S*$/, "") + "…";
@@ -221,6 +317,26 @@ function getPreview(story: Story): string {
 export default function Olabladet() {
   const [mode, setMode] = useState<ViewMode>("latest");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [stories, setStories] = useState<Story[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadStories = useCallback(async () => {
+    try {
+      const data = await fetchStories();
+      setStories(data);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to fetch Ölabladet stories:", err);
+      setError("Kunde inte hämta artiklar.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadStories();
+  }, [loadStories]);
 
   const toggle = (headline: string) =>
     setExpanded((prev) => {
@@ -238,27 +354,11 @@ export default function Olabladet() {
 
   return (
     <div className="page olabladet">
-      <header className="olabladet-header">
-        <h1 className="olabladet-title">Ölabladet</h1>
-        <p className="olabladet-subtitle">
-          Nyheter, rekord och minnesvärda ögonblick från Ölcupens historia
-        </p>
-      </header>
+      <OlabladetHeader />
+      <ToggleNewsSort mode={mode} setMode={setMode} />
 
-      <div className="olabladet-toggle">
-        <button
-          className={mode === "latest" ? "active" : ""}
-          onClick={() => setMode("latest")}
-        >
-          Senaste nytt
-        </button>
-        <button
-          className={mode === "timeline" ? "active" : ""}
-          onClick={() => setMode("timeline")}
-        >
-          Tidslinje
-        </button>
-      </div>
+      {loading && <p className="tournament-loading">Hämtar artiklar…</p>}
+      {error && <p className="tournament-error">{error}</p>}
 
       <div className={`olabladet-stories ${mode}`}>
         {sorted.map((story) => {
@@ -273,10 +373,10 @@ export default function Olabladet() {
                 <div>
                   <div className="olabladet-story-dates">
                     <span className="olabladet-event-date">
-                      📅 {story.eventDate}
+                      📅 {formatSortDate(story.eventSort)}
                     </span>
                     <span className="olabladet-publish-date">
-                      Publicerad: {story.publishDate}
+                      Publicerad: {formatSortDate(story.publishSort)}
                     </span>
                   </div>
                   <h2>{story.headline}</h2>
@@ -292,13 +392,7 @@ export default function Olabladet() {
 
               {isOpen && (
                 <div className="olabladet-story-body">
-                  {story.blocks.map((block, i) =>
-                    block.type === "text" ? (
-                      <p key={i}>{block.value}</p>
-                    ) : (
-                      <div key={i}>{renderWidget(block.value)}</div>
-                    ),
-                  )}
+                  {renderBlocks(story.blocks)}
                 </div>
               )}
             </article>
@@ -306,5 +400,41 @@ export default function Olabladet() {
         })}
       </div>
     </div>
+  );
+}
+
+function ToggleNewsSort({
+  mode,
+  setMode,
+}: {
+  mode: ViewMode;
+  setMode: Dispatch<SetStateAction<ViewMode>>;
+}) {
+  return (
+    <div className="olabladet-toggle">
+      <button
+        className={mode === "latest" ? "active" : ""}
+        onClick={() => setMode("latest")}
+      >
+        Senaste nytt
+      </button>
+      <button
+        className={mode === "timeline" ? "active" : ""}
+        onClick={() => setMode("timeline")}
+      >
+        Tidslinje
+      </button>
+    </div>
+  );
+}
+
+function OlabladetHeader() {
+  return (
+    <header className="olabladet-header">
+      <h1 className="olabladet-title">Ölabladet</h1>
+      <p className="olabladet-subtitle">
+        Nyheter, rekord och minnesvärda ögonblick från Ölcupens historia
+      </p>
+    </header>
   );
 }
