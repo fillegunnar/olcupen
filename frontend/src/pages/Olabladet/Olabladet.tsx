@@ -137,26 +137,12 @@ interface Story {
 
 /* ── Date formatting ── */
 
-const MONTHS = [
-  "Januari",
-  "Februari",
-  "Mars",
-  "April",
-  "Maj",
-  "Juni",
-  "Juli",
-  "Augusti",
-  "September",
-  "Oktober",
-  "November",
-  "December",
-];
-
 function formatSortDate(sort: number): string {
   const s = String(sort);
   const year = s.slice(0, 4);
-  const month = parseInt(s.slice(4, 6), 10);
-  return `${MONTHS[month - 1]} ${year}`;
+  const month = s.slice(4, 6);
+  const day = s.slice(6, 8);
+  return `${year}-${month}-${day}`;
 }
 
 /* ── Parse story content into blocks ── */
