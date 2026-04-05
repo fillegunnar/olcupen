@@ -292,6 +292,10 @@ function renderBlocks(blocks: ParsedBlock[]): ReactNode[] {
 
 type ViewMode = "latest" | "timeline";
 
+function getEventYear(story: Story): string {
+  return String(story.eventSort).slice(0, 4);
+}
+
 function getPreview(story: Story): string {
   const first = story.blocks.find((b) => b.type === "text");
   if (!first || first.type !== "text") return "";
@@ -332,11 +336,72 @@ export default function Olabladet() {
       return next;
     });
 
+  const [collapsedYears, setCollapsedYears] = useState<Set<string>>(new Set());
+
+  const toggleYear = (year: string) =>
+    setCollapsedYears((prev) => {
+      const next = new Set(prev);
+      if (next.has(year)) next.delete(year);
+      else next.add(year);
+      return next;
+    });
+
   const sorted = [...stories].sort((a, b) =>
     mode === "latest"
       ? b.publishSort - a.publishSort
       : a.eventSort - b.eventSort,
   );
+
+  /* Group stories by event year (descending) for timeline mode */
+  const yearGroups =
+    mode === "timeline"
+      ? [...stories]
+          .sort((a, b) => a.eventSort - b.eventSort)
+          .reduce<{ year: string; stories: Story[] }[]>((acc, story) => {
+            const year = getEventYear(story);
+            const last = acc[acc.length - 1];
+            if (last && last.year === year) {
+              last.stories.push(story);
+            } else {
+              acc.push({ year, stories: [story] });
+            }
+            return acc;
+          }, [])
+      : [];
+
+  const renderStoryCard = (story: Story) => {
+    const isOpen = expanded.has(story.headline);
+    return (
+      <article
+        key={story.headline}
+        className={`olabladet-story${isOpen ? " open" : ""}`}
+        onClick={() => toggle(story.headline)}
+      >
+        <div className="olabladet-story-header">
+          <div>
+            <div className="olabladet-story-dates">
+              <span className="olabladet-event-date">
+                📅 {formatSortDate(story.eventSort)}
+              </span>
+              <span className="olabladet-publish-date">
+                Publicerad: {formatSortDate(story.publishSort)}
+              </span>
+            </div>
+            <h2>{story.headline}</h2>
+          </div>
+          <span className="olabladet-expand-icon">{isOpen ? "▲" : "▼"}</span>
+        </div>
+
+        {!isOpen && <p className="olabladet-preview">{getPreview(story)}</p>}
+
+        {isOpen && (
+          <div className="olabladet-story-body">
+            {renderBlocks(story.blocks)}
+          </div>
+        )}
+      </article>
+    );
+  };
 
   return (
     <div className="page olabladet">
@@ -363,45 +428,39 @@ export default function Olabladet() {
         </article>
       )}
 
-      <div className={`olabladet-stories ${mode}`}>
-        {(mode === "latest" ? sorted.slice(1) : sorted).map((story) => {
-          const isOpen = expanded.has(story.headline);
-          return (
-            <article
-              key={story.headline}
-              className={`olabladet-story${isOpen ? " open" : ""}`}
-              onClick={() => toggle(story.headline)}
-            >
-              <div className="olabladet-story-header">
-                <div>
-                  <div className="olabladet-story-dates">
-                    <span className="olabladet-event-date">
-                      📅 {formatSortDate(story.eventSort)}
-                    </span>
-                    <span className="olabladet-publish-date">
-                      Publicerad: {formatSortDate(story.publishSort)}
-                    </span>
+      {mode === "timeline" ? (
+        <div className="olabladet-chronicle">
+          {yearGroups.map(({ year, stories: yearStories }) => {
+            const isCollapsed = collapsedYears.has(year);
+            return (
+              <section key={year} className="olabladet-year-section">
+                <button
+                  className="olabladet-year-header"
+                  onClick={() => toggleYear(year)}
+                >
+                  <span className="olabladet-year-label">{year}</span>
+                  <span className="olabladet-year-count">
+                    {yearStories.length} artik
+                    {yearStories.length === 1 ? "el" : "lar"}
+                  </span>
+                  <span className="olabladet-expand-icon">
+                    {isCollapsed ? "▼" : "▲"}
+                  </span>
+                </button>
+                {!isCollapsed && (
+                  <div className="olabladet-stories timeline">
+                    {yearStories.map(renderStoryCard)}
                   </div>
-                  <h2>{story.headline}</h2>
-                </div>
-                <span className="olabladet-expand-icon">
-                  {isOpen ? "▲" : "▼"}
-                </span>
-              </div>
-
-              {!isOpen && (
-                <p className="olabladet-preview">{getPreview(story)}</p>
-              )}
-
-              {isOpen && (
-                <div className="olabladet-story-body">
-                  {renderBlocks(story.blocks)}
-                </div>
-              )}
-            </article>
-          );
-        })}
-      </div>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="olabladet-stories">
+          {sorted.slice(1).map(renderStoryCard)}
+        </div>
+      )}
     </div>
   );
 }
@@ -425,7 +484,7 @@ function ToggleNewsSort({
         className={mode === "timeline" ? "active" : ""}
         onClick={() => setMode("timeline")}
       >
-        Tidslinje
+        Ölcupen genom åren
       </button>
     </div>
   );

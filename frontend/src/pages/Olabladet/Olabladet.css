@@ -212,6 +212,61 @@
   }
 }
 
+/* ── Chronicle (Årskrönika) mode ── */
+.olabladet-chronicle {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.olabladet-year-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.olabladet-year-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--white-05);
+  border: 1px solid var(--gold-dim);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  text-align: left;
+  width: 100%;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.olabladet-year-header:hover {
+  border-color: var(--gold);
+  background: rgba(255, 196, 18, 0.06);
+}
+
+.olabladet-year-label {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.olabladet-year-count {
+  font-size: 0.85rem;
+  color: var(--white-50);
+  flex: 1;
+}
+
+.olabladet-year-section .olabladet-stories {
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+}
+
 /* ── Ölabladet widgets ── */
 .olabladet-widget {
   margin: 1rem 0;
