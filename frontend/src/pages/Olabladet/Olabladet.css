@@ -175,6 +175,43 @@
   }
 }
 
+/* ── Hero card (latest mode top story) ── */
+.olabladet-hero {
+  padding: 2rem 2rem 1.5rem;
+  background: var(--white-05);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px rgba(255, 196, 18, 0.12);
+}
+
+.olabladet-hero h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.8rem;
+}
+
+.olabladet-hero .olabladet-story-dates {
+  margin-bottom: 0.5rem;
+}
+
+.olabladet-hero .olabladet-story-body {
+  margin-top: 0.6rem;
+}
+
+.olabladet-hero .olabladet-story-body p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--white-70);
+}
+
+@media (min-width: 768px) {
+  .olabladet-hero h2 {
+    font-size: 2.2rem;
+  }
+}
+
 /* ── Ölabladet widgets ── */
 .olabladet-widget {
   margin: 1rem 0;

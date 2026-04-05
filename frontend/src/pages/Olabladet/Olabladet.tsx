@@ -346,8 +346,25 @@ export default function Olabladet() {
       {loading && <p className="tournament-loading">Hämtar artiklar…</p>}
       {error && <p className="tournament-error">{error}</p>}
 
+      {mode === "latest" && sorted.length > 0 && (
+        <article className="olabladet-hero">
+          <div className="olabladet-story-dates">
+            <span className="olabladet-event-date">
+              📅 {formatSortDate(sorted[0].eventSort)}
+            </span>
+            <span className="olabladet-publish-date">
+              Publicerad: {formatSortDate(sorted[0].publishSort)}
+            </span>
+          </div>
+          <h2>{sorted[0].headline}</h2>
+          <div className="olabladet-story-body">
+            {renderBlocks(sorted[0].blocks)}
+          </div>
+        </article>
+      )}
+
       <div className={`olabladet-stories ${mode}`}>
-        {sorted.map((story) => {
+        {(mode === "latest" ? sorted.slice(1) : sorted).map((story) => {
           const isOpen = expanded.has(story.headline);
           return (
             <article
