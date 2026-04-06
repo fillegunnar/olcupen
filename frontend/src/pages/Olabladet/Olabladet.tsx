@@ -74,12 +74,14 @@ function StatBar({
   max,
   suffix = "",
   color = "var(--gold)",
+  hideValue = false,
 }: {
   label: string;
   value: number;
   max: number;
   suffix?: string;
   color?: string;
+  hideValue?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -104,7 +106,7 @@ function StatBar({
       <div className="olabladet-stat-bar-label">
         <span>{label}</span>
         <span style={{ color }}>
-          {value}
+          {!hideValue && value}
           {suffix && ` ${suffix}`}
         </span>
       </div>
@@ -126,7 +128,14 @@ function StatBar({
 type ParsedBlock =
   | { type: "text"; value: string }
   | { type: "an"; value: number; suffix: string; label: string }
-  | { type: "sb"; value: number; max: number; suffix: string; label: string };
+  | {
+      type: "sb";
+      value: number;
+      max: number;
+      suffix: string;
+      label: string;
+      hideValue?: boolean;
+    };
 
 interface Story {
   headline: string;
@@ -155,7 +164,9 @@ function parseStoryContent(text: string): ParsedBlock[] {
   for (const line of lines) {
     const trimmed = line.trim();
     const anMatch = trimmed.match(/^<an\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)>$/);
-    const sbMatch = trimmed.match(/^<sb\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)>$/);
+    const sbMatch = trimmed.match(
+      /^<sb\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)(?:\s*;\s*(.+?))?\s*>$/,
+    );
 
     if (anMatch) {
       if (currentText.trim()) {
@@ -176,7 +187,8 @@ function parseStoryContent(text: string): ParsedBlock[] {
       const suffix = sbMatch[2].trim();
       const label = sbMatch[3].trim();
       const [v, m] = rawValue.split("/").map(Number);
-      blocks.push({ type: "sb", value: v, max: m, suffix, label });
+      const hideValue = sbMatch[4]?.trim().toLowerCase() === "hidevalue";
+      blocks.push({ type: "sb", value: v, max: m, suffix, label, hideValue });
     } else {
       currentText += line + "\n";
     }
@@ -263,6 +275,7 @@ function renderBlocks(blocks: ParsedBlock[]): ReactNode[] {
               value={w.value}
               max={w.max}
               suffix={w.suffix}
+              hideValue={w.type === "sb" && w.hideValue}
             />
           ) : null,
         )}
