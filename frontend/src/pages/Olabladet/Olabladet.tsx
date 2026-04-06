@@ -484,7 +484,7 @@ function ToggleNewsSort({
         className={mode === "timeline" ? "active" : ""}
         onClick={() => setMode("timeline")}
       >
-        Ölcupen genom åren
+        Tidslinje
       </button>
     </div>
   );
