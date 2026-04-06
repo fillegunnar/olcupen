@@ -377,7 +377,14 @@ export default function Olabladet() {
       return next;
     });
 
-  const sorted = [...stories].sort((a, b) =>
+  const today = (() => {
+    const d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  })();
+
+  const published = stories.filter((s) => s.publishSort <= today);
+
+  const sorted = [...published].sort((a, b) =>
     mode === "latest"
       ? b.publishSort - a.publishSort
       : a.eventSort - b.eventSort,
@@ -386,7 +393,7 @@ export default function Olabladet() {
   /* Group stories by event year (descending) for timeline mode */
   const yearGroups =
     mode === "timeline"
-      ? [...stories]
+      ? [...published]
           .sort((a, b) => a.eventSort - b.eventSort)
           .reduce<{ year: string; stories: Story[] }[]>((acc, story) => {
             const year = getEventYear(story);
