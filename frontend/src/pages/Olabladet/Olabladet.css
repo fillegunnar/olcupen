@@ -116,6 +116,14 @@
   margin-top: 0.8rem;
 }
 
+.olabladet-story-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
 .olabladet-stories.timeline .olabladet-story {
   position: relative;
 }

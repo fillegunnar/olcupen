@@ -127,6 +127,7 @@ function StatBar({
 
 type ParsedBlock =
   | { type: "text"; value: string }
+  | { type: "img"; url: string }
   | { type: "an"; value: number; suffix: string; label: string }
   | {
       type: "sb";
@@ -167,8 +168,15 @@ function parseStoryContent(text: string): ParsedBlock[] {
     const sbMatch = trimmed.match(
       /^<sb\s*;\s*(.+?)\s*;\s*(.*?)\s*;\s*(.+?)(?:\s*;\s*(.+?))?\s*>$/,
     );
+    const isImage = trimmed.startsWith("https://lh3.googleusercontent.com/");
 
-    if (anMatch) {
+    if (isImage) {
+      if (currentText.trim()) {
+        blocks.push({ type: "text", value: currentText.trimEnd() });
+        currentText = "";
+      }
+      blocks.push({ type: "img", url: trimmed });
+    } else if (anMatch) {
       if (currentText.trim()) {
         blocks.push({ type: "text", value: currentText.trimEnd() });
         currentText = "";
@@ -291,6 +299,16 @@ function renderBlocks(blocks: ParsedBlock[]): ReactNode[] {
         <p key={`text-${result.length}`} style={{ whiteSpace: "pre-wrap" }}>
           {block.value}
         </p>,
+      );
+    } else if (block.type === "img") {
+      flushWidgets();
+      result.push(
+        <img
+          key={`img-${result.length}`}
+          src={block.url}
+          alt=""
+          className="olabladet-story-image"
+        />,
       );
     } else {
       widgetGroup.push(block);
