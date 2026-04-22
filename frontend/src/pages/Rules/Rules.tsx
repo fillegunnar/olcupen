@@ -32,6 +32,15 @@ const rules = [
   "I övrigt så gäller sunt förnuft och vanliga fotbollsregler.",
 ];
 
+const dressingRules = [
+  "Kom hela laget i en fet synkad utklädnad --> Vinn OPÖL!",
+  "Tänk på säkerheten! Inga hängande föremål runt halsen. Inga vassa grejer som kan skada dig själv eller andra.",
+  "Det är ok att folk i laget har olika färger osv. Vi löser det med västar i såna fall.",
+  "Enhällig jury är styrelsen (det kan tillkomma  ströfolk som blir en del av juryn).",
+  "Alla i laget måste inte klä ut sig. Men desto fler i laget som är utklädda, desto större chans till vinst.",
+  "Om det uppstår några frågor. Tveka inte på att kontakta oss!",
+];
+
 function PrizeList({ items }: { items: Prize[] }) {
   return (
     <ul className="prizes-list">
@@ -59,6 +68,9 @@ export default function Rules() {
     <div className="page rules-container">
       <h1>Priser</h1>
       <PrizeList items={prizes} />
+
+      <h1>Upplägg och regler för utklädnadstävling</h1>
+      <RuleList items={dressingRules}/>
 
       <h1>Regler</h1>
       <RuleList items={rules} />
