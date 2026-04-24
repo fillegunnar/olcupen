@@ -84,7 +84,7 @@
 }
 
 .teams-error {
-  color: #e74c3c;
+  color: var(--red-error);
   text-align: center;
 }
 
