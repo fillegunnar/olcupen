@@ -224,4 +224,14 @@
   .tournament-schedule thead th {
     font-size: 0.65rem;
   }
+
+  /* ── Finals bracket: stack semis vertically on small screens ── */
+  .bracket-semis {
+    flex-direction: column;
+  }
+
+  .bracket-match-row {
+    grid-template-columns: 1fr auto 1fr;
+    font-size: 0.9rem;
+  }
 }
