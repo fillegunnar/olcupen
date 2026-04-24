@@ -1,0 +1,100 @@
+/* ───── Teams page ───── */
+.teams-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.teams-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.teams-header h1 {
+  font-size: 2rem;
+  color: var(--gold);
+}
+
+/* ── Responsive grid of team cards ── */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── Individual team card ── */
+.team-card {
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.team-card-name {
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--white-10);
+}
+
+/* ── Player list ── */
+.team-player-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.team-player-list li {
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  line-height: 1.4;
+}
+
+/* ── Active players sublist ── */
+.team-active-players {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--white-10);
+}
+
+.team-active-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.team-active-label.team-active-none {
+  color: var(--white-50);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+/* ── Loading / error states ── */
+.teams-loading {
+  color: var(--white-50);
+  font-style: italic;
+  text-align: center;
+}
+
+.teams-error {
+  color: #e74c3c;
+  text-align: center;
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .teams-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-card {
+    padding: 1rem 1.1rem;
+  }
+}

@@ -7,6 +7,7 @@ import Rules from "./pages/Rules/Rules";
 import Contact from "./pages/Contact/Contact";
 import Olabladet from "./pages/Olabladet/Olabladet";
 import Tournament from "./pages/Tournament/Tournament";
+import Teams from "./pages/Teams/Teams";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,6 +47,11 @@ function Navbar() {
         <li>
           <NavLink to="/tournament" onClick={() => setMenuOpen(false)}>
             Turnering
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/teams" onClick={() => setMenuOpen(false)}>
+            Lag & Spelare
           </NavLink>
         </li>
         <li>
@@ -103,6 +109,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tournament" element={<Tournament />} />
+        <Route path="/teams" element={<Teams />} />
         <Route path="/olabladet" element={<Olabladet />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/contact" element={<Contact />} />
