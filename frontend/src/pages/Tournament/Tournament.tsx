@@ -23,6 +23,20 @@ interface MatchRow {
   awayGoals: string;
 }
 
+interface FinalMatch {
+  time: string;
+  team1: string;
+  team2: string;
+  score1: string;
+  score2: string;
+}
+
+interface FinalsData {
+  semi1: FinalMatch;
+  semi2: FinalMatch;
+  final: FinalMatch;
+}
+
 interface GroupData {
   name: string;
   standings: StandingsRow[];
@@ -92,6 +106,80 @@ function parseGroup(name: string, rows: string[][]): GroupData {
   }
 
   return { name, standings, matches };
+}
+
+/** Parse the finaler sheet into semi-finals and final. */
+function parseFinals(rows: string[][]): FinalsData {
+  const r1 = rows[1] ?? [];
+  const r2 = rows[2] ?? [];
+  const r4 = rows[4] ?? [];
+  const r5 = rows[5] ?? [];
+  return {
+    semi1: {
+      time: r4[0] ?? "",
+      team1: r4[1] ?? "",
+      team2: r5[1] ?? "",
+      score1: r4[2] ?? "",
+      score2: r5[2] ?? "",
+    },
+    semi2: {
+      time: r4[6] ?? "",
+      team1: r4[7] ?? "",
+      team2: r5[7] ?? "",
+      score1: r4[8] ?? "",
+      score2: r5[8] ?? "",
+    },
+    final: {
+      time: r1[3] ?? "",
+      team1: r1[4] ?? "",
+      team2: r2[4] ?? "",
+      score1: r1[5] ?? "",
+      score2: r2[5] ?? "",
+    },
+  };
+}
+
+function MatchCard({
+  match,
+  label,
+  highlight,
+}: {
+  match: FinalMatch;
+  label: string;
+  highlight?: boolean;
+}) {
+  const hasScore = match.score1 !== "" || match.score2 !== "";
+  return (
+    <div className={`bracket-match${highlight ? " bracket-match--final" : ""}`}>
+      <div className="bracket-match-label">
+        {label}
+        {match.time && <span className="bracket-match-time">{match.time}</span>}
+      </div>
+      <div className="bracket-match-row">
+        <span className="bracket-team-home">{match.team1 || "–"}</span>
+        <span className="bracket-score">
+          {hasScore ? `${match.score1} – ${match.score2}` : "–"}
+        </span>
+        <span className="bracket-team-away">{match.team2 || "–"}</span>
+      </div>
+    </div>
+  );
+}
+
+function FinalsBracket({ finals }: { finals: FinalsData }) {
+  return (
+    <section className="tournament-group finals-bracket">
+      <h2>Finaler</h2>
+      <div className="bracket-layout">
+        <div className="bracket-semis">
+          <MatchCard match={finals.semi1} label="Semi 1" />
+          <MatchCard match={finals.semi2} label="Semi 2" />
+        </div>
+        <div className="bracket-connector">↓</div>
+        <MatchCard match={finals.final} label="Final" highlight />
+      </div>
+    </section>
+  );
 }
 
 function GroupSection({ group }: { group: GroupData }) {
@@ -167,16 +255,19 @@ const POLL_INTERVAL_MS = 30_000;
 
 export default function Tournament() {
   const [groups, setGroups] = useState<GroupData[]>([]);
+  const [finals, setFinals] = useState<FinalsData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchGroups = useCallback(async () => {
     try {
-      const [rowsO, rowsL] = await Promise.all([
+      const [rowsO, rowsL, rowsF] = await Promise.all([
         fetchSheet("Ö", "A1:K20"),
         fetchSheet("L", "A1:K20"),
+        fetchSheet("finaler", "A1:N10"),
       ]);
       setGroups([parseGroup("Grupp Ö", rowsO), parseGroup("Grupp L", rowsL)]);
+      setFinals(parseFinals(rowsF));
       setError(null);
     } catch (err) {
       console.error("Failed to fetch sheet data:", err);
@@ -212,6 +303,7 @@ export default function Tournament() {
       {groups.map((g) => (
         <GroupSection key={g.name} group={g} />
       ))}
+      {finals && <FinalsBracket finals={finals} />}
     </div>
   );
 }
