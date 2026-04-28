@@ -500,7 +500,6 @@ const TOGGLE_LABELS: Record<ViewMode, string> = {
   historia: "Historia",
   statistik: "Statistik",
 };
-const KUNG_CAN_WIDTH = 36;
 
 function ToggleNewsSort({
   mode,
