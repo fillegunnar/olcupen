@@ -140,8 +140,8 @@ type ParsedBlock =
 
 interface Story {
   headline: string;
-  publishSort: number;
   eventSort: number;
+  category: string;
   blocks: ParsedBlock[];
 }
 
@@ -217,7 +217,7 @@ type GvizRow = { c: GvizCell[] };
 async function fetchStories(): Promise<Story[]> {
   const url =
     `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
-    `?tqx=out:json&headers=0&range=A1:E100`;
+    `?tqx=out:json&headers=0&range=A1:F100`;
   const res = await fetch(url);
   const text = await res.text();
   const jsonStr = text.replace(/^[^(]*\(/, "").replace(/\);?\s*$/, "");
@@ -232,16 +232,16 @@ async function fetchStories(): Promise<Story[]> {
       cells[0]?.v != null ? String(cells[0].v).trim().toLowerCase() : "";
     if (status !== "r") continue;
 
-    const publishSort = Number(cells[1]?.f ?? cells[1]?.v ?? 0);
     const eventSort = Number(cells[2]?.f ?? cells[2]?.v ?? 0);
     const headline = cells[3]?.v != null ? String(cells[3].v) : "";
     const rawContent = cells[4]?.v != null ? String(cells[4].v) : "";
+    const category = cells[5]?.v != null ? String(cells[5].v).trim().toLowerCase() : "";
     if (!headline) continue;
 
     stories.push({
       headline,
-      publishSort,
       eventSort,
+      category,
       blocks: parseStoryContent(rawContent),
     });
   }
@@ -321,7 +321,7 @@ function renderBlocks(blocks: ParsedBlock[]): ReactNode[] {
 
 /* ── Main component ── */
 
-type ViewMode = "latest" | "timeline";
+type ViewMode = "nyhet" | "historia" | "statistik";
 
 function getEventYear(story: Story): string {
   return String(story.eventSort).slice(0, 4);
@@ -336,7 +336,7 @@ function getPreview(story: Story): string {
 }
 
 export default function Olabladet() {
-  const [mode, setMode] = useState<ViewMode>("latest");
+  const [mode, setMode] = useState<ViewMode>("nyhet");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
@@ -382,18 +382,20 @@ export default function Olabladet() {
     return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
   })();
 
-  const published = stories.filter((s) => s.publishSort <= today);
+  const published = stories.filter((s) => s.eventSort <= today);
 
-  const sorted = [...published].sort((a, b) =>
-    mode === "latest"
-      ? b.publishSort - a.publishSort
-      : a.eventSort - b.eventSort,
+  const filtered = published.filter((s) => s.category === mode);
+
+  const sorted = [...filtered].sort((a, b) =>
+    mode === "historia"
+      ? a.eventSort - b.eventSort
+      : b.eventSort - a.eventSort,
   );
 
-  /* Group stories by event year (descending) for timeline mode */
+  /* Group stories by event year for historia mode */
   const yearGroups =
-    mode === "timeline"
-      ? [...published]
+    mode === "historia"
+      ? [...filtered]
           .sort((a, b) => a.eventSort - b.eventSort)
           .reduce<{ year: string; stories: Story[] }[]>((acc, story) => {
             const year = getEventYear(story);
@@ -417,14 +419,9 @@ export default function Olabladet() {
       >
         <div className="olabladet-story-header">
           <div>
-            <div className="olabladet-story-dates">
-              <span className="olabladet-event-date">
-                📅 {formatSortDate(story.eventSort)}
-              </span>
-              <span className="olabladet-publish-date">
-                Publicerad: {formatSortDate(story.publishSort)}
-              </span>
-            </div>
+            <span className="olabladet-event-date">
+              📅 {formatSortDate(story.eventSort)}
+            </span>
             <h2>{story.headline}</h2>
           </div>
           <span className="olabladet-expand-icon">{isOpen ? "▲" : "▼"}</span>
@@ -449,16 +446,11 @@ export default function Olabladet() {
       {loading && <p className="tournament-loading">Hämtar artiklar…</p>}
       {error && <p className="tournament-error">{error}</p>}
 
-      {mode === "latest" && sorted.length > 0 && (
+      {mode === "nyhet" && sorted.length > 0 && (
         <article className="olabladet-hero">
-          <div className="olabladet-story-dates">
-            <span className="olabladet-event-date">
-              📅 {formatSortDate(sorted[0].eventSort)}
-            </span>
-            <span className="olabladet-publish-date">
-              Publicerad: {formatSortDate(sorted[0].publishSort)}
-            </span>
-          </div>
+          <span className="olabladet-event-date">
+            📅 {formatSortDate(sorted[0].eventSort)}
+          </span>
           <h2>{sorted[0].headline}</h2>
           <div className="olabladet-story-body">
             {renderBlocks(sorted[0].blocks)}
@@ -466,7 +458,7 @@ export default function Olabladet() {
         </article>
       )}
 
-      {mode === "timeline" ? (
+      {mode === "historia" ? (
         <div className="olabladet-chronicle">
           {yearGroups.map(({ year, stories: yearStories }) => {
             const isCollapsed = collapsedYears.has(year);
@@ -496,7 +488,7 @@ export default function Olabladet() {
         </div>
       ) : (
         <div className="olabladet-stories">
-          {sorted.slice(1).map(renderStoryCard)}
+          {sorted.slice(mode === "nyhet" ? 1 : 0).map(renderStoryCard)}
         </div>
       )}
     </div>
@@ -513,16 +505,22 @@ function ToggleNewsSort({
   return (
     <div className="olabladet-toggle">
       <button
-        className={mode === "latest" ? "active" : ""}
-        onClick={() => setMode("latest")}
+        className={mode === "nyhet" ? "active" : ""}
+        onClick={() => setMode("nyhet")}
       >
-        Senaste nytt
+        Nyhet
       </button>
       <button
-        className={mode === "timeline" ? "active" : ""}
-        onClick={() => setMode("timeline")}
+        className={mode === "historia" ? "active" : ""}
+        onClick={() => setMode("historia")}
       >
-        Tidslinje
+        Historia
+      </button>
+      <button
+        className={mode === "statistik" ? "active" : ""}
+        onClick={() => setMode("statistik")}
+      >
+        Statistik
       </button>
     </div>
   );
