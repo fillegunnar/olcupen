@@ -235,7 +235,8 @@ async function fetchStories(): Promise<Story[]> {
     const eventSort = Number(cells[2]?.f ?? cells[2]?.v ?? 0);
     const headline = cells[3]?.v != null ? String(cells[3].v) : "";
     const rawContent = cells[4]?.v != null ? String(cells[4].v) : "";
-    const category = cells[5]?.v != null ? String(cells[5].v).trim().toLowerCase() : "";
+    const category =
+      cells[5]?.v != null ? String(cells[5].v).trim().toLowerCase() : "";
     if (!headline) continue;
 
     stories.push({
@@ -387,9 +388,7 @@ export default function Olabladet() {
   const filtered = published.filter((s) => s.category === mode);
 
   const sorted = [...filtered].sort((a, b) =>
-    mode === "historia"
-      ? a.eventSort - b.eventSort
-      : b.eventSort - a.eventSort,
+    mode === "historia" ? a.eventSort - b.eventSort : b.eventSort - a.eventSort,
   );
 
   /* Group stories by event year for historia mode */
@@ -495,6 +494,14 @@ export default function Olabladet() {
   );
 }
 
+const TOGGLE_MODES: ViewMode[] = ["nyhet", "historia", "statistik"];
+const TOGGLE_LABELS: Record<ViewMode, string> = {
+  nyhet: "Nyhet",
+  historia: "Historia",
+  statistik: "Statistik",
+};
+const KUNG_CAN_WIDTH = 36;
+
 function ToggleNewsSort({
   mode,
   setMode,
@@ -502,26 +509,100 @@ function ToggleNewsSort({
   mode: ViewMode;
   setMode: Dispatch<SetStateAction<ViewMode>>;
 }) {
+  const [phase, setPhase] = useState<"idle" | "drain" | "pour">("idle");
+  const [prevMode, setPrevMode] = useState<ViewMode>(mode);
+  const [nextMode, setNextMode] = useState<ViewMode>(mode);
+  const [kungLeft, setKungLeft] = useState(0);
+  const [kungReady, setKungReady] = useState(false);
+  const [kungTilted, setKungTilted] = useState(false);
+  const [kungTransition, setKungTransition] = useState(false);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const btnRefs = useRef<(HTMLButtonElement | null)[]>([null, null, null]);
+
+  const computeKungLeft = useCallback((m: ViewMode): number => {
+    const idx = TOGGLE_MODES.indexOf(m);
+    const btn = btnRefs.current[idx];
+    const wrapper = wrapperRef.current;
+    if (!btn || !wrapper) return 0;
+    const wRect = wrapper.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+    return bRect.left - wRect.left;
+  }, []);
+
+  useEffect(() => {
+    setKungLeft(computeKungLeft(mode));
+    setKungReady(true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleClick = (newMode: ViewMode) => {
+    if (newMode === mode || phase !== "idle") return;
+    setPrevMode(mode);
+    setNextMode(newMode);
+    setPhase("drain");
+    setKungTransition(true);
+    setKungTilted(false);
+    setKungLeft(computeKungLeft(newMode));
+  };
+
+  useEffect(() => {
+    if (phase === "drain") {
+      const t = setTimeout(() => {
+        setMode(nextMode);
+        setPhase("pour");
+        setKungTilted(true);
+      }, 500);
+      return () => clearTimeout(t);
+    }
+    if (phase === "pour") {
+      const t = setTimeout(() => {
+        setPhase("idle");
+        setKungTilted(false);
+        setKungTransition(false);
+      }, 600);
+      return () => clearTimeout(t);
+    }
+  }, [phase, nextMode, setMode]);
+
+  const getButtonClass = (m: ViewMode): string => {
+    if (phase === "idle" && m === mode) return "active";
+    if (phase === "drain" && m === prevMode) return "draining";
+    if (phase === "pour" && m === nextMode) return "pouring";
+    return "";
+  };
+
+  const kungStyle = {
+    left: kungLeft,
+    transform: kungTilted ? "rotate(60deg)" : "rotate(0deg)",
+    opacity: kungReady ? 1 : 0,
+    transition: kungTransition
+      ? "left 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.3s ease, opacity 0.3s"
+      : "opacity 0.3s",
+  };
+
   return (
     <div className="olabladet-toggle">
-      <button
-        className={mode === "nyhet" ? "active" : ""}
-        onClick={() => setMode("nyhet")}
-      >
-        Nyhet
-      </button>
-      <button
-        className={mode === "historia" ? "active" : ""}
-        onClick={() => setMode("historia")}
-      >
-        Historia
-      </button>
-      <button
-        className={mode === "statistik" ? "active" : ""}
-        onClick={() => setMode("statistik")}
-      >
-        Statistik
-      </button>
+      <div className="olabladet-toggle-buttons" ref={wrapperRef}>
+        {TOGGLE_MODES.map((m, i) => (
+          <button
+            key={m}
+            ref={(el) => {
+              btnRefs.current[i] = el;
+            }}
+            className={getButtonClass(m)}
+            onClick={() => handleClick(m)}
+          >
+            <span className="btn-fill" />
+            <span className="btn-label">{TOGGLE_LABELS[m]}</span>
+          </button>
+        ))}
+        <img
+          src="/img/KUNG.png"
+          alt=""
+          className="olabladet-kung-can"
+          style={kungStyle}
+        />
+      </div>
     </div>
   );
 }
