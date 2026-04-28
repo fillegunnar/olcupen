@@ -68,13 +68,18 @@ export default function Teams() {
       {status === "ok" && (
         <div className="teams-grid">
           {teams.map((team) => (
-            <div
-              key={team.name}
-              className="team-card"
-              style={
-                team.logo ? { backgroundImage: `url(${team.logo})` } : undefined
-              }
-            >
+            <div key={team.name} className="team-card">
+              {team.logo && (
+                <img
+                  className="team-card-bg"
+                  src={team.logo}
+                  alt=""
+                  aria-hidden="true"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              )}
               <h2 className="team-card-name">{team.name}</h2>
               <span className="team-active-label">Ölspelare</span>
               <ul className="team-player-list">
