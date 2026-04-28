@@ -65,8 +65,10 @@ export default function Home() {
       <Hero />
 
       <div className="info-cards">
-        <InfoCard icon="📅" title="Datum">
+        <InfoCard icon="📅" title="Datum" href="https://www.facebook.com/loafestkommitten">
           Lördag, 30 maj 2026
+          <br />
+          Samma dag som livets fest!
         </InfoCard>
         <InfoCard
           icon="📍"
