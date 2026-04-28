@@ -25,9 +25,25 @@
 /* ── Individual team card ── */
 .team-card {
   background: var(--white-05);
-  border: 1px solid var(--white-10);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: inherit;
+}
+
+.team-card > * {
+  position: relative;
 }
 
 .team-card-name {

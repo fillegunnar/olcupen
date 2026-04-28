@@ -5,6 +5,7 @@ const SHEET_ID = "1tTBYMpITnovYxM-_KXXcfbsI4ZFt8Wwdj6p9nslah6c";
 
 interface TeamData {
   name: string;
+  logo: string;
   players: string[];
   activePlayers: string[];
 }
@@ -25,6 +26,7 @@ async function fetchTeams(): Promise<TeamData[]> {
     .filter((row) => row.c[0]?.v)
     .map((row) => {
       const name = String(row.c[0]!.v!).trim();
+      const logo = row.c[2]?.v ? String(row.c[2].v).trim() : "";
       const rawPlayers = row.c[1]?.v ? String(row.c[1].v) : "";
       const allPlayers = rawPlayers
         .split("\n")
@@ -36,7 +38,7 @@ async function fetchTeams(): Promise<TeamData[]> {
       const players = allPlayers
         .filter((p) => !/\(A\)/i.test(p))
         .map((p) => p.trim());
-      return { name, players, activePlayers };
+      return { name, logo, players, activePlayers };
     });
 }
 
@@ -66,7 +68,13 @@ export default function Teams() {
       {status === "ok" && (
         <div className="teams-grid">
           {teams.map((team) => (
-            <div key={team.name} className="team-card">
+            <div
+              key={team.name}
+              className="team-card"
+              style={
+                team.logo ? { backgroundImage: `url(${team.logo})` } : undefined
+              }
+            >
               <h2 className="team-card-name">{team.name}</h2>
               <span className="team-active-label">Ölspelare</span>
               <ul className="team-player-list">
