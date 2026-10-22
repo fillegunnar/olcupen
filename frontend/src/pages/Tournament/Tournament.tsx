@@ -5,14 +5,14 @@ const SHEET_ID = "1y0CI3Nh6uqtyZBh0aC2C6aAggKkq0Nw_";
 
 interface StandingsRow {
   team: string;
-  gp: number;
-  w: number;
-  d: number;
-  l: number;
-  gf: number;
-  ga: number;
-  gd: number;
-  pts: number;
+  gp: string;
+  w: string;
+  d: string;
+  l: string;
+  gf: string;
+  ga: string;
+  gd: string;
+  pts: string;
 }
 
 interface MatchRow {
@@ -83,14 +83,14 @@ function parseGroup(name: string, rows: string[][]): GroupData {
     if (!r[0] && r[2] && r[2] !== "Tabell") {
       standings.push({
         team: r[2],
-        gp: Number(r[3]) || 0,
-        w: Number(r[4]) || 0,
-        d: Number(r[5]) || 0,
-        l: Number(r[6]) || 0,
-        gf: Number(r[7]) || 0,
-        ga: Number(r[8]) || 0,
-        gd: Number(r[9]) || 0,
-        pts: Number(r[10]) || 0,
+        gp: r[3] || "0",
+        w: r[4] || "0",
+        d: r[5] || "0",
+        l: r[6] || "0",
+        gf: r[7] || "0",
+        ga: r[8] || "0",
+        gd: r[9] || "0",
+        pts: r[10] || "0",
       });
     }
     // Match rows: have a time in col A
